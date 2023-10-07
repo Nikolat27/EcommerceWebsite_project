@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="FA-IR" dir="rtl">
 
@@ -6,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قالب سانیار</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="assets/font/bootstrap-icon/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/plugin/waves/waves.min.css">
-    <link rel="stylesheet" href="assets/plugin/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/plugin/timer/timer.css">
-    <link rel="stylesheet" href="assets/plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="{% static "css/bootstrap.rtl.min.css" %}">
+    <link rel="stylesheet" href="{% static "font/bootstrap-icon/bootstrap-icons.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/waves/waves.min.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/swiper/swiper-bundle.min.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/timer/timer.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/responsive.css" %}">
 </head>
 
 <body>
@@ -40,7 +41,7 @@
                                 </div>
                                 <div class="offcanvas-body">
                                     <a href="" class="text-center d-block mb-3">
-                                        <img src="assets/image/logo.png" alt="" class="img-fluid" width="200">
+                                        <img src="{% static "image/logo.png" %}" alt="" class="img-fluid" width="200">
                                     </a>
                                     <div class="header-bottom-form mb-4 w-100">
                                         <div class="search-form">
@@ -214,7 +215,7 @@
                         </div>
                         <a href="index.html">
                             <div class="logo">
-                                <img src="assets/image/logo.png" alt="" class="img-fluid">
+                                <img src="{% static "image/logo.png" %}" alt="" class="img-fluid">
                             </div>
                         </a>
                     </div>
@@ -236,7 +237,7 @@
                             <a href="#register" data-bs-toggle="dropdown" aria-expanded="false" role="button"
                                 class="btn btn-white header-register border-0 rounded-pill">
                                 <figure class="avatar">
-                                    <img src="assets/image/user.png" alt="amirRezae">
+                                    <img src="{% static "image/user.png" %}" alt="amirRezae">
                                 </figure>
                             </a>
                             <ul class="dropdown-menu">
@@ -611,7 +612,7 @@
                                         </div>
                                     </div>
                                     <div class="product-image">
-                                        <img src="assets/image/product/wach1.jpg" loading="lazy" alt=""
+                                        <img src="{% static "image/product/wach1.jpg" %}" loading="lazy" alt=""
                                             class="img-fluid">
                                     </div>
                                     <div class="product-title">
@@ -651,7 +652,7 @@
                                         </div>
                                     </div>
                                     <div class="product-image">
-                                        <img src="assets/image/product/wach2.jpg" loading="lazy" alt=""
+                                        <img src="{% static "image/product/wach2.jpg" %}" loading="lazy" alt=""
                                             class="img-fluid">
                                     </div>
                                     <div class="product-title">
@@ -691,7 +692,7 @@
                                         </div>
                                     </div>
                                     <div class="product-image">
-                                        <img src="assets/image/product/wach3.jpg" loading="lazy" alt=""
+                                        <img src="{% static "image/product/wach3.jpg" %}" loading="lazy" alt=""
                                             class="img-fluid">
                                     </div>
                                     <div class="product-title">
@@ -731,17 +732,17 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <a href="">
-                                        <img src="assets/image/slide2-2.jpg" loading="lazy" class="img-fluid" alt="">
+                                        <img src="{% static "image/slide2-2.jpg" %}" loading="lazy" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
                                     <a href="">
-                                        <img src="assets/image/slide3-1.jpg" loading="lazy" class="img-fluid" alt="">
+                                        <img src="{% static "image/slide3-1.jpg" %}" loading="lazy" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
                                     <a href="">
-                                        <img src="assets/image/slide4.jpg" loading="lazy" class="img-fluid" alt="">
+                                        <img src="{% static "image/slide4.jpg" %}" loading="lazy" class="img-fluid" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -766,7 +767,7 @@
                 <div class="col">
                     <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-box">
                         <div class="image">
-                            <img src="assets/image/history.png" alt="" class="img-fluid">
+                            <img src="{% static "image/history.png" %}" alt="" class="img-fluid">
                         </div>
                         <div class="desc ms-3">
                             <p class="fw-bold mb-2">ضمانت بازگشت وجه</p>
@@ -777,7 +778,7 @@
                 <div class="col">
                     <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-box">
                         <div class="image">
-                            <img src="assets/image/credit-card.png" alt="" class="img-fluid">
+                            <img src="{% static "image/credit-card.png" %}" alt="" class="img-fluid">
                         </div>
                         <div class="desc ms-3">
                             <p class="fw-bold  mb-2">تضمین قیمت</p>
@@ -788,7 +789,7 @@
                 <div class="col">
                     <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-box">
                         <div class="image">
-                            <img src="assets/image/fast.png" alt="" class="img-fluid">
+                            <img src="{% static "image/fast.png" %}" alt="" class="img-fluid">
                         </div>
                         <div class="desc ms-3">
                             <p class="fw-bold  mb-2">ارسال سریع</p>
@@ -3286,21 +3287,21 @@
         </div>
     </div>
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/plugin/waves/waves.min.js"></script>
-    <script src="assets/plugin/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/plugin/timer/timer.js"></script>
-    <script src="assets/plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/jquery-app.js"></script>
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "plugin/waves/waves.min.js" %}"></script>
+    <script src="{% static "plugin/swiper/swiper-bundle.min.js" %}"></script>
+    <script src="{% static "plugin/timer/timer.js" %}"></script>
+    <script src="{% static "plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js" %}"></script>
+    <script src="{% static "js/app.js" %}"></script>
+    <script src="{% static "js/jquery-app.js" %}"></script>
 
     <!-- ===== start new update -->
-    <script src="assets/plugin/go-to-top/script.js"></script>
-    <script src="assets/plugin/rasta-contact/script.js"></script>
+    <script src="{% static "plugin/go-to-top/script.js" %}"></script>
+    <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
 
-    <link rel="stylesheet" href="assets/plugin/go-to-top/style.css">
-    <link rel="stylesheet" href="assets/plugin/rasta-contact/style.css">
+    <link rel="stylesheet" href="{% static "plugin/go-to-top/style.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/rasta-contact/style.css" %}">
 
     <script>
         //// config floating contact
