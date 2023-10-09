@@ -2,7 +2,6 @@ from django.http import HttpResponse
 
 from product_app.models import Product
 
-
 CART_SESSION_ID = "cart"
 
 
@@ -10,7 +9,7 @@ class Cart:
     def __init__(self, request):
         self.session = request.session
 
-        cart = self.session(CART_SESSION_ID)
+        cart = self.session.get(CART_SESSION_ID)
 
         if not cart:
             cart = self.session[CART_SESSION_ID] = {}
@@ -33,7 +32,8 @@ class Cart:
     def add(self, product, color, quantity, override_quantity):
         unique = self.unique_id_generator(product.id, color)
         if unique not in self.cart:
-            self.cart[unique] = {"quantity": 1, "price": str(product.price), "color": color, "id": str(product.id)}
+            self.cart[unique] = {"quantity": int(quantity), "price": str(product.price), "color": str(color),
+                                 "id": str(product.id)}
         else:
             self.cart[unique]["quantity"] += int(quantity)
 
@@ -60,8 +60,7 @@ class Cart:
         return total
 
     def save(self):
-        self.session.modified.save = True
+        self.session.modified = True
 
     def remove_cart(self):
         del self.session[CART_SESSION_ID]
-
