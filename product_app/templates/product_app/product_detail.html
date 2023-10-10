@@ -172,7 +172,8 @@
                                 <h5 class="font-16">
                                     انتخاب رنگ کالا
                                 </h5>
-                                <form action="{% url "cart_app:add" product.id %}" method="POST">
+                                <form action="{% url "cart_app:add" product.id %}" method="POST"
+                                      id="add-to-cart-form-1">
                                     {% csrf_token %}
                                     <div class="product-meta-color-items">
                                         {% for color in product.color.all %}
@@ -192,6 +193,7 @@
                             </div>
                             <div class="product-meta-action">
                                 <div class="row align-items-center gy-3">
+                                    <input type="text" name="quantity" value="1">
                                     {% if product.discount %}
                                         <div class="col-lg-3 col-6 w-100-in-400">
                                             <p class="mb-0 old-price font-16 text-lg-end text-center">{{ product.price }}
@@ -207,15 +209,21 @@
                                                 تومان</h6>
                                         </div>
                                     {% endif %}
-                                    <input type="text" name="quantity" class="counter" value="1">
+                                    {#                                    <div class="col-12 w-100-in-400">#}
+                                    {#                                        <div class="counter">#}
+                                    {#                                            <input type="text" name="count" id="count" class="counter" value="1">#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+
+
                                     <div class="col-lg-3 col-6 w-100-in-400">
                                         <div class="d-flex justify-content-center">
                                             <button type="submit" class="btn w-100 border-0 main-color-three-bg"><i
-                                                    class="bi bi-basket text-white font-20 me-1"></i>خرید کالا
+                                                    class="bi bi-basket text-white font-20 me-1"
+                                                    id="add-to-cart-btn-1"></i>خرید کالا
                                             </button>
                                         </div>
                                     </div>
-
 
                                     </form>
                                 </div>
@@ -1255,431 +1263,457 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade product-comment-content" id="productComment-pane">
-
-                                                <div class="comment-form">
-                                                    <h6 class="font-26 mb-2">نظرت در مورد این محصول چیه؟</h6>
-                                                    <p class="font-14 text-muted mt-2">برای ثبت نظر، از طریق دکمه افزودن
-                                                        دیدگاه جدید
-                                                        نمایید. اگر این محصول را قبلا خریده باشید، نظر شما به عنوان
-                                                        خریدار
-                                                        ثبت خواهد
-                                                        شد.</p>
-                                                    <div class="row gy-4">
-                                                        <div class="col-12">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="comment-item mb-3">
-                                                                        <input type="email" class="form-control"
-                                                                               id="floatingInputEmail">
-                                                                        <label for="floatingInputEmail"
-                                                                               class="form-label label-float">ایمیل خود
-                                                                            را وارد
-                                                                            کنید</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="comment-item mb-3">
-                                                                        <input type="text" class="form-control"
-                                                                               id="floatingInputName">
-                                                                        <label for="floatingInputName"
-                                                                               class="form-label label-float">نام خود را
-                                                                            وارد
-                                                                            کنید</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div
-                                                                            class="comment-item d-flex align-items-center mb-3">
-                                                                        <input type="checkbox" class="form-check-input"
-                                                                               id="rememberComment">
-                                                                        <label for="rememberComment"
-                                                                               class="form-check-label d-block">
-                                                                            ذخیره
-                                                                            نام، ایمیل و وبسایت من در مرورگر برای زمانی
-                                                                            که
-                                                                            دوباره
-                                                                            دیدگاهی می‌نویسم.
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="form-group mt-3">
-                                                                        <label for="commentRating" class="">امتیاز
-                                                                            شما</label>
-                                                                        <fieldset class="rating">
-                                                                            <input type="radio" id="star5" name="rating"
-                                                                                   value="5" required/>
-                                                                            <label for="star5">5 stars</label>
-                                                                            <input type="radio" id="star4" name="rating"
-                                                                                   value="4" required/>
-                                                                            <label for="star4">4 stars</label>
-                                                                            <input type="radio" id="star3" name="rating"
-                                                                                   value="3" required/>
-                                                                            <label for="star3">3 stars</label>
-                                                                            <input type="radio" id="star2" name="rating"
-                                                                                   value="2" required/>
-                                                                            <label for="star2">2 stars</label>
-                                                                            <input type="radio" id="star1" name="rating"
-                                                                                   value="1" required/>
-                                                                            <label for="star1">1 star</label>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="comment-item my-3">
-                                                                        <textarea class="form-control"
-                                                                                  id="floatingTextarea2"
-                                                                                  style="height: 150px"></textarea>
-                                                                        <label for="floatingTextarea2"
-                                                                               class="form-label label-float">متن
-                                                                            نظر!</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group mt-3">
-                                                                        <label for="tags-pos" class="text-success mb-2">نقاط
-                                                                            قوت</label>
-                                                                        <input name="tags-pos" id="tags-pos"
-                                                                               class="commentTags tag-pos form-control"
-                                                                               placeholder="با کلید اینتر اضافه کنید">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group mt-3">
-                                                                        <label for="tags-neg" class="text-danger mb-2">نقاط
-                                                                            ضعف</label>
-                                                                        <input name="tags-neg" id="tags-neg"
-                                                                               class="commentTags tag-neg form-control"
-                                                                               placeholder="با کلید اینتر اضافه کنید">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <a href=""
-                                                                       class="btn btn-comment border-0 main-color-one-bg my-3 mx-auto btn-lg waves-effect waves-light">ثبت
-                                                                        نظر</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="comment bg-light shadow-inner mb-4">
-                                                    <div class="title">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-sm-10">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                            class="avatar p-2 bg-white shadow-box rounded-circle">
-                                                                        <img src="assets/image/user.png" alt=""
-                                                                             class="img-fluid rounded-circle">
-                                                                    </div>
-                                                                    <div class="d-flex flex-wrap align-items-center ms-2">
-                                                                        <h6 class="text-muted font-14">امیر رضایی</h6>
-                                                                        <h6 class="text-muted font-14 ms-2">1 دی ماه
-                                                                            1401
-                                                                        </h6>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <div class="d-flex star justify-content-end">
-                                                                    <i class="bi bi-star"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="desc py-3">
-                                                        <p class="font-14 text-muted">
-                                                            بنده این گوشی را خریداری کردم و کاملا راضی هشتم و بهترین
-                                                            گارانتی
-                                                            را دارد
-                                                            و پلپ بود و حتما به شما هم پیشنهاد می نمایم که چنانچه قصد
-                                                            خرید
-                                                            این کالا
-                                                            را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من هم سنگاپور
-                                                            بود
-                                                            که
-                                                            بهترین پارت نامبر در بازار است و هیچ محدودیتی ندارد.
-                                                        </p>
-                                                    </div>
-                                                    <div class="foot">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-md-8">
-                                                                <div class="comment-rates">
-                                                                    <div class="positive rounded-4">
-                                                                        <div
-                                                                                class="d-flex align-items-center justify-content-start">
-                                                                            <h6 class="font-14 me-3">نقاط قوت</h6>
-                                                                            <nav class="navbar flex-column positive-nav">
-                                                                                <ul class="navbar-nav flex-wrap">
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">جنس
-                                                                                            بدنه</span>
-                                                                                    </li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">کیفیت
-                                                                                            تصویر</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">شارژ
-                                                                                            باطری</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">دوربین
-                                                                                            قوی</span></li>
-                                                                                </ul>
-                                                                            </nav>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="negitive rounded-4 mt-3">
-                                                                        <div
-                                                                                class="d-flex align-items-center justify-content-start">
-                                                                            <h6 class="font-14 me-3">نقاط ضعف</h6>
-                                                                            <nav class="navbar flex-column negitive-nav">
-                                                                                <ul class="navbar-nav flex-wrap">
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">جنس
-                                                                                            بدنه</span>
-                                                                                    </li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">کیفیت
-                                                                                            تصویر</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">شارژ
-                                                                                            باطری</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">دوربین
-                                                                                            قوی</span></li>
-                                                                                </ul>
-                                                                            </nav>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                            <form action="" method="POST">
+                                                {% csrf_token %}
+                                                <div class="tab-pane fade product-comment-content"
+                                                     id="productComment-pane">
+                                                    <div class="comment-form">
+                                                        <h6 class="font-26 mb-2">نظرت در مورد این محصول چیه؟</h6>
+                                                        <p class="font-14 text-muted mt-2">برای ثبت نظر، از طریق دکمه
+                                                            افزودن
+                                                            دیدگاه جدید
+                                                            نمایید. اگر این محصول را قبلا خریده باشید، نظر شما به عنوان
+                                                            خریدار
+                                                            ثبت خواهد
+                                                            شد.</p>
+                                                        <div class="row gy-4">
                                                             <div class="col-12">
-                                                                <div class="comment-reply">
-                                                                    <a href=""
-                                                                       class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="comment bg-light shadow-inner mb-4">
-                                                    <div class="title">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-sm-10">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                            class="avatar p-2 bg-white shadow-box rounded-circle">
-                                                                        <img src="assets/image/user.png" alt=""
-                                                                             class="img-fluid rounded-circle">
-                                                                    </div>
-                                                                    <div class="d-flex flex-wrap align-items-center ms-2">
-                                                                        <h6 class="text-muted font-14">امیر رضایی</h6>
-                                                                        <h6 class="text-muted font-14 ms-2">1 دی ماه
-                                                                            1401
-                                                                        </h6>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <div class="d-flex star justify-content-end">
-                                                                    <i class="bi bi-star"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="desc py-3">
-                                                        <p class="font-14 text-muted">
-                                                            بنده این گوشی را خریداری کردم و کاملا راضی هشتم و بهترین
-                                                            گارانتی
-                                                            را دارد
-                                                            و پلپ بود و حتما به شما هم پیشنهاد می نمایم که چنانچه قصد
-                                                            خرید
-                                                            این کالا
-                                                            را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من هم سنگاپور
-                                                            بود
-                                                            که
-                                                            بهترین پارت نامبر در بازار است و هیچ محدودیتی ندارد.
-                                                        </p>
-                                                    </div>
-                                                    <div class="foot">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-md-8">
-                                                                <div class="comment-rates">
-                                                                    <div class="positive rounded-4">
-                                                                        <div
-                                                                                class="d-flex align-items-center justify-content-start">
-                                                                            <h6 class="font-14 me-3">نقاط قوت</h6>
-                                                                            <nav class="navbar flex-column positive-nav">
-                                                                                <ul class="navbar-nav flex-wrap">
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">جنس
-                                                                                            بدنه</span>
-                                                                                    </li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">کیفیت
-                                                                                            تصویر</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">شارژ
-                                                                                            باطری</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">دوربین
-                                                                                            قوی</span></li>
-                                                                                </ul>
-                                                                            </nav>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="comment-item mb-3">
+                                                                            <input type="email" class="form-control"
+                                                                                   id="floatingInputEmail">
+                                                                            <label for="floatingInputEmail"
+                                                                                   class="form-label label-float">ایمیل
+                                                                                خود
+                                                                                را وارد
+                                                                                کنید</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="negitive rounded-4 mt-3">
-                                                                        <div
-                                                                                class="d-flex align-items-center justify-content-start">
-                                                                            <h6 class="font-14 me-3">نقاط ضعف</h6>
-                                                                            <nav class="navbar navbar-expand negitive-nav">
-                                                                                <ul
-                                                                                        class="navbar-nav flex-column flex-wrap">
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">جنس
-                                                                                            بدنه</span>
-                                                                                    </li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">کیفیت
-                                                                                            تصویر</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">شارژ
-                                                                                            باطری</span></li>
-                                                                                    <li class="nav-item"><span
-                                                                                            class="nav-link font-14">دوربین
-                                                                                            قوی</span></li>
-                                                                                </ul>
-                                                                            </nav>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="comment-reply">
-                                                                    <a href=""
-                                                                       class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="comment comment-replay shadow-inner mb-4">
-                                                            <div class="title">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-sm-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div
-                                                                                    class="avatar p-2 bg-white shadow-box rounded-circle">
-                                                                                <img src="assets/image/user.png" alt=""
-                                                                                     class="img-fluid rounded-circle">
-                                                                            </div>
-                                                                            <div
-                                                                                    class="d-flex flex-wrap align-items-center ms-2">
-                                                                                <h6 class="text-muted font-14">امیر
-                                                                                    رضایی
-                                                                                </h6>
-                                                                                <h6 class="text-muted font-14 ms-2">1 دی
-                                                                                    ماه
-                                                                                    1401
-                                                                                </h6>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <div class="d-flex star justify-content-end">
-                                                                            <i class="bi bi-star"></i>
-                                                                            <i class="bi bi-star-fill"></i>
-                                                                            <i class="bi bi-star-fill"></i>
-                                                                            <i class="bi bi-star-fill"></i>
-                                                                            <i class="bi bi-star-fill"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="desc py-3">
-                                                                <p class="font-14 text-muted">
-                                                                    بنده این گوشی را خریداری کردم و کاملا راضی هشتم و
-                                                                    بهترین
-                                                                    گارانتی
-                                                                    را دارد
-                                                                    و پلپ بود و حتما به شما هم پیشنهاد می نمایم که
-                                                                    چنانچه
-                                                                    قصد خرید
-                                                                    این کالا
-                                                                    را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من هم
-                                                                    سنگاپور بود
-                                                                    که
-                                                                    بهترین پارت نامبر در بازار است و هیچ محدودیتی ندارد.
-                                                                </p>
-                                                            </div>
-                                                            <div class="foot">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-8">
-                                                                        <div class="comment-rates">
-                                                                            <div class="positive rounded-4">
-                                                                                <div
-                                                                                        class="d-flex align-items-center justify-content-start">
-                                                                                    <h6 class="font-14 me-3">نقاط
-                                                                                        قوت</h6>
-                                                                                    <nav
-                                                                                            class="navbar flex-column positive-nav">
-                                                                                        <ul class="navbar-nav flex-wrap">
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">جنس
-                                                                                                    بدنه</span>
-                                                                                            </li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">کیفیت
-                                                                                                    تصویر</span></li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">شارژ
-                                                                                                    باطری</span></li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">دوربین
-                                                                                                    قوی</span></li>
-                                                                                        </ul>
-                                                                                    </nav>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="negitive rounded-4 mt-3">
-                                                                                <div
-                                                                                        class="d-flex align-items-center justify-content-start">
-                                                                                    <h6 class="font-14 me-3">نقاط
-                                                                                        ضعف</h6>
-                                                                                    <nav
-                                                                                            class="navbar navbar-expand negitive-nav">
-                                                                                        <ul
-                                                                                                class="navbar-nav flex-column flex-wrap">
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">جنس
-                                                                                                    بدنه</span>
-                                                                                            </li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">کیفیت
-                                                                                                    تصویر</span></li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">شارژ
-                                                                                                    باطری</span></li>
-                                                                                            <li class="nav-item"><span
-                                                                                                    class="nav-link font-14">دوربین
-                                                                                                    قوی</span></li>
-                                                                                        </ul>
-                                                                                    </nav>
-                                                                                </div>
-                                                                            </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="comment-item mb-3">
+                                                                            <input type="text" class="form-control"
+                                                                                   id="floatingInputName">
+                                                                            <label for="floatingInputName"
+                                                                                   class="form-label label-float">نام
+                                                                                خود را
+                                                                                وارد
+                                                                                کنید</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
-                                                                        <div class="comment-reply">
-                                                                            <a href=""
-                                                                               class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
+                                                                        <div
+                                                                                class="comment-item d-flex align-items-center mb-3">
+                                                                            <input type="checkbox"
+                                                                                   class="form-check-input"
+                                                                                   id="rememberComment">
+                                                                            <label for="rememberComment"
+                                                                                   class="form-check-label d-block">
+                                                                                ذخیره
+                                                                                نام، ایمیل و وبسایت من در مرورگر برای
+                                                                                زمانی
+                                                                                که
+                                                                                دوباره
+                                                                                دیدگاهی می‌نویسم.
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group mt-3">
+                                                                            <label for="commentRating" class="">امتیاز
+                                                                                شما</label>
+                                                                            <fieldset class="rating">
+                                                                                <input type="radio" id="star5"
+                                                                                       name="rating"
+                                                                                       value="5" required/>
+                                                                                <label for="star5">5 stars</label>
+                                                                                <input type="radio" id="star4"
+                                                                                       name="rating"
+                                                                                       value="4" required/>
+                                                                                <label for="star4">4 stars</label>
+                                                                                <input type="radio" id="star3"
+                                                                                       name="rating"
+                                                                                       value="3" required/>
+                                                                                <label for="star3">3 stars</label>
+                                                                                <input type="radio" id="star2"
+                                                                                       name="rating"
+                                                                                       value="2" required/>
+                                                                                <label for="star2">2 stars</label>
+                                                                                <input type="radio" id="star1"
+                                                                                       name="rating"
+                                                                                       value="1" required/>
+                                                                                <label for="star1">1 star</label>
+                                                                            </fieldset>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="comment-item my-3">
+                                                                        <textarea class="form-control"
+                                                                                  id="floatingTextarea2"
+                                                                                  style="height: 150px"></textarea>
+                                                                            <label for="floatingTextarea2"
+                                                                                   class="form-label label-float">متن
+                                                                                نظر!</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group mt-3">
+                                                                            <label for="tags-pos"
+                                                                                   class="text-success mb-2">نقاط
+                                                                                قوت</label>
+                                                                            <input name="tags-pos" id="tags-pos"
+                                                                                   class="commentTags tag-pos form-control"
+                                                                                   placeholder="با کلید اینتر اضافه کنید">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group mt-3">
+                                                                            <label for="tags-neg"
+                                                                                   class="text-danger mb-2">نقاط
+                                                                                ضعف</label>
+                                                                            <input name="tags-neg" id="tags-neg"
+                                                                                   class="commentTags tag-neg form-control"
+                                                                                   placeholder="با کلید اینتر اضافه کنید">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <a href=""
+                                                                           class="btn btn-comment border-0 main-color-one-bg my-3 mx-auto btn-lg waves-effect waves-light">ثبت
+                                                                            نظر</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment bg-light shadow-inner mb-4">
+                                                        <div class="title">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-sm-10">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div
+                                                                                class="avatar p-2 bg-white shadow-box rounded-circle">
+                                                                            <img src="assets/image/user.png" alt=""
+                                                                                 class="img-fluid rounded-circle">
+                                                                        </div>
+                                                                        <div class="d-flex flex-wrap align-items-center ms-2">
+                                                                            <h6 class="text-muted font-14">امیر
+                                                                                رضایی</h6>
+                                                                            <h6 class="text-muted font-14 ms-2">1 دی ماه
+                                                                                1401
+                                                                            </h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <div class="d-flex star justify-content-end">
+                                                                        <i class="bi bi-star"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="desc py-3">
+                                                            <p class="font-14 text-muted">
+                                                                بنده این گوشی را خریداری کردم و کاملا راضی هشتم و بهترین
+                                                                گارانتی
+                                                                را دارد
+                                                                و پلپ بود و حتما به شما هم پیشنهاد می نمایم که چنانچه
+                                                                قصد
+                                                                خرید
+                                                                این کالا
+                                                                را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من هم
+                                                                سنگاپور
+                                                                بود
+                                                                که
+                                                                بهترین پارت نامبر در بازار است و هیچ محدودیتی ندارد.
+                                                            </p>
+                                                        </div>
+                                                        <div class="foot">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-8">
+                                                                    <div class="comment-rates">
+                                                                        <div class="positive rounded-4">
+                                                                            <div
+                                                                                    class="d-flex align-items-center justify-content-start">
+                                                                                <h6 class="font-14 me-3">نقاط قوت</h6>
+                                                                                <nav class="navbar flex-column positive-nav">
+                                                                                    <ul class="navbar-nav flex-wrap">
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">جنس
+                                                                                            بدنه</span>
+                                                                                        </li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">کیفیت
+                                                                                            تصویر</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">شارژ
+                                                                                            باطری</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">دوربین
+                                                                                            قوی</span></li>
+                                                                                    </ul>
+                                                                                </nav>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="negitive rounded-4 mt-3">
+                                                                            <div
+                                                                                    class="d-flex align-items-center justify-content-start">
+                                                                                <h6 class="font-14 me-3">نقاط ضعف</h6>
+                                                                                <nav class="navbar flex-column negitive-nav">
+                                                                                    <ul class="navbar-nav flex-wrap">
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">جنس
+                                                                                            بدنه</span>
+                                                                                        </li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">کیفیت
+                                                                                            تصویر</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">شارژ
+                                                                                            باطری</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">دوربین
+                                                                                            قوی</span></li>
+                                                                                    </ul>
+                                                                                </nav>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="comment-reply">
+                                                                        <a href=""
+                                                                           class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment bg-light shadow-inner mb-4">
+                                                        <div class="title">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-sm-10">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div
+                                                                                class="avatar p-2 bg-white shadow-box rounded-circle">
+                                                                            <img src="assets/image/user.png" alt=""
+                                                                                 class="img-fluid rounded-circle">
+                                                                        </div>
+                                                                        <div class="d-flex flex-wrap align-items-center ms-2">
+                                                                            <h6 class="text-muted font-14">امیر
+                                                                                رضایی</h6>
+                                                                            <h6 class="text-muted font-14 ms-2">1 دی ماه
+                                                                                1401
+                                                                            </h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <div class="d-flex star justify-content-end">
+                                                                        <i class="bi bi-star"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="desc py-3">
+                                                            <p class="font-14 text-muted">
+                                                                بنده این گوشی را خریداری کردم و کاملا راضی هشتم و بهترین
+                                                                گارانتی
+                                                                را دارد
+                                                                و پلپ بود و حتما به شما هم پیشنهاد می نمایم که چنانچه
+                                                                قصد
+                                                                خرید
+                                                                این کالا
+                                                                را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من هم
+                                                                سنگاپور
+                                                                بود
+                                                                که
+                                                                بهترین پارت نامبر در بازار است و هیچ محدودیتی ندارد.
+                                                            </p>
+                                                        </div>
+                                                        <div class="foot">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-8">
+                                                                    <div class="comment-rates">
+                                                                        <div class="positive rounded-4">
+                                                                            <div
+                                                                                    class="d-flex align-items-center justify-content-start">
+                                                                                <h6 class="font-14 me-3">نقاط قوت</h6>
+                                                                                <nav class="navbar flex-column positive-nav">
+                                                                                    <ul class="navbar-nav flex-wrap">
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">جنس
+                                                                                            بدنه</span>
+                                                                                        </li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">کیفیت
+                                                                                            تصویر</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">شارژ
+                                                                                            باطری</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">دوربین
+                                                                                            قوی</span></li>
+                                                                                    </ul>
+                                                                                </nav>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="negitive rounded-4 mt-3">
+                                                                            <div
+                                                                                    class="d-flex align-items-center justify-content-start">
+                                                                                <h6 class="font-14 me-3">نقاط ضعف</h6>
+                                                                                <nav class="navbar navbar-expand negitive-nav">
+                                                                                    <ul
+                                                                                            class="navbar-nav flex-column flex-wrap">
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">جنس
+                                                                                            بدنه</span>
+                                                                                        </li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">کیفیت
+                                                                                            تصویر</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">شارژ
+                                                                                            باطری</span></li>
+                                                                                        <li class="nav-item"><span
+                                                                                                class="nav-link font-14">دوربین
+                                                                                            قوی</span></li>
+                                                                                    </ul>
+                                                                                </nav>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="comment-reply">
+                                                                        <a href=""
+                                                                           class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="comment comment-replay shadow-inner mb-4">
+                                                                <div class="title">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-sm-10">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div
+                                                                                        class="avatar p-2 bg-white shadow-box rounded-circle">
+                                                                                    <img src="assets/image/user.png"
+                                                                                         alt=""
+                                                                                         class="img-fluid rounded-circle">
+                                                                                </div>
+                                                                                <div
+                                                                                        class="d-flex flex-wrap align-items-center ms-2">
+                                                                                    <h6 class="text-muted font-14">امیر
+                                                                                        رضایی
+                                                                                    </h6>
+                                                                                    <h6 class="text-muted font-14 ms-2">
+                                                                                        1 دی
+                                                                                        ماه
+                                                                                        1401
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-2">
+                                                                            <div class="d-flex star justify-content-end">
+                                                                                <i class="bi bi-star"></i>
+                                                                                <i class="bi bi-star-fill"></i>
+                                                                                <i class="bi bi-star-fill"></i>
+                                                                                <i class="bi bi-star-fill"></i>
+                                                                                <i class="bi bi-star-fill"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="desc py-3">
+                                                                    <p class="font-14 text-muted">
+                                                                        بنده این گوشی را خریداری کردم و کاملا راضی هشتم
+                                                                        و
+                                                                        بهترین
+                                                                        گارانتی
+                                                                        را دارد
+                                                                        و پلپ بود و حتما به شما هم پیشنهاد می نمایم که
+                                                                        چنانچه
+                                                                        قصد خرید
+                                                                        این کالا
+                                                                        را دارید از دیجی کالا تهیه نمایید ؛پارت نامبر من
+                                                                        هم
+                                                                        سنگاپور بود
+                                                                        که
+                                                                        بهترین پارت نامبر در بازار است و هیچ محدودیتی
+                                                                        ندارد.
+                                                                    </p>
+                                                                </div>
+                                                                <div class="foot">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-md-8">
+                                                                            <div class="comment-rates">
+                                                                                <div class="positive rounded-4">
+                                                                                    <div
+                                                                                            class="d-flex align-items-center justify-content-start">
+                                                                                        <h6 class="font-14 me-3">نقاط
+                                                                                            قوت</h6>
+                                                                                        <nav
+                                                                                                class="navbar flex-column positive-nav">
+                                                                                            <ul class="navbar-nav flex-wrap">
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">جنس
+                                                                                                    بدنه</span>
+                                                                                                </li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">کیفیت
+                                                                                                    تصویر</span></li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">شارژ
+                                                                                                    باطری</span></li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">دوربین
+                                                                                                    قوی</span></li>
+                                                                                            </ul>
+                                                                                        </nav>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="negitive rounded-4 mt-3">
+                                                                                    <div
+                                                                                            class="d-flex align-items-center justify-content-start">
+                                                                                        <h6 class="font-14 me-3">نقاط
+                                                                                            ضعف</h6>
+                                                                                        <nav
+                                                                                                class="navbar navbar-expand negitive-nav">
+                                                                                            <ul
+                                                                                                    class="navbar-nav flex-column flex-wrap">
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">جنس
+                                                                                                    بدنه</span>
+                                                                                                </li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">کیفیت
+                                                                                                    تصویر</span></li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">شارژ
+                                                                                                    باطری</span></li>
+                                                                                                <li class="nav-item"><span
+                                                                                                        class="nav-link font-14">دوربین
+                                                                                                    قوی</span></li>
+                                                                                            </ul>
+                                                                                        </nav>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="comment-reply">
+                                                                                <a href=""
+                                                                                   class="btn btn-sm rounded-pill main-color-two-bg px-4">پاسخ</a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1687,7 +1721,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

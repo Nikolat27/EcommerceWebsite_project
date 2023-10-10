@@ -3,6 +3,10 @@ from django.db.models import Model
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import format_html
+
+from account_app.models import User
+
+
 # Create your models here.
 
 
@@ -34,6 +38,7 @@ class Product(Model):
     available = models.BooleanField()
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    # after_discount = models.IntegerField(null=True, blank=True, help_text="Dont touch this field pls")
 
     def __str__(self):
         return self.title
@@ -42,6 +47,7 @@ class Product(Model):
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         self.slug = slugify(self.title, allow_unicode=True)
+        # self.after_discount = self.discount_price()
         super(Product, self).save()
 
     def discount_price(self):
@@ -50,6 +56,7 @@ class Product(Model):
             total_price = self.price - discount_price
 
             return total_price
+        return self.price
 
     def get_absolute_url(self):
         return reverse("product_app:detail", kwargs={"slug": self.slug})
@@ -59,3 +66,19 @@ class Product(Model):
             return format_html(f"<img src='{self.image.url}' width='70px' height='70px'>")
         else:
             return format_html(f"<img src='sdfasdf' alt='No Image Available' >")
+
+
+class Comment(Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(max_length=30)
+    body = models.TextField()
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
+    pros = models.CharField(max_length=100, null=True, blank=True)
+    cons = models.CharField(max_length=100, null=True, blank=True)
+    CHOICES = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5))
+    rating = models.IntegerField(choices=CHOICES, default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product} - {self.author}"

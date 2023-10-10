@@ -1,4 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+
 from .cartfunction import Cart
 from product_app.models import Product
 
@@ -20,8 +23,11 @@ def cart_add(request, pk):
         cart = Cart(request)
         print(color)
         print(quantity)
-        cart.add(product, color, quantity, override_quantity=override_quantity)
-        return redirect("home_app:main")
+        cart.add(product=product, color=color, quantity=quantity, override_quantity=override_quantity)
+        cart = Cart(request)
+        data = render_to_string("AjaxTemplates/add-to-cart-product-detail.html", {"cart": cart}, request)
+
+        return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
 
 
 def delete_product(request, pk):
@@ -30,9 +36,7 @@ def delete_product(request, pk):
 
     cart = Cart(request)
     cart.delete(id=pk)
-
-    return redirect("home_app:main")
-
-
+    data = render_to_string("AjaxTemplates/delete-cart-Ajax.html", {"cart": cart})
+    return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
 
 

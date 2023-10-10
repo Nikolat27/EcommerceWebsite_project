@@ -10,3 +10,7 @@ def product_detail(request, slug):
     # related_products = Product.objects.filter(category__title=product.category.first().title)[:8]
     related_products = Product.objects.filter(category__in=product.category.all()).distinct()
     return render(request, "product_app/product_detail.html", context={"product": product, "related_products": related_products})
+
+
+def add_comment(request):
+    pass

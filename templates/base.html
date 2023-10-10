@@ -330,7 +330,8 @@
                            data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                            aria-controls="offcanvasCart">
                             <i class="bi bi-shop font-20 text-muted me-1"></i>
-                            <span class="header-cart-counter main-color-one-bg d-inline-block rounded-pill">
+                            <span id="totalcartitems"
+                                  class="header-cart-counter main-color-one-bg d-inline-block rounded-pill">
                                         {{ cart.len }}
                                 </span>
                         </a>
@@ -793,52 +794,79 @@
 
 
 <!-- cart canvas -->
+<div>
+    <div class="offcanvas cart-canvas offcanvas-end" tabindex="-1" id="offcanvasCart"
+         aria-labelledby="offcanvasCartLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasCartLabel">سبد خرید</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="cart-canvases" id="cart-details">
+                {% for item in cart %}
+                    <div class="item">
+                        <div class="row gy-2">
+                            <div class="col-4">
+                                <div class="image">
+                                    <img src="{{ item.product.image.url }}" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <a href="">
+                                    <div class="title">
+                                        <h6 class="font-14"><a
+                                                href="{% url "product_app:detail" item.product.slug %}">{{ item.product.title }}</a>
+                                        </h6>
+                                        <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
+                                    </div>
+                                    <div class="price">
+                                        <p class="text-end mb-2 price-off fw-bold">{{ item.total_price }} تومان</p>
+                                        <p class="text">{{ item.quantity }}x</p>
+                                    </div>
+                                    <form action="{% url "cart_app:delete_product" item.unique_id %}"
+                                          id="{{ item.id }}abcd">
+                                        <div class="action d-flex justify-content-between align-items-center">
+                                            <div class="remove bg-light  rounded-3">
+                                                <button type="submit">
+                                                    <i class="bi bi-x font-25"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $("#{{ item.id }}abcd").submit(function (e) {
+                                                e.preventDefault();
+                                                $.ajax({
+                                                    data: $(this).serialize(),
+                                                    method: $(this).attr('method'),
+                                                    url: $(this).attr('action'),
+                                                    dataType: "json",
 
-<div class="offcanvas cart-canvas offcanvas-end" tabindex="-1" id="offcanvasCart"
-     aria-labelledby="offcanvasCartLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasCartLabel">سبد خرید</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="cart-canvases">
-            {% for cart in cart %}
-                <div class="item">
-                    <div class="row gy-2">
-                        <div class="col-4">
-                            <div class="image">
-                                <img src="{{ cart.product.image.url }}" alt="" class="img-fluid">
+                                                    beforeSend: function () {
+                                                        console.log("deleting");
+                                                    },
+                                                    success: function (response) {
+                                                        console.log("success!");
+                                                        if (response.bool === true) {
+                                                            $("#cart-details").html(response.data)
+                                                            $("#totalcartitems").text(response.totalcartitems)
+                                                        }
+                                                    }
+                                                })
+                                            })
+                                        </script>
+                                    </form>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-8">
-                            <a href="">
-                                <div class="title">
-                                    <h6 class="font-14">{{ cart.product.title }}</h6>
-                                    <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
-                                </div>
-                                <div class="price">
-                                    <p class="text-end mb-2 price-off fw-bold">{{ cart.total_price }} تومان</p>
-                                    <p class="text-end price-discount">{{ cart.quantity }}x</p>
-                                </div>
-                                <div class="action d-flex justify-content-between align-items-center">
-                                    <div class="remove bg-light  rounded-3">
-                                        <a href="{% url "cart_app:delete_product" cart.unique_id %}">
-                                            <i class="bi bi-x font-25"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
                     </div>
-                </div>
-            {% empty %}
-                سبد خرید شما خالی است !
-            {% endfor %}
+                {% empty %}
+                    سبد خرید شما خالی است !
+                {% endfor %}
 
+            </div>
         </div>
     </div>
 </div>
-
 <!-- end cart canvas -->
 
 <div class="float-btn">
@@ -850,7 +878,6 @@
             </svg>
         </div>
         <!-- end go top top -->
-
         <!-- contact us floating -->
         <div id="btncollapzion" class=" btn_collapzion"></div>
         <div class="" id="contactOverlay"></div>
@@ -866,7 +893,7 @@
 <script src="{% static "plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js" %}"></script>
 <script src="{% static "js/app.js" %}"></script>
 <script src="{% static "js/jquery-app.js" %}"></script>
-
+<script src="{% static "js/AddToCartAjax.js" %}"></script>
 <!-- ===== start new update -->
 <script src="{% static "plugin/go-to-top/script.js" %}"></script>
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>

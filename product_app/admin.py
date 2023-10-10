@@ -10,3 +10,4 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Category)
 admin.site.register(models.Color)
+admin.site.register(models.Comment)
