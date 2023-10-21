@@ -30,7 +30,7 @@ class Cart:
         result = f"{id}-{color}"
         return result
 
-    def add(self, product, color, quantity, override_quantity):
+    def add(self, product, color, quantity):
         unique = self.unique_id_generator(product.id, color)
         if unique not in self.cart:
             self.cart[unique] = {"quantity": int(quantity), "price": str(product.discount_price()), "color": str(color),
@@ -38,8 +38,20 @@ class Cart:
         else:
             self.cart[unique]["quantity"] += int(quantity)
 
-        if override_quantity:
-            self.cart[unique]["quantity"] = int(quantity)
+        self.save()
+
+    def update(self, product, color, new_quantity):
+        unique = self.unique_id_generator(product.id, color)
+
+        if new_quantity:
+            if unique in self.cart:
+                self.cart[unique]["quantity"] = int(new_quantity)
+            else:
+                self.cart[unique] = {"quantity": int(new_quantity), "price": str(product.discount_price()),
+                                     "color": str(color),
+                                     "id": str(product.id)}
+        else:
+            print("there is no override quantity")
 
         self.save()
 
@@ -54,6 +66,13 @@ class Cart:
             return HttpResponse("This id is unavailable in cart! cart_function")
 
     def total(self):
+        cart = self.cart.values()
+        total = 0
+        for item in cart:
+            total += int(item['price']) * int(item['quantity'])
+        return total
+
+    def total_discount(self):
         cart = self.cart.values()
         total = 0
         for item in cart:

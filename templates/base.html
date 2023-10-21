@@ -47,8 +47,7 @@
                                     <div class="search-form">
                                         <form action="">
                                             <div class="search-filed">
-                                                <input type="text" placeholder="جستجوی محصولات ..."
-                                                       class="form-control search-input">
+                                                <input type="text" placeholder="جستجوی محصولات ...">
                                                 <button type="submit"
                                                         class="btn search-btn main-color-one-bg rounded-pill"><i
                                                         class="bi bi-search"></i></button>
@@ -269,10 +268,13 @@
             <!-- form search -->
             <div class="col-lg-6 order-lg-2 d-lg-block d-none">
                 <div class="search-form">
-                    <form action="">
-                        <div class="search-filed">
-                            <input type="text" placeholder="جستجوی محصولات ..." class="form-control search-input">
-                            <button type="submit" class="btn search-btn main-color-one-bg rounded-pill"><i
+                    <form action="{% url "product_app:search" %}" method="GET">
+                        <div class="search-filed" id="autocomplete">
+                            <input type="text" name="q" placeholder="جستجوی محصولات ..."
+                                   class="form-control search-input">
+                            <ul class="autocomplete-result-list" style="!important;"></ul>
+                            <button type="submit"
+                                    class="btn search-btn main-color-one-bg rounded-pill"><i
                                     class="bi bi-search"></i></button>
                         </div>
                     </form>
@@ -812,57 +814,35 @@
                                 </div>
                             </div>
                             <div class="col-8">
-                                <a href="">
-                                    <div class="title">
-                                        <h6 class="font-14"><a
-                                                href="{% url "product_app:detail" item.product.slug %}">{{ item.product.title }}</a>
-                                        </h6>
-                                        <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
+                                <div class="title">
+                                    <h6 class="font-14"><a
+                                            href="{% url "product_app:detail" item.product.slug %}">{{ item.product.title }}</a>
+                                    </h6>
+                                    <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
+                                </div>
+                                <div class="price">
+                                    <p class="text-end mb-2 price-off fw-bold">{{ item.total_price }} تومان</p>
+                                    <p class="text">{{ item.quantity }}x</p>
+                                </div>
+                                {#                                    <form action="{% url "cart_app:delete_product" item.unique_id %}"#}
+                                {#                                          id="{{ item.id }}">#}
+                                <div class="action d-flex justify-content-between align-items-center">
+                                    <div class="remove bg-light  rounded-3">
+                                        {#                                            <button style="border: none;" class="delete-product"#}
+                                        {#                                                    data-product="{{ item.id }}">#}
+                                        {#                                                <i></i>#}
+                                        {#                                            </button>#}
+                                        <a class="delete-product" data-product="{{ item.id }}">
+                                            <i class="bi bi-x font-25"></i>
+                                        </a>
                                     </div>
-                                    <div class="price">
-                                        <p class="text-end mb-2 price-off fw-bold">{{ item.total_price }} تومان</p>
-                                        <p class="text">{{ item.quantity }}x</p>
-                                    </div>
-                                    <form action="{% url "cart_app:delete_product" item.unique_id %}"
-                                          id="{{ item.id }}abcd">
-                                        <div class="action d-flex justify-content-between align-items-center">
-                                            <div class="remove bg-light  rounded-3">
-                                                <button type="submit">
-                                                    <i class="bi bi-x font-25"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <script>
-                                            $("#{{ item.id }}abcd").submit(function (e) {
-                                                e.preventDefault();
-                                                $.ajax({
-                                                    data: $(this).serialize(),
-                                                    method: $(this).attr('method'),
-                                                    url: $(this).attr('action'),
-                                                    dataType: "json",
-
-                                                    beforeSend: function () {
-                                                        console.log("deleting");
-                                                    },
-                                                    success: function (response) {
-                                                        console.log("success!");
-                                                        if (response.bool === true) {
-                                                            $("#cart-details").html(response.data)
-                                                            $("#totalcartitems").text(response.totalcartitems)
-                                                        }
-                                                    }
-                                                })
-                                            })
-                                        </script>
-                                    </form>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% empty %}
                     سبد خرید شما خالی است !
                 {% endfor %}
-
             </div>
         </div>
     </div>
@@ -894,13 +874,55 @@
 <script src="{% static "js/app.js" %}"></script>
 <script src="{% static "js/jquery-app.js" %}"></script>
 <script src="{% static "js/AddToCartAjax.js" %}"></script>
+<script src="{% static "js/DeleteProductCartAjax.js" %}"></script>
+<script src="{% static "js/CategorySortAjax.js" %}"></script>
 <!-- ===== start new update -->
 <script src="{% static "plugin/go-to-top/script.js" %}"></script>
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
 
 <link rel="stylesheet" href="{% static "plugin/go-to-top/style.css" %}">
 <link rel="stylesheet" href="{% static "plugin/rasta-contact/style.css" %}">
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+<link
+        rel="stylesheet"
+        href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+/>
+<style>
+    #autocomplete {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>
+<script>
+    new Autocomplete('#autocomplete', {
+        search: input => {
+            const url = `/products/search_products?q=${input}`
+            return new Promise(resolve => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        resolve(data.payload)
+                    })
+            })
+        },
+        renderResult: (result, propes) => {
+            console.log(propes)
+            let group = ''
+            if (result.index % 3 == 0) {
+                group = `<li class="group" style="z-index: 10; !important;">Group</li>`
 
+            }
+            return `
+            ${group}
+            <li ${propes}>
+                <div class="wiki-title" style="z-index: 10; !important;">
+                    ${result.title}
+                </div>
+            </li>
+            `
+        }
+    })
+</script>
 <script>
     //// config floating contact
     $('#btncollapzion').Collapzion({

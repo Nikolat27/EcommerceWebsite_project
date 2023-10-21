@@ -1,20 +1,18 @@
-$("#delete-product-form").submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-        data: $(this).serialize(),
-        method: $(this).attr('method'),
-        url: $(this).attr('action'),
-        dataType: "json",
+$(document).ready(function () {
+    $(".delete-product").on("click", function () {
+        let product_id = $(this).attr("data-product")
+        console.log(product_id);
+        $.ajax({
 
-        beforeSend: function () {
-            console.log("deleting");
-        },
-        success: function (response) {
-            console.log("success!");
-            if (response.bool === true) {
-                $("#cart-details").html(response.data)
-                $("#totalcartitems").text(response.totalcartitems)
-            }
-        }
+                url: `/cart/cart_delete/${product_id}/`,
+                dataType: "json",
+
+                success: function (response) {
+                    if (response.bool === true) {
+                        $("#cart-details").html(response.data)
+                        $("#totalcartitems").text(response.totalcartitems)
+                    }
+                },
+            })
     })
 })

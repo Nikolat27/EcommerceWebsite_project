@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Model
+from django.db.models import Model, Avg, Count
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import format_html
@@ -33,22 +33,37 @@ class Product(Model):
     price = models.IntegerField()
     category = models.ManyToManyField(Category, related_name="categories")
     quantity = models.SmallIntegerField()
-    discount = models.SmallIntegerField(null=True, blank=True, default=0, help_text="if u dont want to discount a price,"
-                                                                         " dont touch this field Tnx :)")
+    discount = models.SmallIntegerField(null=True, blank=True, default=0,
+                                        help_text="if u dont want to discount a price,"
+                                                  " dont touch this field Tnx :)")
     available = models.BooleanField()
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     # after_discount = models.IntegerField(null=True, blank=True, help_text="Dont touch this field pls")
 
     def __str__(self):
         return self.title
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
+            self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         self.slug = slugify(self.title, allow_unicode=True)
         # self.after_discount = self.discount_price()
         super(Product, self).save()
+
+    @classmethod
+    def get_product_count_per_category(self):
+        categories = Category.objects.annotate(product_count=Count('product'))
+        for category in categories:
+            print(f"Category: {category.name} | Product Count: {category.product_count}")
+
+    def averagereview(self):
+        review = Comment.objects.filter(product=self).aggregate(reviews=Avg('rating'))
+        avg = 0
+        if review["reviews"] is not None:
+            avg = float(review["reviews"])
+        return avg
 
     def discount_price(self):
         if self.discount != 0:

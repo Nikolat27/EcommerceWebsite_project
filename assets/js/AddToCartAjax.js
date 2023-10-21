@@ -8,14 +8,13 @@ $("#add-to-cart-form-1").submit(function (e) {
         dataType: "json",
 
         beforeSend: function () {
-            button.html("در حال اضافه به سبد خرید");
+            setTimeout(() => button.html("✔️"), 700);
             console.log("adding to cart...");
         },
         success: function (response) {
             console.log("success!");
             if (response.bool === true) {
-                setTimeout(() => button.html("اضافه شد!"), 700);
-                setTimeout(() => button.html(""), 1500);
+                setTimeout(() => button.html(" خرید کالا"), 1500);
                 $("#cart-details").html(response.data)
                 $("#totalcartitems").text(response.totalcartitems)
             }

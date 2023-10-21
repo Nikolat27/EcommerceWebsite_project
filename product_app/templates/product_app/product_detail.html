@@ -194,7 +194,9 @@
                                 </div>
                                 <div class="product-meta-action">
                                     <div class="row align-items-center gy-3">
-                                        <input type="text" name="quantity" value="1">
+                                        <div class="counter">
+                                            <input type="text" name="count" class="counter" value="1">
+                                        </div>
                                         {% if product.discount %}
                                             <div class="col-lg-3 col-6 w-100-in-400">
                                                 <p class="mb-0 old-price font-16 text-lg-end text-center">{{ product.price }}
@@ -221,7 +223,7 @@
                                             <div class="d-flex justify-content-center">
                                                 <button type="submit" class="btn w-100 border-0 main-color-three-bg"><i
                                                         class="bi bi-basket text-white font-20 me-1"
-                                                        id="add-to-cart-btn-1"></i>خرید کالا
+                                                        id="add-to-cart-btn-1"> خرید کالا</i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1333,6 +1335,7 @@
                                                                                     شما</label>
                                                                                 <fieldset class="rating">
                                                                                     <input type="radio" id="star5"
+
                                                                                            name="rating"
                                                                                            value="5" required/>
                                                                                     <label for="star5">5 stars</label>
