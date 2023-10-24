@@ -1,0 +1,502 @@
+{% extends "base.html" %}
+{% load static %}
+{% load templatetags %}
+
+
+{% block content %}
+    <div class="bread-crumb pt-3">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-fluid">
+                    <nav aria-label="breadcrumb" class="my-lg-0 my-2">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">خانه</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">فروشگاه</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">گوشی هوشمند</a></li>
+                            <li class="breadcrumb-item active main-color-one-color font-14" aria-current="page">گوشی
+                                شیائومی
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end breadcroumb -->
+
+    <!-- start category brand -->
+
+    <div class="category-brand">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-fluid">
+                    <div class="swiper free-mode">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-1.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-2.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-3.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-4.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-5.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1-6.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand1.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand2.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand3.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand4.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand5.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item text-center">
+                                    <a href=""><img src="assets/image/brand6.png" alt="" class="img-fluid"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end category brand -->
+
+    <!-- start content -->
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <!-- start filter in mobile -->
+            <div class="custom-filter d-lg-none d-block">
+                <button class="btn btn-filter-float border-0 main-color-two-bg shadow-box px-3 rounded-3 position-fixed"
+                        style="z-index: 999;bottom:80px;" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <i class="bi bi-funnel font-20 fw-bold text-white"></i>
+                    <span class="d-block font-14 text-white">فیلتر</span>
+                </button>
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight"
+                     aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasRightLabel">فیلتر ها</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="filter-items position-sticky top-0">
+                            <div class="container-fluid">
+                                <div class="filter-item">
+                                    <h5 class="filter-item-title">جستجو</h5>
+                                    <div class="filter-item-content">
+                                        <div class="search-form">
+                                            <form action="{% url "product_app:search" %}">
+                                                <div class="search-filed">
+                                                    <input type="text" name="q" placeholder="جستجوی محصولات ..."
+                                                           class="form-control search-input">
+                                                    <button type="submit"
+                                                            class="btn search-btn main-color-one-bg rounded-pill"><i
+                                                            class="bi bi-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form action="" method="GET">
+                                    <div class="filter-item">
+                                        <h5 class="filter-item-title">دسته بندی ها</h5>
+                                        <div class="filter-item-content">
+
+                                            {% for category in categories %}
+                                                <div
+                                                        class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+                                                    <div class="form-check">
+                                                        <label for="{{ category.id }}"
+                                                               class="form-check-label">{{ category.title }} <i
+                                                                class="bi bi-phone me-1"></i></label>
+                                                        <input type="checkbox" name="category"
+                                                               value="{{ category.title }}" id="{{ category.id }}"
+                                                               class="form-check-input">
+                                                    </div>
+                                                    <div>
+                                                        <span class="fw-bold font-14">({{ category.len }})</span>
+                                                    </div>
+                                                </div>
+                                            {% empty %}
+                                                دسته بندی وجود ندارد!
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    <div class="filter-item">
+                                        <h5 class="filter-item-title">قیمت</h5>
+                                        <div class="filter-item-content">
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="number" name="min_price" id="" min="1500"
+                                                           class="form-control input-range-filter"
+                                                           placeholder="از 1500">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" name="max_price" id="" min="1500"
+                                                           max="10000000"
+                                                           class="form-control input-range-filter"
+                                                           placeholder="از 3000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="filter-item">
+                                        <h5 class="filter-item-title">رنگ محصول</h5>
+                                        <div class="filter-item-content">
+                                            <div class="product-meta-color-items">
+                                                {% for color in colors %}
+                                                    <input type="radio" class="btn-check" name="color"
+                                                           value="{{ color.title }}" id="{{ color.title }}"
+                                                           autocomplete="off" checked>
+                                                    <label class="btn btt-light" for="{{ color.title }}">
+                                                        <span style="background-color: {{ color.title }};"></span>
+                                                        {{ color.title }}
+                                                    </label>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="filter-item text-center">
+                                        <button type="submit" class="btn-outline-site">اعمال فیلتر</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end filter mobile -->
+
+            <div class="row gy-3">
+                <div class="col-lg-3 d-lg-block d-none">
+                    <div class="filter-items position-sticky top-0">
+
+                        <div class="container-fluid">
+                            <div class="filter-item">
+                                <h5 class="filter-item-title">جستجو</h5>
+                                <div class="filter-item-content">
+                                    <div class="search-form">
+                                        <form action="{% url "product_app:search" %}">
+                                            <div class="search-filed">
+                                                <input type="text" name="q" placeholder="جستجوی محصولات ..."
+                                                       class="form-control search-input">
+                                                <button type="submit"
+                                                        class="btn search-btn main-color-one-bg rounded-pill"><i
+                                                        class="bi bi-search"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="" method="GET">
+                                <div class="filter-item">
+                                    <h5 class="filter-item-title">دسته بندی ها</h5>
+                                    <div class="filter-item-content">
+                                        {% for category in categories %}
+                                            <div
+                                                    class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+                                                <div class="form-check">
+                                                    <label for="{{ category.id }}"
+                                                           class="form-check-label">{{ category.title }} <i
+                                                            class="bi bi-phone me-1"></i></label>
+                                                    <input type="checkbox" name="category" value="{{ category.title }}"
+                                                           id="{{ category.id }}"
+                                                           class="form-check-input">
+                                                </div>
+                                                <div>
+                                                    <span class="fw-bold font-14">({{ category.title|category_len }})</span>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            دسته بندی وجود ندارد!
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="filter-item">
+                                    <h5 class="filter-item-title">قیمت</h5>
+                                    <div class="filter-item-content">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input type="number" name="min_price" id="" min="1500"
+                                                       class="form-control input-range-filter"
+                                                       placeholder="از 1500">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" name="max_price" id="" min="1500" max="10000000"
+                                                       class="form-control input-range-filter"
+                                                       placeholder="از 3000">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="filter-item">
+                                    <h5 class="filter-item-title">رنگ محصول</h5>
+                                    <div class="filter-item-content">
+                                        <div class="product-meta-color-items">
+                                            {% for color in colors %}
+                                                <input type="radio" class="btn-check" name="color"
+                                                       value="{{ color.title }}" id="{{ color.title }}ab"
+                                                       autocomplete="off" checked>
+                                                <label class="btn btt-light" for="{{ color.title }}ab">
+                                                    <span style="background-color: {{ color.title }};"></span>
+                                                    {{ color.title }}
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="filter-item text-center">
+                                    <button type="submit" class="btn-outline-site">اعمال فیلتر</button>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="category-sort mb-3">
+                        <div class="content-box">
+                            <div class="container-fluid">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <div>
+                                        <h5 class="font-18">مرتب سازی</h5>
+                                        <p class="mb-0 text-muted font-16">براساس</p>
+                                    </div>
+                                    <div class="form-checks ms-md-5 ms-0 mt-md-0 mt-3">
+                                        <div class="form-check form-check-inline active">
+                                            <input class="form-check-input order-sort" type="radio"
+                                               id="inlineRadio1" name="inlineRadioOptions" data-product="default">
+                                            <label class="form-check-label" for="inlineRadio1">پیشفرض</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input order-sort" name="inlineRadioOptions" data-product="popular" type="radio"
+                                               id="inlineRadio2">
+                                            <label class="form-check-label" for="inlineRadio2">محبوب ترین</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input order-sort" data-product="most_sold" type="radio"
+                                                   name="inlineRadioOptions"
+                                                   id="inlineRadio3" value="option3">
+                                            <label class="form-check-label" for="inlineRadio3">پرفروش ترین</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input order-sort" type="radio" data-product="newest"
+                                                   name="inlineRadioOptions"
+                                                   id="inlineRadio4" value="option4">
+                                            <label class="form-check-label" for="inlineRadio4">جدید ترین</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input order-sort" type="radio" data-product="cheap"
+                                                   name="inlineRadioOptions"
+                                                   id="inlineRadio5" value="option5">
+                                            <label class="form-check-label" for="inlineRadio5">ارزان ترین</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input order-sort" type="radio" data-product="expensive"
+                                                   name="inlineRadioOptions"
+                                                   id="inlineRadio6" value="option6">
+                                            <label class="form-check-label" for="inlineRadio6">گران ترین</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-items">
+                        <div class="row g-3" id="order_store_ajax">
+                            {% for product in products %}
+                                <div class="col-lg-4">
+                                    <div class="product-box ">
+                                        <div class="product-timer">
+                                            {% if product.discount %}
+                                                <div class="timer-label">
+                                                    <span>{{ product.discount }}% تخفیف</span>
+                                                </div>
+                                            {% endif %}
+                                            <div class="product-header-btn">
+                                                <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   data-bs-title="مقایسه"><i class="bi bi-shuffle"></i></a>
+                                                <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   data-bs-title="افزودن به علاقه مندی ها"><i
+                                                        class="bi bi-heart"></i></a>
+                                                <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   data-bs-title="مشاهده سریع"><i class="bi bi-eye"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-image">
+                                            <img src="{{ product.image.url }}" loading="lazy" alt=""
+                                                 class="img-fluid one-image">
+                                            <img src="assets/image/product/wach2.jpg" loading="lazy" alt=""
+                                                 class="img-fluid two-image">
+                                        </div>
+                                        <div class="product-title">
+                                            <div class="title">
+                                                <p class="text-overflow-1">{{ product.title }}</p>
+                                                <span class="text-muted text-overflow-1">Mibro Lite XPAW004
+                                                Smartwatch</span>
+                                            </div>
+                                            {% if product.averagereview %}
+                                                <div class="rating">
+                                                    <div class="number"><span class="text-muted font-12">
+                                                    {{ product.averagereview|floatformat:1 }}</span>
+                                                    </div>
+                                                    <div class="icon"><i class="bi bi-star-fill"></i></div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-action">
+                                            <div class="price">
+                                                {% if product.discount %}
+                                                    <p class="new-price">{{ product.discount_price }} تومان</p>
+                                                    <p class="old-price">{{ product.price }} تومان</p>
+                                                {% else %}
+                                                    <p class="new-price">{{ product.price }} تومان</p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="link">
+                                                <a href="" class="btn border-0 rounded-3 main-color-one-bg">
+                                                    <i class="bi bi-basket text-white"></i>
+                                                    <span class="text-white">خرید محصول</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div align="center">محصولی با این مشخصات یافت نشد!</div>
+                            {% endfor %}
+                            {% if products.has_other_pages %}
+                                <div class="col-12">
+                                    <div class="my-paginate my-4">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination flex-wrap justify-content-center">
+                                                {% if products.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link rounded-3"
+                                                           href="{% url "product_app:store_order_ajax2" pk products.previous_page_number %}">قبلی</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link rounded-3"
+                                                           href="#">قبلی</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% for x in products.paginator.page_range %}
+                                                    {% if products.number == x %}
+                                                        <li class="page-item active"><a class="page-link rounded-3"
+                                                                                        href="{% url "product_app:store_order_ajax2" pk x %}">{{ x }}</a>
+                                                        </li>
+                                                    {% elif x > products.number|add:'-4' and x < products.number|add:'4' %}
+                                                        <li class="page-item"><a class="page-link rounded-3"
+                                                                                 href="{% url "product_app:store_order_ajax2" pk x %}">{{ x }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if products.has_next %}
+                                                    {% if products.number < products.paginator.num_pages|add:'-2' %}
+                                                        <li class="page-item active"><a class="page-link rounded-3"
+                                                                                        href="{% url "product_app:store_order_ajax2" pk products.next_page_number %}">بعدی</a>
+                                                        </li>
+                                                    {% elif products.number < products.paginator.num_pages|add:'-3' %}
+                                                        <li class="page-item active"><a class="page-link rounded-3"
+                                                                                        href="{% url "product_app:store_order_ajax2" pk products.next_page_number %}">بعدی</a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="page-item active"><a class="page-link rounded-3"
+                                                                                        href="{% url "product_app:store_order_ajax2" pk products.next_page_number %}">بعدی</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link rounded-3"
+                                                           href="#">بعدی</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end content -->
+
+{% endblock %}
+<script>
+    $(document).ready(function () {
+        ////slider range
+        $(".catRange").slider({
+            id: "slider5b",
+            min: 1500000,
+            max: 3000000,
+            range: true,
+            step: 10000,
+            value: [1500000, 3000000],
+            rtl: 'false',
+            formatter: function formatter(val) {
+                if (Array.isArray(val)) {
+                    return val[0] + " تومان " + "  تا   " + val[1] + " تومان ";
+                } else {
+                    return val;
+                }
+            },
+        });
+    });
+</script>
+<!-- ==== end range slider -->
+
+
+</body>
+
+</html>

@@ -52,12 +52,6 @@ class Product(Model):
         # self.after_discount = self.discount_price()
         super(Product, self).save()
 
-    @classmethod
-    def get_product_count_per_category(self):
-        categories = Category.objects.annotate(product_count=Count('product'))
-        for category in categories:
-            print(f"Category: {category.name} | Product Count: {category.product_count}")
-
     def averagereview(self):
         review = Comment.objects.filter(product=self).aggregate(reviews=Avg('rating'))
         avg = 0
@@ -65,13 +59,21 @@ class Product(Model):
             avg = float(review["reviews"])
         return avg
 
-    def discount_price(self):
+    def discount_price(self):       #This function is use for price after applying the discount
         if self.discount != 0:
             discount_price = self.price * self.discount // 100
             total_price = self.price - discount_price
 
             return total_price
-        return self.price
+        else:
+            return self.price
+
+    def just_discount_price(self):      ##This one is the price divided into the discount value
+        if self.discount != 0:
+            discount_price = self.price * self.discount // 100
+            return discount_price
+        else:
+            return 0
 
     def get_absolute_url(self):
         return reverse("product_app:detail", kwargs={"slug": self.slug})

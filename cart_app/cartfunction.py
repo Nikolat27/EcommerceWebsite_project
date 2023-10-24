@@ -33,7 +33,8 @@ class Cart:
     def add(self, product, color, quantity):
         unique = self.unique_id_generator(product.id, color)
         if unique not in self.cart:
-            self.cart[unique] = {"quantity": int(quantity), "price": str(product.discount_price()), "color": str(color),
+            self.cart[unique] = {"quantity": int(quantity), "price": str(product.discount_price()),
+                                 "just_discount": str(product.just_discount_price()), "color": str(color),
                                  "id": str(product.id)}
         else:
             self.cart[unique]["quantity"] += int(quantity)
@@ -77,6 +78,13 @@ class Cart:
         total = 0
         for item in cart:
             total += int(item['price']) * int(item['quantity'])
+        return total
+
+    def just_discount(self):
+        cart = self.cart.values()
+        total = 0
+        for item in cart:
+            total += int(item['just_discount'])
         return total
 
     def save(self):

@@ -1,10 +1,11 @@
 from django.core import paginator
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
-from .models import Product, Color, Comment
+from .models import Product, Color, Comment, Category
 
 
 # Create your views here.
@@ -62,6 +63,7 @@ def store(request):                             #This function is for filter the
     max_price = request.GET.get("max_price")
     colors = request.GET.getlist("color")
     q = request.GET.get("q")
+    x = Product.objects.all().count()
 
     if q:
         products = Product.objects.filter(title__icontains=q)
@@ -77,7 +79,7 @@ def store(request):                             #This function is for filter the
 
     paginator = Paginator(products, 1)
     object_list = paginator.get_page(page_number)
-    return render(request, "product_app/store.html", context={"products": object_list})
+    return render(request, "product_app/store.html", context={"products": object_list, "xq": x})
 
 
 def store_order_ajax(request, pk, page):              #This function is for order the products in store page with ajax
@@ -131,4 +133,4 @@ def store_ajax2(request, pk, page):          #This function is used for paginati
     paginator = Paginator(products, 1)
     object_list = paginator.get_page(page)
 
-    return render(request, "product_app/store.html", {"products": object_list, "pk": pk})
+    return render(request, "product_app/store2.html", {"products": object_list, "pk": pk})

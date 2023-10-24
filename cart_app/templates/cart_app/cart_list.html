@@ -4,7 +4,7 @@
 
 {% block content %}
     <!-- start content -->
-    {% if cart_list %}
+    {% if cart_list.cart %}
         <div class="content">
             <div class="container-fluid">
                 <div class="line-step-container d-sm-block d-none">
@@ -164,7 +164,8 @@
                                         <div
                                                 class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
                                             <p class="mb-0 fw-bold">تخفیف:</p>
-                                            <p class="mb-0">500,000 تومان</p>
+                                            <p class="mb-0">{{ cart.just_discount }} تومان</p>
+                                            <!--This cart came from context_processors -->
                                         </div>
                                         <div
                                                 class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
@@ -183,21 +184,21 @@
                 </div>
             </div>
         </div>
-    {% elif cart_list is None %}
+    {% else %}
         <div class="content">
             <div class="container-fluid">
                 <div class="content-box">
                     <div class="container-fluid">
                         <div class="text-center">
-                            <img src="{% static "image/empty-cart (1).svg" %}" style="max-width: 400px;" alt=""
+                            <img src="{% static "image/empty-cart (1).svg" %}" style="max-width: 400px;"
+                                 alt="سبد خرید شما خالی است!"
                                  class="mx-auto d-block">
-                            <h6 class="font-18 mt-4">سبد خرید شما خالی است</h6>
+                            <h6 class="font-18 mt-4"><a href="{% url "product_app:store" %}">سبد خرید شما خالی است</a>
+                            </h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% else %}
-        asdasd
     {% endif %}
 {% endblock %}
