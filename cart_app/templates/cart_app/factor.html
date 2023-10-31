@@ -1,12 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
-    <title>قالب سانیار کالا</title>
+    <title>فاکتور محصول</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="assets/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="{% static "css/bootstrap.rtl.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/responsive.css" %}">
 </head>
 <body style="background: #fff;">
 <div class="container mt-5">
@@ -15,8 +16,8 @@
         <div class="col-md-12">
             <div class="d-flex align-items-center justify-content-between">
                 <h3>فاکتور فروش</h3>
-                <a href="index.html">
-                    <img src="assets/image/logo.png" class="img-fluid factor-logo" width="200" alt="">
+                <a href="{% url "home_app:main" %}">
+                    <img src="{% static "image/logo.png" %}" class="img-fluid factor-logo" width="200" alt="">
                 </a>
             </div>
             <hr>
@@ -39,13 +40,13 @@
     <div class="row">
         <div class="col-6">
             <h5 class="mb-3">اطلاعات فروش به خریدار</h5>
-            <p><strong>نام مشتری:</strong> امیر رضایی</p>
-            <p><strong>تاریخ فروش:</strong> 1401/12/25</p>
+            <p><strong>نام مشتری:</strong>{{ order.f_name }} {{ order.l_name }}</p>
+            <p><strong>تاریخ فروش:</strong> {{ order.created_at }}</p>
         </div>
         <div class="col-6">
             <h5 class="mb-3">اطلاعات تماس</h5>
-            <p><strong>آدرس:</strong> تهران خیابان آرم همون حوالی</p>
-            <p><strong>شماره تماس:</strong> 09165555555</p>
+            <p><strong>آدرس:</strong>{{ order.address }}</p>
+            <p><strong>شماره تماس:</strong> {{ order.phone_number }}</p>
         </div>
     </div>
 
@@ -63,16 +64,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>موبایل</td>
-                    <td>۲۰۰,۰۰۰ تومان</td>
-                    <td>۲</td>
-                    <td>۴۰۰,۰۰۰ تومان</td>
-                </tr>
-                <tr>
-                    <td>لپ تاپ</td>
-                    <td>۶۰۰,۰۰۰ تومان</td>
-                    <td>۱</td>
-                    <td>۶۰۰,۰۰۰ تومان</td>
+                    <td>{{ product.product.title }}</td>
+                    <td>{{ product.product.price }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }} تومان</td>
                 </tr>
                 </tbody>
             </table>
@@ -91,7 +86,7 @@
                 <p class="mt-3"><strong>مالیات:</strong> ۸٪</p>
             </td>
             <td>
-                <p class="mt-3"><strong>جمع کل:</strong> ۱,۰۹۲,۰۰۰ تومان</p>
+                <p class="mt-3"><strong>جمع کل:</strong> {{ product.price }} تومان</p>
             </td>
         </tr>
         <tr>
@@ -101,7 +96,7 @@
             <td>
                 <div class="d-flex align-items-center">
                     <p class="fw-bold mt-3">مهر و امضا فروشنده :</p>
-                    <img src="assets/image/mohr.png" width="150" alt="" class="img-fluid">
+                    <img src="{% static "image/mohr.png" %}" width="150" alt="" class="img-fluid">
                 </div>
             </td>
         </tr>
@@ -114,9 +109,9 @@
     </div>
 
 </div>
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/jquery-app.js"></script>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static "js/jquery-app.js" %}"></script>
 
 <script>
     function printInvoice() {

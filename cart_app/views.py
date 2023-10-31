@@ -114,3 +114,10 @@ def test1(request):
     # x = JalaliDate(datetime.date(2023, 10, 30))
     x = JalaliDate.to_jalali(2023, 5, 30)
     return HttpResponse(x)
+
+
+def view_factor(request, pk):
+    order = Order.objects.get(id=pk)
+    new_pk = int(pk) - 1
+    order_items = OrderItem.objects.get(id=new_pk)
+    return render(request, "cart_app/factor.html", context={"order": order, "product": order_items})
