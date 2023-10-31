@@ -12,8 +12,8 @@ class OrderItemAdmin(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("user", "is_paid")
     inlines = (OrderItemAdmin,)
+    search_fields = ("user__phone", "user__username", "order_number")
     list_filter = ("is_paid",)
 
 
 admin.site.register(models.OrderItem)
-admin.site.register(models.Address)

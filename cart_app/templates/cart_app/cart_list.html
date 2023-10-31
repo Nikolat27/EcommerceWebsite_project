@@ -19,7 +19,7 @@
                                 </a>
                             </div>
                             <div class="line-step-box disabled">
-                                <a href="checkout.html">
+                                <a href="{% url "cart_app:checkout" %}">
                                     <p>جزییات پرداخت</p>
                                     <div class="icon">
                                         2
@@ -173,7 +173,7 @@
                                             <p class="mb-0">{{ cart.total }} تومان</p>
                                         </div>
                                         <div class="action mt-3 d-flex align-items-center justify-content-center">
-                                            <a href="#" class="btn border-0 main-color-one-bg rounded-3 d-block w-100">تسویه
+                                            <a href="{% url "cart_app:checkout" %}" class="btn border-0 main-color-one-bg rounded-3 d-block w-100">تسویه
                                                 حساب</a>
                                         </div>
                                     </div>

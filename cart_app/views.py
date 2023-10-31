@@ -1,9 +1,14 @@
-from django.http import JsonResponse
+import random
+import uuid
+
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-
+from persiantools.jdatetime import JalaliDate
+import datetime
 from .cartfunction import Cart
 from product_app.models import Product
+from .models import Order, OrderItem
 
 
 # Create your views here.
@@ -69,3 +74,43 @@ def delete_cart_list(request, pk):
     cart_list.delete(id=pk)
     return redirect("cart_app:cart_list")
 
+
+def checkout(request):
+    cart_list = Cart(request)
+    return render(request, "cart_app/checkout.html", context={"cart_list": cart_list})
+
+
+def order_creation(request):
+    if request.method == "POST":
+        cart = Cart(request)
+        f_name = request.POST.get("f_name")
+        l_name = request.POST.get("l_name")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        opn = request.POST.get("optional_note")
+        postal_code = request.POST.get("postal_code")
+        order_number = random.randint(1000, 10000000)
+        print(order_number)
+        order = Order.objects.create(user=request.user, total_price=cart.total(), f_name=f_name, l_name=l_name,
+                                     phone_number=phone, email=email, state=state, city=city, postal_code=postal_code
+                                     , optional_notes=opn, address=address, order_number=order_number)
+        for item in cart:
+            OrderItem.objects.create(order=order, product=item['product'], color=item['color'],
+                                     quantity=item['quantity'], price=item['price'])
+            cart.remove_cart()
+
+            return redirect("cart_app:order_detail", order.id)
+
+
+def order_detail(request, pk):
+    order = Order.objects.get(id=pk)
+    return render(request, "cart_app/order-user-panel.html", context={"order": order})
+
+
+def test1(request):
+    # x = JalaliDate(datetime.date(2023, 10, 30))
+    x = JalaliDate.to_jalali(2023, 5, 30)
+    return HttpResponse(x)

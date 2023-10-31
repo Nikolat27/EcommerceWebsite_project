@@ -267,12 +267,13 @@
 
             <!-- form search -->
             <div class="col-lg-6 order-lg-2 d-lg-block d-none">
+                {#                laptop#}
                 <div class="search-form">
                     <form action="{% url "product_app:search" %}" method="GET">
                         <div class="search-filed" id="autocomplete">
                             <input type="text" name="q" placeholder="جستجوی محصولات ..."
                                    class="form-control search-input">
-                            <ul class="autocomplete-result-list" style="!important;"></ul>
+                            <ul class="autocomplete-result-list" style="position: relative"></ul>
                             <button type="submit"
                                     class="btn search-btn main-color-one-bg rounded-pill"><i
                                     class="bi bi-search"></i></button>
@@ -909,13 +910,13 @@
             console.log(propes)
             let group = ''
             if (result.index % 3 == 0) {
-                group = `<li class="group" style="z-index: 10; !important;">Group</li>`
+                group = `<li class="group">Group</li>`
 
             }
             return `
             ${group}
             <li ${propes}>
-                <div class="wiki-title" style="z-index: 10; !important;">
+                <div class="wiki-title">
                     ${result.title}
                 </div>
             </li>
