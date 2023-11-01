@@ -241,7 +241,7 @@
                             </figure>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="" class="dropdown-item"><i class="bi bi-house-door me-2"></i>پروفایل</a>
+                            <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i class="bi bi-house-door me-2"></i>پروفایل</a>
                             </li>
                             <li><a href="" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
                                 من</a></li>
@@ -300,7 +300,7 @@
                                     <span>پروفایل</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="" class="dropdown-item"><i
+                                    <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i
                                             class="bi bi-house-door me-2"></i>پروفایل</a></li>
                                     <li><a href="" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
                                         من</a></li>
@@ -383,64 +383,64 @@
                                     {% endfor %}
                                 </ul>
                             </li>
-                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">مگا لیست منو
-                                <i class="bi bi-tablet"></i></a>
-                                <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"
-                                    style="background: #fff url('assets/image/mega-img-1.jpg') no-repeat;background-size: 400px !important;">
-                                    <li><a href="" class="title">بـرند</a></li>
-                                    <li><a href="">سامـسونگ</a></li>
-                                    <li><a href="">اپـل</a></li>
-                                    <li><a href="">شیـائومی</a></li>
-                                    <li><a href="">ال جی</a></li>
-                                    <li><a href="">وان پـلاس</a></li>
-                                    <li><a href="">جی ال ایـکس</a></li>
-                                    <li><a href="">هـو آوی</a></li>
-                                    <li><a href="">بلک بـری</a></li>
-                                    <li><a href="">توشـیبا</a></li>
-                                    <li><a href="">دایـناکورد</a></li>
-                                    <li><a href="" class="title">براساس رده بندی </a>
-                                    </li>
-                                    <li><a href="">دکـمه ای</a></li>
-                                    <li><a href="">لـمسـی</a></li>
-                                    <li><a href="">نـظـامی</a></li>
-                                    <li><a href="">ضـد آب</a></li>
-                                    <li><a href="">مسـافرتی</a></li>
-                                    <li><a href="">خـارنی</a></li>
-                                    <li><a href="" class="title">براساس کشور </a></li>
-                                    <li><a href="">ایران</a></li>
-                                    <li><a href="">ژاپن</a></li>
-                                    <li><a href="">فرانسه</a></li>
-                                    <li><a href="">کره جنوبی</a></li>
-                                    <li><a href="">آمریکا</a></li>
-                                    <li><a href="">سوئد</a></li>
-                                    <li><a href="">تایوان</a></li>
-                                    <li><a href="" class="title">براساس رنگ</a></li>
-                                    <li><a href="">قرمز</a></li>
-                                    <li><a href="">قهوه ای</a></li>
-                                    <li><a href="">سبز</a></li>
-                                    <li><a href="">بنفش</a></li>
-                                    <li><a href="">نارنجی</a></li>
-                                    <li><a href="">نیلی</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">منو ساده<i
-                                    class="bi bi-menu-app"></i></a>
-                                <ul class="level-one">
-                                    <li><a href="">منو شماره 1</a></li>
-                                    <li><a href="">منو شماره 2</a></li>
-                                    <li class="position-relative"><a href="">منو شماره 3 <i
-                                            class="bi bi-chevron-left"></i></a>
-                                        <ul class="level-two">
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">2 زیر منو شماره </a></li>
-                                            <li><a href="">3 زیر منو شماره </a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="">منو شماره 4</a></li>
-                                    <li><a href="">منو شماره 5</a></li>
-                                    <li><a href="">منو شماره 6</a></li>
-                                </ul>
-                            </li>
+{#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">مگا لیست منو#}
+{#                                <i class="bi bi-tablet"></i></a>#}
+{#                                <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"#}
+{#                                    style="background: #fff url('assets/image/mega-img-1.jpg') no-repeat;background-size: 400px !important;">#}
+{#                                    <li><a href="" class="title">بـرند</a></li>#}
+{#                                    <li><a href="">سامـسونگ</a></li>#}
+{#                                    <li><a href="">اپـل</a></li>#}
+{#                                    <li><a href="">شیـائومی</a></li>#}
+{#                                    <li><a href="">ال جی</a></li>#}
+{#                                    <li><a href="">وان پـلاس</a></li>#}
+{#                                    <li><a href="">جی ال ایـکس</a></li>#}
+{#                                    <li><a href="">هـو آوی</a></li>#}
+{#                                    <li><a href="">بلک بـری</a></li>#}
+{#                                    <li><a href="">توشـیبا</a></li>#}
+{#                                    <li><a href="">دایـناکورد</a></li>#}
+{#                                    <li><a href="" class="title">براساس رده بندی </a>#}
+{#                                    </li>#}
+{#                                    <li><a href="">دکـمه ای</a></li>#}
+{#                                    <li><a href="">لـمسـی</a></li>#}
+{#                                    <li><a href="">نـظـامی</a></li>#}
+{#                                    <li><a href="">ضـد آب</a></li>#}
+{#                                    <li><a href="">مسـافرتی</a></li>#}
+{#                                    <li><a href="">خـارنی</a></li>#}
+{#                                    <li><a href="" class="title">براساس کشور </a></li>#}
+{#                                    <li><a href="">ایران</a></li>#}
+{#                                    <li><a href="">ژاپن</a></li>#}
+{#                                    <li><a href="">فرانسه</a></li>#}
+{#                                    <li><a href="">کره جنوبی</a></li>#}
+{#                                    <li><a href="">آمریکا</a></li>#}
+{#                                    <li><a href="">سوئد</a></li>#}
+{#                                    <li><a href="">تایوان</a></li>#}
+{#                                    <li><a href="" class="title">براساس رنگ</a></li>#}
+{#                                    <li><a href="">قرمز</a></li>#}
+{#                                    <li><a href="">قهوه ای</a></li>#}
+{#                                    <li><a href="">سبز</a></li>#}
+{#                                    <li><a href="">بنفش</a></li>#}
+{#                                    <li><a href="">نارنجی</a></li>#}
+{#                                    <li><a href="">نیلی</a></li>#}
+{#                                </ul>#}
+{#                            </li>#}
+{#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">منو ساده<i#}
+{#                                    class="bi bi-menu-app"></i></a>#}
+{#                                <ul class="level-one">#}
+{#                                    <li><a href="">منو شماره 1</a></li>#}
+{#                                    <li><a href="">منو شماره 2</a></li>#}
+{#                                    <li class="position-relative"><a href="">منو شماره 3 <i#}
+{#                                            class="bi bi-chevron-left"></i></a>#}
+{#                                        <ul class="level-two">#}
+{#                                            <li><a href="">زیر منو شماره 1</a></li>#}
+{#                                            <li><a href="">2 زیر منو شماره </a></li>#}
+{#                                            <li><a href="">3 زیر منو شماره </a></li>#}
+{#                                        </ul>#}
+{#                                    </li>#}
+{#                                    <li><a href="">منو شماره 4</a></li>#}
+{#                                    <li><a href="">منو شماره 5</a></li>#}
+{#                                    <li><a href="">منو شماره 6</a></li>#}
+{#                                </ul>#}
+{#                            </li>#}
                             <li class="nav-item"><a href="" class="nav-link border-animate fromCenter"> <i
                                     class="bi bi-tag"></i>
                                 تخفیف ها و پیشنهاد ها</a></li>

@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+
+from cart_app.models import OrderItem
 from .models import User, OTP, ForgotenPassword
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -49,12 +51,12 @@ def edit_page(request):
 
     if request.method == "POST":
         username = request.POST.get("username")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
+        password1 = request.POST.get("pass1")
+        password2 = request.POST.get("pass1")
         profile_picture = request.FILES.get("prof_pic")
         fullname = request.POST.get("fullname")
         email = request.POST.get("email")
-
+        phone = request.POST.get("phone")
         user = request.user
 
         if username:
@@ -68,10 +70,13 @@ def edit_page(request):
         if password1 and password2:
             if password1 == password2:
                 user.set_password(password1)
-
+            else:
+                user.set_password(request.user.password)
         user.save()
+        user = authenticate(username=phone, password=password1)
+        login(request, user)
         return redirect("home_app:main")
-    return render(request, "account_app/edit_form.html")
+    return render(request, "account_app/edit_profile.html")
 
 
 def change_password_page(request):
@@ -94,13 +99,13 @@ def confirm_code(request):
             cd = code.cleaned_data
             token = request.GET.get("token")
             if ForgotenPassword.objects.filter(code=cd['code'], token=token).exists():
-                user_phone = ForgotenPassword.objects.get(token=token)     #First we will get the phone number of the user
-                new_password = randint(1000, 9999)                       #Second we create the new password!
+                user_phone = ForgotenPassword.objects.get(token=token)  # First we will get the phone number of the user
+                new_password = randint(1000, 9999)  # Second we create the new password!
                 print("Your new password:", new_password)
 
-                user = User.objects.get(phone=user_phone.phone)            #Third we get the user
-                user.set_password(str(new_password))                #Forth we change the password
-                user.save()                                         #Fivth we save the operation
+                user = User.objects.get(phone=user_phone.phone)  # Third we get the user
+                user.set_password(str(new_password))  # Forth we change the password
+                user.save()  # Fivth we save the operation
 
                 user_phone.delete()
 
@@ -203,3 +208,8 @@ def otpcheck(request):
             form.add_error("code", "invalid data")
 
         return render(request, "account_app/checkotp.html", {"form": form})
+
+
+def profile_page(request):
+    latest_pruchases = OrderItem.objects.filter(order__user=request.user).order_by("-order__created_at")[:3]
+    return render(request, "account_app/user-panel.html", context={"latest_purchases": latest_pruchases})

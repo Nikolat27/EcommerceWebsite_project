@@ -13,4 +13,5 @@ urlpatterns = [
     path("passchangepage", views.change_password_page, name="pass_change_page"),
     path("confirm_code", views.confirm_code, name="confirm_code"),
     path("after_confirm", views.after_confirm, name="after_confirm"),
+    path("user_panel", views.profile_page, name="user_panel"),
 ]
