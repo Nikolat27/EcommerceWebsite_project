@@ -8,7 +8,7 @@ from persiantools.jdatetime import JalaliDate
 import datetime
 from .cartfunction import Cart
 from product_app.models import Product
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Address
 
 
 # Create your views here.
@@ -124,3 +124,82 @@ def view_factor(request, pk):
 
 def purchases(request):
     return render(request, "cart_app/purchases.html")
+
+
+def address(request):
+    addresses = Address.objects.filter(user=request.user)
+    if request.method == "POST":
+        f_name = request.POST.get("fname")
+        l_name = request.POST.get("lname")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        next_page = request.GET.get("next")
+        postal_code = request.POST.get("postal_code")
+        Address.objects.create(user=request.user, fname=f_name, lname=l_name, email=email, phone=phone, address=address,
+                               city=city, state=state, postal_code=postal_code)
+        if next_page:
+            return redirect(next_page)
+        return render(request, "cart_app/address.html", context={"addresses": addresses})
+    return render(request, "cart_app/address.html", context={"addresses": addresses})
+
+
+def edit_address(request, pk):
+    address = Address.objects.get(id=pk, user=request.user)
+    if request.method == "POST":
+        f_name = request.POST.get("fname")
+        l_name = request.POST.get("lname")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        postal_code = request.POST.get("postal_code")
+        next_page = request.GET.get("next")
+        if f_name:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.fname = f_name
+            x.save()
+
+        if l_name:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.lname = l_name
+            x.save()
+
+        if state:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.state = state
+            x.save()
+
+        if city:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.city = city
+            x.save()
+
+        if address:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.address = address
+            x.save()
+
+        if phone:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.phone = phone
+            x.save()
+
+        if email:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.fname = f_name
+            x.save()
+
+        if postal_code:
+            x = Address.objects.get(id=pk, user=request.user)
+            x.email = email
+            x.save()
+
+        if next_page:
+            return redirect(next_page)
+        else:
+            return redirect("home_app:main")
+    return render(request, "cart_app/edit_address.html", context={"address": address})

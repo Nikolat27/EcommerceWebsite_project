@@ -76,10 +76,10 @@ def store(request):                             #This function is for filter the
 
     if colors:
         products = Product.objects.filter(color__title__in=colors)
-
+    y = Category.objects.filter(parent=None)   #non subcategories Categories
     paginator = Paginator(products, 1)
     object_list = paginator.get_page(page_number)
-    return render(request, "product_app/store.html", context={"products": object_list, "xq": x})
+    return render(request, "product_app/store.html", context={"products": object_list, "xq": x, "y": y})
 
 
 def store_order_ajax(request, pk, page):              #This function is for order the products in store page with ajax

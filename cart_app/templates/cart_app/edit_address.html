@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <form action="{% url "cart_app:edit_address" address.id %}?next={% url "cart_app:address" %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="check-out-form">
+                    <div class="row gy-3">
+                        <div class="col-lg-8">
+                            <div class="content-box position-sticky top-0">
+                                <div class="container-fluid">
+                                    <div class="checkout-forms">
+                                        <div class="checkout-form-title">
+                                            <h5 class="mb-3">آدرس</h5>
+                                        </div>
+                                        <div class="checkout-form">
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="name" class="form-label">نام <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <input type="text" value="{{ address.fname }}" required
+                                                                   name="fname" id="name"
+                                                                   class="form-control rounded-3">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="lname" class="form-label">نام خانوادگی <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <input type="text" value="{{ address.lname }}" required
+                                                                   name="lname" id="lname"
+                                                                   class="form-control rounded-3">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="ostan" class="form-label">استان <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <select id="ostan" name="state"
+                                                                    class="form-select rounded-3">
+                                                                <option value="{{ address.state }}">تهران</option>
+                                                                <option>یزد</option>
+                                                                <option>اصفهان</option>
+                                                                <option>لرستان</option>
+                                                                <option>کردستان</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="city" class="form-label">شهر <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <select id="city" name="city" class="form-select rounded-3">
+                                                                <option value="{{ address.city }}">کرج</option>
+                                                                <option>خرم آباد</option>
+                                                                <option>کرمانشاه</option>
+                                                                <option>مهاباد</option>
+                                                                <option>بروجرد</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="street" class="form-label">آدرس<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <textarea type="text" required name="address"
+                                                          placeholder="پلاک خانه و نام خیابان"
+                                                          id="street"
+                                                          class="form-control rounded-3">{{ address.address }}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tel" class="form-label">تلفن<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <input type="text" value="{{ address.phone }}" required name="phone"
+                                                       id="tel"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email" class="form-label">آدرس ایمیل<span
+                                                        class="text-danger ms-1"></span></label>
+                                                <input type="text" name="email" value="{{ address.email }}" id="email"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="postal-code" class="form-label">کد پستی<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <input type="text" value="{{ address.postal_code }}" required
+                                                       name="postal_code" id="postal-code"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="action mt-3 d-flex align-items-center justify-content-center">
+                                                <button type="submit"
+                                                        class="btn border-0 main-color-two-bg rounded-3 py-2 d-block w-100">
+                                                    ثبت
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -14,4 +14,4 @@ def context_processor(request):
                 "user_purchase_products":
                     user_purchase_products}
     else:
-        return {"cart": cart, "categories": categories, "colors": colors}
+        return {"cart": cart, "categories": categories, "colors": colors, "categories1": categories1}

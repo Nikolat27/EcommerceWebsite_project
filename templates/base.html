@@ -202,7 +202,7 @@
                                                                     href="notification.html">اطلاعیه</a></li>
                                             <li class="nav-item"><a class="nav-link" href="comments.html">نظرات</a>
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="address.html">آدرس ها</a>
+                                            <li class="nav-item"><a class="nav-link" href="{% url "cart_app:address" %}">آدرس ها</a>
                                             </li>
                                             <li class="nav-item"><a class="nav-link" href="last-seen.html">آخرین
                                                 بازدید
@@ -243,9 +243,9 @@
                         <ul class="dropdown-menu">
                             <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i class="bi bi-house-door me-2"></i>پروفایل</a>
                             </li>
-                            <li><a href="" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
+                            <li><a href="{% url "cart_app:purchases" %}" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
                                 من</a></li>
-                            <li><a href="" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
+                            <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
                                 من</a></li>
                             <li><a href="" class="dropdown-item"><i class="bi bi-bell me-2"></i>پیام ها و
                                 اطلاعیه ها</a></li>
@@ -302,9 +302,9 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i
                                             class="bi bi-house-door me-2"></i>پروفایل</a></li>
-                                    <li><a href="" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
+                                    <li><a href="?next={% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
                                         من</a></li>
-                                    <li><a href="" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
+                                    <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
                                         من</a></li>
                                     <li><a href="" class="dropdown-item"><i class="bi bi-bell me-2"></i>پیام ها و
                                         اطلاعیه ها</a></li>
@@ -707,7 +707,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    سبد خرید شما خالی است !
+                    <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a>
                 {% endfor %}
             </div>
         </div>

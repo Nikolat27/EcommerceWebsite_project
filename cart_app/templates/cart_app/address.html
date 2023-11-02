@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- start content -->
+
+    <div class="content">
+        <div class="container-fluid">
+            <style>
+                .line-step-box.complete:nth-child(1):before {
+                    width: 100%;
+                }
+            </style>
+        </div>
+
+        <div class="container-fluid">
+            <form action="{% url "cart_app:address" %}?next={% url "cart_app:address" %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="check-out-form">
+                    <div class="row gy-3">
+                        <div class="col-lg-8">
+                            <div class="content-box position-sticky top-0">
+                                <div class="container-fluid">
+                                    <div class="checkout-forms">
+                                        <div class="checkout-form-title">
+                                            <h5 class="mb-3">ثبت آدرس جدید</h5>
+                                        </div>
+                                        <div class="checkout-form">
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="name" class="form-label">نام <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <input type="text" required name="fname" id="name"
+                                                                   class="form-control rounded-3">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="lname" class="form-label">نام خانوادگی <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <input type="text" required name="lname" id="lname"
+                                                                   class="form-control rounded-3">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="ostan" class="form-label">استان <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <select id="ostan" name="state"
+                                                                    class="form-select rounded-3">
+                                                                <option>تهران</option>
+                                                                <option>یزد</option>
+                                                                <option>اصفهان</option>
+                                                                <option>لرستان</option>
+                                                                <option>کردستان</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="city" class="form-label">شهر <span
+                                                                    class="text-danger ms-1">*</span></label>
+                                                            <select id="city" name="city" class="form-select rounded-3">
+                                                                <option>کرج</option>
+                                                                <option>خرم آباد</option>
+                                                                <option>کرمانشاه</option>
+                                                                <option>مهاباد</option>
+                                                                <option>بروجرد</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="street" class="form-label">آدرس<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <textarea type="text" required name="address"
+                                                          placeholder="پلاک خانه و نام خیابان"
+                                                          id="street"
+                                                          class="form-control rounded-3"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tel" class="form-label">تلفن<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <input type="text" required name="phone" id="tel"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email" class="form-label">آدرس ایمیل<span
+                                                        class="text-danger ms-1"></span></label>
+                                                <input type="text" name="email" id="email"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="postal-code" class="form-label">کد پستی<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <input type="text" required name="postal_code" id="postal-code"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="action mt-3 d-flex align-items-center justify-content-center">
+                                                <button type="submit"
+                                                        class="btn border-0 main-color-two-bg rounded-3 py-2 d-block w-100">
+                                                    ثبت
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="checkout-side position-sticky top-0">
+                                <div class="cart-canvases mb-4">
+                                    <div class="item">
+                                        <div class="factor">
+                                            <div class="title">
+                                                <div class="d-flex align-items-end">
+                                                    <i class="bi bi-rocket-fill me-2 main-color-one-color"></i>
+                                                    <h6 class="font-16">لیست آدرس ها
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="row gy-2">
+                                                {% for address in addresses %}
+                                                        <div class="col-12">
+                                                            <div class="shipping-item">
+                                                                <h6 class="font-14 mx-2">آدرس {{ forloop.counter }}
+                                                                    :</h6>
+                                                                <p class="mb-0 text-muted">{{ address.address }}</p>
+                                                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                                <a href="{% url "cart_app:edit_address" address.id %}"
+                                                                   class="text-primary">ویرایش</a>
+                                                            </div>
+                                                        </div>
+                                                {% empty %}
+                                                    شما آدرسی ندارید
+                                                    <a style="font-weight: bold; color: #0d6efd;"
+                                                       onclick="change_loc()">اضافه کنید!
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function change_loc() {
+            window.location.href = "#name"
+        }
+    </script>
+{% endblock %}

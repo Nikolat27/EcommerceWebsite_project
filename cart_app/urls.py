@@ -15,4 +15,6 @@ urlpatterns = [
     path("test", views.test1),
     path("factor_page/<int:pk>", views.view_factor, name="factor_page"),
     path("purchases", views.purchases, name="purchases"),
+    path("address", views.address, name="address"),
+    path("edit_address/<int:pk>", views.edit_address, name="edit_address"),
 ]
