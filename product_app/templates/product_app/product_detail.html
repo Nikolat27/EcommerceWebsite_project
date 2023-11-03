@@ -43,7 +43,7 @@
                                     <div class="icon-product-box-item" data-bs-toggle="tooltip"
                                          data-bs-placement="right"
                                          data-bs-title="افزودن به علاقه مندی">
-                                        <i class="bi bi-heart"></i>
+                                        <i class="bi bi-heart" onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
                                     </div>
                                     <div class="icon-product-box-item" data-bs-toggle="tooltip"
                                          data-bs-placement="right"
@@ -153,9 +153,9 @@
                                     <div class="col-lg-4">
                                         <div class="product-meta-rating">
                                             <div class="d-flex align-items-center justify-content-lg-end">
-                                                <div class="count-comment text-muted">16 دیدگاه</div>
+                                                <div class="count-comment text-muted">{{ product.comments.all|length }} دیدگاه</div>
                                                 <div class="count-rating">
-                                                    <span>(17) 4.5</span>
+                                                    <span>({{ product.len_averagereview }}) {{ product.averagereview|floatformat:1 }}</span>
                                                     <i class="bi bi-star-fill"></i>
                                                 </div>
                                             </div>
@@ -1848,7 +1848,7 @@
                                         <div class="product-header-btn">
                                             <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="مقایسه"><i class="bi bi-shuffle"></i></a>
-                                            <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            <a onclick="like('{{ product.slug }}', {{ product.id }})" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="افزودن به علاقه مندی ها"><i class="bi bi-heart"></i></a>
                                             <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="مشاهده سریع"><i class="bi bi-eye"></i></a>

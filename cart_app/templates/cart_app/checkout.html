@@ -53,9 +53,10 @@
                 کوپن تخفیف دارید برای نوشتن کد اینجا کلیک
                 کنید
             </div>
-            <form action="{% url "cart_app:order_creation" %}" method="post" enctype="multipart/form-data">
+            <form action="{% url "cart_app:order_creation" %}" method="post" enctype="multipart/form-data"
+                  onsubmit="validateForm(event)">
                 {% csrf_token %}
-                <div class="check-out-form">
+                <div class=" check-out-form">
                     <div class="row gy-3">
                         <div class="col-lg-8">
                             <div class="content-box position-sticky top-0">
@@ -117,14 +118,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="street" class="form-label">آدرس<span
-                                                        class="text-danger ms-1">*</span></label>
-                                                <input type="text" required name="address"
-                                                       placeholder="پلاک خانه و نام خیابان"
-                                                       id="street"
-                                                       class="form-control rounded-3">
-                                            </div>
+                                            {% if not request.user.addresses.all %}
+                                                <div class="form-group">
+                                                    <a href="{% url "cart_app:address" %}
+                                                    ?next={% url "cart_app:checkout" %}">شما آدرسی ندارید لطفا یکی اضافه
+                                                        کنید!</a>
+                                                </div>
+                                            {% else %}
+                                                <select required name="address" id="selectOptions" class="form-control"
+                                                        aria-label="Default select example">
+                                                    <option>آدرس های موجود<span style="color: red;">*</span></option>
+                                                    {% for address in request.user.addresses.all %}
+                                                        <option value="{{ address.address }}">{{ address.address }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% endif %}
+                                            <br>
                                             <div class="form-group">
                                                 <label for="tel" class="form-label">تلفن<span
                                                         class="text-danger ms-1">*</span></label>
@@ -259,7 +268,6 @@
                                                     </h6>
                                                 </div>
                                             </div>
-
                                             <div class="row gy-2">
                                                 <div class="col-12">
                                                     <div class="bank-item active">
@@ -308,6 +316,8 @@
                                                         class="btn border-0 main-color-two-bg rounded-3 py-2 d-block w-100">
                                                     پرداخت
                                                 </button>
+                                                <br>
+                                                <p id="error" style="display: none; color: red; font-weight: bold"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -320,4 +330,19 @@
         </div>
 
     </div>
+    <script type="text/javascript">
+        function validateForm(event) {
+            event.preventDefault(); // متوقف کردن ارسال فرم
+
+            var selectValue = document.getElementById("selectOptions").value;
+            var errorElement = document.getElementById("error");
+
+            if (selectValue === "آدرس های موجود*") {
+                errorElement.innerHTML = "باید یکی از آدرس‌های دیگر را انتخاب کنید";
+                errorElement.style.display = "block";
+            } else {
+                console.log("hell world!");
+            }
+        }
+    </script>
 {% endblock %}

@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+{% load templatetags %}
+{% block content %}
+    <!-- start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="check-out-form">
+                <div class="row gy-3">
+                    <div class="col-lg-8">
+                        <div class="content-box position-sticky top-0">
+                            <div class="container-fluid">
+                                <div class="checkout-forms">
+                                    <div class="checkout-form-title">
+                                        <h5 class="mb-3">نظرات</h5>
+                                    </div>
+                                    {% for comment in comments %}
+                                        <div class="checkout-form">
+                                            <div class="form-group">
+                                                <label for="tel" class="form-label">
+                                                    <a href="{% url "product_app:detail" comment.product.slug %}">محصول:</a><span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <input type="text" value="{{ comment.product }} {{ comment.created_at|jdate }}"
+                                                       class="form-control rounded-3">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="street" class="form-label">نظرات شما<span
+                                                        class="text-danger ms-1">*</span></label>
+                                                <textarea type="text"
+                                                          class="form-control rounded-3">{{ comment.body }}</textarea>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    {% endfor %}
+                                    <div class="action mt-3 d-flex align-items-center justify-content-center">
+                                        <a href="{% url "home_app:main" %}"
+                                           class="btn border-0 main-color-two-bg rounded-3 py-2 d-block w-100">
+                                            برگشت
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

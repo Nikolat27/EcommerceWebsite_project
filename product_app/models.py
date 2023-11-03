@@ -3,6 +3,7 @@ from django.db.models import Model, Avg, Count
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import format_html
+from django.views.generic import DetailView
 
 from account_app.models import User
 
@@ -59,7 +60,12 @@ class Product(Model):
             avg = float(review["reviews"])
         return avg
 
-    def discount_price(self):       #This function is use for price after applying the discount
+    def len_averagereview(self):
+        review_len = Comment.objects.filter(product=self)
+        x = len(review_len)
+        return x
+
+    def discount_price(self):  # This function is use for price after applying the discount
         if self.discount != 0:
             discount_price = self.price * self.discount // 100
             total_price = self.price - discount_price
@@ -68,7 +74,7 @@ class Product(Model):
         else:
             return self.price
 
-    def just_discount_price(self):      ##This one is the price divided into the discount value
+    def just_discount_price(self):  ##This one is the price divided into the discount value
         if self.discount != 0:
             discount_price = self.price * self.discount // 100
             return discount_price
@@ -99,3 +105,15 @@ class Comment(Model):
 
     def __str__(self):
         return f"{self.product} - {self.author}"
+
+    def lenght(self):
+        pass
+
+
+class Like(Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="likes")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.phone} - {self.product.title}"

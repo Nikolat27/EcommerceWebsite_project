@@ -88,6 +88,7 @@ def order_creation(request):
         state = request.POST.get("state")
         city = request.POST.get("city")
         address = request.POST.get("address")
+        print(address)
         phone = request.POST.get("phone")
         email = request.POST.get("email")
         opn = request.POST.get("optional_note")

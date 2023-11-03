@@ -200,9 +200,11 @@
                                                 علاقه</a></li>
                                             <li class="nav-item"><a class="nav-link"
                                                                     href="notification.html">اطلاعیه</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="comments.html">نظرات</a>
+                                            <li class="nav-item"><a class="nav-link"
+                                                                    href="{% url "product_app:user_comments" %}">نظرات</a>
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="{% url "cart_app:address" %}">آدرس ها</a>
+                                            <li class="nav-item"><a class="nav-link"
+                                                                    href="{% url "cart_app:address" %}">آدرس ها</a>
                                             </li>
                                             <li class="nav-item"><a class="nav-link" href="last-seen.html">آخرین
                                                 بازدید
@@ -241,15 +243,19 @@
                             </figure>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i class="bi bi-house-door me-2"></i>پروفایل</a>
+                            <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i
+                                    class="bi bi-house-door me-2"></i>پروفایل</a>
                             </li>
-                            <li><a href="{% url "cart_app:purchases" %}" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
+                            <li><a href="{% url "cart_app:purchases" %}" class="dropdown-item"><i
+                                    class="bi bi-cart-check me-2"></i>سفارش های
                                 من</a></li>
-                            <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
+                            <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i
+                                    class="bi bi-pin-map me-2"></i>آدرس های
                                 من</a></li>
                             <li><a href="" class="dropdown-item"><i class="bi bi-bell me-2"></i>پیام ها و
                                 اطلاعیه ها</a></li>
-                            <li><a href="" class="dropdown-item"><i class="bi bi-chat-dots me-2"></i>نظرات
+                            <li><a href="{% url "product_app:user_comments" %}" class="dropdown-item"><i
+                                    class="bi bi-chat-dots me-2"></i>نظرات
                                 من</a></li>
                             <li><a href="" class="dropdown-item"><i class="bi bi-question-circle me-2"></i>درخواست
                                 پشتیبانی</a></li>
@@ -302,13 +308,16 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url "accounts_app:user_panel" %}" class="dropdown-item"><i
                                             class="bi bi-house-door me-2"></i>پروفایل</a></li>
-                                    <li><a href="?next={% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-cart-check me-2"></i>سفارش های
+                                    <li><a href="?next={% url "cart_app:address" %}" class="dropdown-item"><i
+                                            class="bi bi-cart-check me-2"></i>سفارش های
                                         من</a></li>
-                                    <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i class="bi bi-pin-map me-2"></i>آدرس های
+                                    <li><a href="{% url "cart_app:address" %}" class="dropdown-item"><i
+                                            class="bi bi-pin-map me-2"></i>آدرس های
                                         من</a></li>
                                     <li><a href="" class="dropdown-item"><i class="bi bi-bell me-2"></i>پیام ها و
                                         اطلاعیه ها</a></li>
-                                    <li><a href="" class="dropdown-item"><i class="bi bi-chat-dots me-2"></i>نظرات
+                                    <li><a href="{% url "product_app:user_comments" %}" class="dropdown-item"><i
+                                            class="bi bi-chat-dots me-2"></i>نظرات
                                         من</a></li>
                                     <li><a href="" class="dropdown-item"><i
                                             class="bi bi-question-circle me-2"></i>درخواست پشتیبانی</a></li>
@@ -365,7 +374,9 @@
                                 <ul class="main-menu mega-container">
                                     {% for category in categories %}
                                         {% if category.parent is None %}
-                                            <li class="main-menu-sub-active-li"><a href="{% url "product_app:store" %}?category={{ category.title }}"><i class="bi bi-phone"></i>
+                                            <li class="main-menu-sub-active-li"><a
+                                                    href="{% url "product_app:store" %}?category={{ category.title }}"><i
+                                                    class="bi bi-phone"></i>
                                                 {{ category.title }}</a>
                                                 <ul class="main-menu-sub back-menu"
                                                     style=" background: #fff url('assets/image/509-5092096_offering-high-quality-mobile-repair-service-main-image_prev_ui.png') no-repeat;">
@@ -383,64 +394,64 @@
                                     {% endfor %}
                                 </ul>
                             </li>
-{#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">مگا لیست منو#}
-{#                                <i class="bi bi-tablet"></i></a>#}
-{#                                <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"#}
-{#                                    style="background: #fff url('assets/image/mega-img-1.jpg') no-repeat;background-size: 400px !important;">#}
-{#                                    <li><a href="" class="title">بـرند</a></li>#}
-{#                                    <li><a href="">سامـسونگ</a></li>#}
-{#                                    <li><a href="">اپـل</a></li>#}
-{#                                    <li><a href="">شیـائومی</a></li>#}
-{#                                    <li><a href="">ال جی</a></li>#}
-{#                                    <li><a href="">وان پـلاس</a></li>#}
-{#                                    <li><a href="">جی ال ایـکس</a></li>#}
-{#                                    <li><a href="">هـو آوی</a></li>#}
-{#                                    <li><a href="">بلک بـری</a></li>#}
-{#                                    <li><a href="">توشـیبا</a></li>#}
-{#                                    <li><a href="">دایـناکورد</a></li>#}
-{#                                    <li><a href="" class="title">براساس رده بندی </a>#}
-{#                                    </li>#}
-{#                                    <li><a href="">دکـمه ای</a></li>#}
-{#                                    <li><a href="">لـمسـی</a></li>#}
-{#                                    <li><a href="">نـظـامی</a></li>#}
-{#                                    <li><a href="">ضـد آب</a></li>#}
-{#                                    <li><a href="">مسـافرتی</a></li>#}
-{#                                    <li><a href="">خـارنی</a></li>#}
-{#                                    <li><a href="" class="title">براساس کشور </a></li>#}
-{#                                    <li><a href="">ایران</a></li>#}
-{#                                    <li><a href="">ژاپن</a></li>#}
-{#                                    <li><a href="">فرانسه</a></li>#}
-{#                                    <li><a href="">کره جنوبی</a></li>#}
-{#                                    <li><a href="">آمریکا</a></li>#}
-{#                                    <li><a href="">سوئد</a></li>#}
-{#                                    <li><a href="">تایوان</a></li>#}
-{#                                    <li><a href="" class="title">براساس رنگ</a></li>#}
-{#                                    <li><a href="">قرمز</a></li>#}
-{#                                    <li><a href="">قهوه ای</a></li>#}
-{#                                    <li><a href="">سبز</a></li>#}
-{#                                    <li><a href="">بنفش</a></li>#}
-{#                                    <li><a href="">نارنجی</a></li>#}
-{#                                    <li><a href="">نیلی</a></li>#}
-{#                                </ul>#}
-{#                            </li>#}
-{#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">منو ساده<i#}
-{#                                    class="bi bi-menu-app"></i></a>#}
-{#                                <ul class="level-one">#}
-{#                                    <li><a href="">منو شماره 1</a></li>#}
-{#                                    <li><a href="">منو شماره 2</a></li>#}
-{#                                    <li class="position-relative"><a href="">منو شماره 3 <i#}
-{#                                            class="bi bi-chevron-left"></i></a>#}
-{#                                        <ul class="level-two">#}
-{#                                            <li><a href="">زیر منو شماره 1</a></li>#}
-{#                                            <li><a href="">2 زیر منو شماره </a></li>#}
-{#                                            <li><a href="">3 زیر منو شماره </a></li>#}
-{#                                        </ul>#}
-{#                                    </li>#}
-{#                                    <li><a href="">منو شماره 4</a></li>#}
-{#                                    <li><a href="">منو شماره 5</a></li>#}
-{#                                    <li><a href="">منو شماره 6</a></li>#}
-{#                                </ul>#}
-{#                            </li>#}
+                            {#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">مگا لیست منو#}
+                            {#                                <i class="bi bi-tablet"></i></a>#}
+                            {#                                <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"#}
+                            {#                                    style="background: #fff url('assets/image/mega-img-1.jpg') no-repeat;background-size: 400px !important;">#}
+                            {#                                    <li><a href="" class="title">بـرند</a></li>#}
+                            {#                                    <li><a href="">سامـسونگ</a></li>#}
+                            {#                                    <li><a href="">اپـل</a></li>#}
+                            {#                                    <li><a href="">شیـائومی</a></li>#}
+                            {#                                    <li><a href="">ال جی</a></li>#}
+                            {#                                    <li><a href="">وان پـلاس</a></li>#}
+                            {#                                    <li><a href="">جی ال ایـکس</a></li>#}
+                            {#                                    <li><a href="">هـو آوی</a></li>#}
+                            {#                                    <li><a href="">بلک بـری</a></li>#}
+                            {#                                    <li><a href="">توشـیبا</a></li>#}
+                            {#                                    <li><a href="">دایـناکورد</a></li>#}
+                            {#                                    <li><a href="" class="title">براساس رده بندی </a>#}
+                            {#                                    </li>#}
+                            {#                                    <li><a href="">دکـمه ای</a></li>#}
+                            {#                                    <li><a href="">لـمسـی</a></li>#}
+                            {#                                    <li><a href="">نـظـامی</a></li>#}
+                            {#                                    <li><a href="">ضـد آب</a></li>#}
+                            {#                                    <li><a href="">مسـافرتی</a></li>#}
+                            {#                                    <li><a href="">خـارنی</a></li>#}
+                            {#                                    <li><a href="" class="title">براساس کشور </a></li>#}
+                            {#                                    <li><a href="">ایران</a></li>#}
+                            {#                                    <li><a href="">ژاپن</a></li>#}
+                            {#                                    <li><a href="">فرانسه</a></li>#}
+                            {#                                    <li><a href="">کره جنوبی</a></li>#}
+                            {#                                    <li><a href="">آمریکا</a></li>#}
+                            {#                                    <li><a href="">سوئد</a></li>#}
+                            {#                                    <li><a href="">تایوان</a></li>#}
+                            {#                                    <li><a href="" class="title">براساس رنگ</a></li>#}
+                            {#                                    <li><a href="">قرمز</a></li>#}
+                            {#                                    <li><a href="">قهوه ای</a></li>#}
+                            {#                                    <li><a href="">سبز</a></li>#}
+                            {#                                    <li><a href="">بنفش</a></li>#}
+                            {#                                    <li><a href="">نارنجی</a></li>#}
+                            {#                                    <li><a href="">نیلی</a></li>#}
+                            {#                                </ul>#}
+                            {#                            </li>#}
+                            {#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">منو ساده<i#}
+                            {#                                    class="bi bi-menu-app"></i></a>#}
+                            {#                                <ul class="level-one">#}
+                            {#                                    <li><a href="">منو شماره 1</a></li>#}
+                            {#                                    <li><a href="">منو شماره 2</a></li>#}
+                            {#                                    <li class="position-relative"><a href="">منو شماره 3 <i#}
+                            {#                                            class="bi bi-chevron-left"></i></a>#}
+                            {#                                        <ul class="level-two">#}
+                            {#                                            <li><a href="">زیر منو شماره 1</a></li>#}
+                            {#                                            <li><a href="">2 زیر منو شماره </a></li>#}
+                            {#                                            <li><a href="">3 زیر منو شماره </a></li>#}
+                            {#                                        </ul>#}
+                            {#                                    </li>#}
+                            {#                                    <li><a href="">منو شماره 4</a></li>#}
+                            {#                                    <li><a href="">منو شماره 5</a></li>#}
+                            {#                                    <li><a href="">منو شماره 6</a></li>#}
+                            {#                                </ul>#}
+                            {#                            </li>#}
                             <li class="nav-item"><a href="" class="nav-link border-animate fromCenter"> <i
                                     class="bi bi-tag"></i>
                                 تخفیف ها و پیشنهاد ها</a></li>
@@ -709,6 +720,36 @@
                 {% empty %}
                     <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a>
                 {% endfor %}
+                <div class="item">
+                    <div class="factor">
+                        <div class="title">
+                            <div class="d-flex align-items-center">
+                                <img src="{% static "image/shopping-bag.png" %}" class="img-fluid" alt="">
+                                <h6 class="font-16">سفارش شما</h6>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center justify-content-between">
+                            <p class="fw-bold mb-0">محصول</p>
+                            <p class="fw-bold mb-0">قیمت کل</p>
+                        </div>
+                        {% for item in cart %}
+                            <div
+                                    class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                                <p class="mb-0">{{ item.product.title }}</p>
+                                <p class="mb-0">{{ item.price }} تومان</p>
+                            </div>
+                        {% endfor %}
+                        <div
+                                class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                            <p class="mb-0 fw-bold">جمع کل:</p>
+                            <p class="mb-0">{{ cart.total }} تومان</p>
+                        </div>
+                        <div class="action mt-3 d-flex align-items-center justify-content-center">
+                            <a href="{% url "cart_app:cart_list" %}" class="btn border-0 main-color-two-bg rounded-3">سبد خرید</a>
+                            <a href="{% url "cart_app:checkout" %}" class="btn border-0 main-color-one-bg rounded-3 ms-2">تسویه حساب</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -745,6 +786,7 @@
 <!-- ===== start new update -->
 <script src="{% static "plugin/go-to-top/script.js" %}"></script>
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
+<script src="{% static "js/LikeAjax.js" %}"></script>
 
 <link rel="stylesheet" href="{% static "plugin/go-to-top/style.css" %}">
 <link rel="stylesheet" href="{% static "plugin/rasta-contact/style.css" %}">

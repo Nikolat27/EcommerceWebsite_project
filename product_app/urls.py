@@ -10,4 +10,6 @@ urlpatterns = [
     path("store", views.store, name="store"),
     path("order_ajax/<str:pk>/<int:page>", views.store_order_ajax, name="store_ajax"),
     path("order_ajax2/<str:pk>/<int:page>", views.store_ajax2, name="store_order_ajax2"),
+    path("user_comments", views.user_comments, name="user_comments"),
+    path("like/<str:slug>/<int:pk>", views.like, name="like"),
 ]

@@ -162,7 +162,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" name="fullname" class="form-control float-input"
+                                                    <input type="text" name="fullname" value="{{ request.user.full_name }}" class="form-control float-input"
                                                            id="floatingInputFname"
                                                            placeholder="نام و نام خانوادگی خود را وارد کنید">
                                                     <label for="floatingInputFname">نام و نام خانوادگی خود را وارد
@@ -177,13 +177,13 @@
                                     {#                                        <label for="floatingInputStreet">آدرس</label>#}
                                     {#                                    </div>#}
                                     <div class="form-floating mb-3">
-                                        <input type="text" name="username" class="form-control float-input"
+                                        <input type="text" name="username" value="{{ request.user.username }}" class="form-control float-input"
                                                id="floatingInputMobile"
                                                placeholder="نام کاربری">
                                         <label for="floatingInputMobile">نام کاربری</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="text" name="email" class="form-control float-input"
+                                        <input type="text" name="email" value="{{ request.user.email }}" class="form-control float-input"
                                                id="floatingInputEmail"
                                                placeholder="ایمیل">
                                         <label for="floatingInputEmail">ایمیل</label>

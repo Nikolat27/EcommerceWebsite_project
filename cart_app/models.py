@@ -4,6 +4,22 @@ from product_app.models import Product
 
 
 # Create your models here.
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    fname = models.CharField(max_length=50)
+    lname = models.CharField(max_length=50, null=True, blank=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=11)
+    address = models.TextField()
+    state = models.CharField(max_length=30, null=True, blank=True)
+    city = models.CharField(max_length=40, null=True, blank=True)
+    postal_code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user.phone
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
     f_name = models.CharField(max_length=50, null=True, blank=True)
@@ -37,18 +53,3 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.order.user.username} - {self.product.title}"
-
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
-    fname = models.CharField(max_length=50)
-    lname = models.CharField(max_length=50, null=True, blank=True)
-    email = models.EmailField(blank=True, null=True)
-    phone = models.CharField(max_length=11)
-    address = models.TextField()
-    state = models.CharField(max_length=30, null=True, blank=True)
-    city = models.CharField(max_length=40, null=True, blank=True)
-    postal_code = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.user.phone

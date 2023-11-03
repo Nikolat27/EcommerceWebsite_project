@@ -2,10 +2,11 @@ from django.core import paginator
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.views.generic import DetailView
 
-from .models import Product, Color, Comment, Category
+from .models import Product, Color, Comment, Category, Like
 
 
 # Create your views here.
@@ -55,7 +56,7 @@ def search(request):
     return JsonResponse({'statues': True, 'payload': payload})
 
 
-def store(request):                             #This function is for filter the products in store page
+def store(request):  # This function is for filter the products in store page
     products = Product.objects.all()
     categories = request.GET.getlist("category")
     page_number = request.GET.get("page")
@@ -76,13 +77,13 @@ def store(request):                             #This function is for filter the
 
     if colors:
         products = Product.objects.filter(color__title__in=colors)
-    y = Category.objects.filter(parent=None)   #non subcategories Categories
+    y = Category.objects.filter(parent=None)  # non subcategories Categories
     paginator = Paginator(products, 1)
     object_list = paginator.get_page(page_number)
     return render(request, "product_app/store.html", context={"products": object_list, "xq": x, "y": y})
 
 
-def store_order_ajax(request, pk, page):              #This function is for order the products in store page with ajax
+def store_order_ajax(request, pk, page):  # This function is for order the products in store page with ajax
 
     products = Product.objects.all()
     if pk == "default":
@@ -110,8 +111,8 @@ def store_order_ajax(request, pk, page):              #This function is for orde
     return JsonResponse({"bool": True, "data": data})
 
 
-def store_ajax2(request, pk, page):          #This function is used for pagination because i couldnt do the
-                                            #pagination with ajax and jsonresponse
+def store_ajax2(request, pk, page):  # This function is used for pagination because i couldnt do the
+    # pagination with ajax and jsonresponse
     print("hello world")
     products = Product.objects.all()
     if pk == "default":
@@ -134,3 +135,38 @@ def store_ajax2(request, pk, page):          #This function is used for paginati
     object_list = paginator.get_page(page)
 
     return render(request, "product_app/store2.html", {"products": object_list, "pk": pk})
+
+
+def user_comments(request):
+    if request.user.is_authenticated:
+        comments = Comment.objects.filter(author=request.user)
+        return render(request, "product_app/user_comments.html", context={"comments": comments})
+    else:
+        return redirect("home_app:main")
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "product_app/product_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated and self.request.user.likes.filter(product__slug=self.object.slug,
+                                                                                 user=self.request.user).exists():
+            context["is_liked"] = True
+        else:
+            context["is_liked"] = False
+        return context
+
+
+def like(request, slug, pk):
+    try:
+        like = Like.objects.get(product__slug=slug, user=request.user)
+        like.delete()
+        liked_products = Product.objects.filter(likes__user=request.user)
+
+        return JsonResponse({"response": "unliked", "likedproducts": len(liked_products)})
+    except:
+        Like.objects.create(product_id=pk, user_id=request.user.id)
+        liked_products = Product.objects.filter(likes__user=request.user)
+        return JsonResponse({"response": "liked", "likedproducts": len(liked_products)})
