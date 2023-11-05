@@ -1,0 +1,68 @@
+{% load static %}
+<div class="col-lg-3 d-lg-block d-none">
+    <div class="panel-side">
+        <div class="content-box pb-0">
+            <div class="container-fluid">
+                <div class="panel-box">
+                    <div class="d-flex align-items-center">
+                        {% if request.user.prof_pic %}
+                            <img src="{{ request.user.prof_pic.url }}"
+                                 class="img-fluid img-profile-panel rounded-circle me-3 shadow-md"
+                                 alt="">
+                        {% else %}
+                            <img src="{% static "image/user.png" %}"
+                                 class="img-fluid img-profile-panel rounded-circle me-3 shadow-md"
+                                 alt="">
+                        {% endif %}
+                        <div class="d-grid gap-2">
+                            <h6 class="font-14 main-color-one-color">حساب کاربری من</h6>
+                            <h6 class="font-14">{{ request.user.full_name }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-box">
+                    <nav class="navbar profile-box-nav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-item {% if request.resolver_match.url_name == "user_panel" %}active{% endif %}">
+                                <a href="{% url "accounts_app:user_panel" %}" class="nav-link">
+                                    <i class="bi bi-house-door"></i>پروفایل</a>
+                            </li>
+                            <li class="nav-item {% if request.resolver_match.url_name == "purchases" %}active{% endif %}">
+                                <a href="{% url "cart_app:purchases" %}" class="nav-link">
+                                    <i class="bi bi-cart-check"></i>سفارش های من <span
+                                        class="badge rounded-pill badge-spn">{{ user_purchase|length }}</span></a>
+                            </li>
+                            <li class="nav-item {% if request.resolver_match.url_name == "address" %}active{% endif %}">
+                                <a href="{% url "cart_app:address" %}" class="nav-link">
+                                    <i class="bi bi-pin-map"></i>آدرس های من<span
+                                        class="badge rounded-pill badge-spn">{{ address_len }}</span></a>
+                            </li>
+                            <li class="nav-item"><a href="" class="nav-link">
+                                <i class="bi bi-bell"></i>پیام ها و اطلاعیه ها</a>
+                            </li>
+                            <li class="nav-item {% if request.resolver_match.url_name == "user_comments" %}active{% endif %}">
+                                <a href="{% url "product_app:user_comments" %}" class="nav-link">
+                                    <i class="bi bi-chat-dots"></i>نظرات من</a>
+                            </li>
+                            <li class="nav-item"><a href="" class="nav-link">
+                                <i class="bi bi-question-circle"></i>درخواست پشتیبانی</a>
+                            </li>
+                            <li class="nav-item {% if request.resolver_match.url_name == "wishlist" %}active{% endif %}">
+                                <a href="{% url "product_app:wishlist" %}" class="nav-link">
+                                    <i class="bi bi-heart"></i> محصولات مورد علاقه<span
+                                        class="badge rounded-pill badge-spn">{{ len_likee }}</span></a>
+                            </li>
+                            <li class="nav-item"><a href="" class="nav-link">
+                                <i class="bi bi-gift"></i>کد های تخفیف من</a>
+                            </li>
+                            <li class="nav-item"><a href="{% url "accounts_app:logout_page" %}"
+                                                    class="nav-link">
+                                <i class="bi bi-arrow-right-square"></i>خروج از حساب کاربری</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

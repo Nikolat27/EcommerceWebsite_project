@@ -30,6 +30,8 @@
                                                           class="form-control rounded-3">{{ comment.body }}</textarea>
                                             </div>
                                         </div>
+                                        <a class="text-danger" href="{% url "product_app:del_review" comment.id %}">پاک
+                                            کردن کامنت</a>
                                         <hr>
                                     {% endfor %}
                                     <div class="action mt-3 d-flex align-items-center justify-content-center">

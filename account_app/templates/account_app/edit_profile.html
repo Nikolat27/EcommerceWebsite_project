@@ -88,66 +88,7 @@
 
             <div class="dashboard-panel">
                 <div class="row gy-3">
-                    <div class="col-lg-3 d-lg-block d-none">
-                        <div class="panel-side">
-                            <div class="content-box pb-0">
-                                <div class="container-fluid">
-                                    <div class="panel-box">
-                                        <div class="d-flex align-items-center">
-                                            {% if request.user.prof_pic %}
-                                                <img src="{{ request.user.prof_pic.url }}"
-                                                     class="img-fluid img-profile-panel rounded-circle me-3 shadow-md"
-                                                     alt="">
-                                            {% else %}
-                                                <img src="{% static "image/user.png" %}"
-                                                     class="img-fluid img-profile-panel rounded-circle me-3 shadow-md"
-                                                     alt="">
-                                            {% endif %}
-                                            <div class="d-grid gap-2">
-                                                <h6 class="font-14 main-color-one-color">حساب کاربری من</h6>
-                                                <h6 class="font-14">{{ request.user.full_name }}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="profile-box">
-                                        <nav class="navbar profile-box-nav">
-                                            <ul class="navbar-nav flex-column">
-                                                <li class="nav-item active"><a href="" class="nav-link">
-                                                    <i class="bi bi-house-door"></i>پروفایل</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-cart-check"></i>سفارش های من <span
-                                                        class="badge rounded-pill badge-spn">5</span></a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-pin-map"></i>آدرس های من</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-bell"></i>پیام ها و اطلاعیه ها</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-chat-dots"></i>نظرات من</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-question-circle"></i>درخواست پشتیبانی</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-heart"></i>محصولات مورد علاقه</a>
-                                                </li>
-                                                <li class="nav-item"><a href="" class="nav-link">
-                                                    <i class="bi bi-gift"></i>کد های تخفیف من</a>
-                                                </li>
-                                                <li class="nav-item"><a href="{% url "accounts_app:logout_page" %}"
-                                                                        class="nav-link">
-                                                    <i class="bi bi-arrow-right-square"></i>خروج از حساب کاربری</a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "includes/admin_panel_include.html" %}
                     <div class="col-lg-9">
                         <div class="content-box">
                             <div class="container-fluid">

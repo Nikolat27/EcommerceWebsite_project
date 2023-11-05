@@ -44,6 +44,14 @@ def add_comment(request, pk):
                 related_products})
 
 
+def del_comments(request, pk):
+    del_comment = Comment.objects.get(author=request.user, id=pk)
+    del_comment.delete()
+    del_comment.save()
+
+    return redirect("product_app:user_comments")
+
+
 def search(request):
     q = request.GET.get("q")
     products = Product.objects.filter(title__istartswith=q)
@@ -170,3 +178,15 @@ def like(request, slug, pk):
         Like.objects.create(product_id=pk, user_id=request.user.id)
         liked_products = Product.objects.filter(likes__user=request.user)
         return JsonResponse({"response": "liked", "likedproducts": len(liked_products)})
+
+
+def un_like(request, slug):
+    like = Like.objects.get(product__slug=slug, user=request.user)
+    like.delete()
+
+    return redirect("product_app:wishlist")
+
+
+def wishlist(request):
+    wishlist = Product.objects.filter(likes__user=request.user)
+    return render(request, "product_app/wishlist.html", context={"wishlist": wishlist, "wishlist_len": len(wishlist)})
