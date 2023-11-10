@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-fluid">
+
+                    <div class="mb-5 title-panel">
+                        <h2>تماس با ما</h2>
+                    </div>
+
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <a href="">
+                                    <img src="{% static "image/contact-page-eleman-3.png" %}" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="mb-3">
+                                <a href="">
+                                    <img src="{% static "image/contact-page-eleman-1.png" %}" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="mb-3">
+                                <a href="">
+                                    <img src="{% static "image/contact-page-eleman-2.png" %}" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="{% static "image/contact_us.svg" %}" alt="" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <!-- form -->
+                    <div class="comment-form">
+                        <div class="title-panel mb-3">
+                            <h6 class="font-18">نظر خود را با ما در میان بگدارید</h6>
+                        </div>
+                        <form action="{% url "home_app:contant_us" %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group mb-2">
+                                <label for="commentbody" class="form-label my-3">موضوع دیدگاه شما <span
+                                        class="text-danger ms-1">*</span></label>
+                                <input name="title" id="commenttitle" class="form-control"
+                                       placeholder="موضوع دیدگاه شما" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="commentbody" class="form-label my-3">دیدگاه شما <span
+                                        class="text-danger ms-1">*</span></label>
+                                <textarea name="body" id="commentbody" rows="7" class="form-control"
+                                          placeholder="دیدگاه شما" required></textarea>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-inline w-100">
+                                            <label for="commentName" class="form-label my-3">نام شما
+                                                <span class="text-danger ms-1">*</span></label>
+                                            <input name="name" type="text" id="commentName" class="form-control"
+                                                   placeholder="نام شما" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-inline w-100 mb-2">
+                                            <label for="commentEmail" class="form-label my-3">ایمیل
+                                                شما<span class="text-danger ms-1">*</span></label>
+                                            <input name="email" type="email" id="commentEmail"
+                                                   class="form-control text-end"
+                                                   placeholder="ایمیل شما" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input type="checkbox" name="" id="commentCheckBox" class="form-check-input"
+                                       required>
+                                <label for="commentCheckBox" class="form-check-label text-muted">
+                                    ذخیره
+                                    نام، ایمیل و وبسایت من در مرورگر برای زمانی که دوباره دیدگاهی
+                                    می‌نویسم.
+                                </label>
+                            </div>
+                            <input type="submit" value="ثبت"
+                                   class="btn main-color-three-bg px-5  rounded-3 mt-3"
+                                   style="padding:10px 100px !important">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

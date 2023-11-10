@@ -3,8 +3,6 @@ from django.db.models import Model, Avg, Count
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import format_html
-from django.views.generic import DetailView
-
 from account_app.models import User
 
 
@@ -13,10 +11,17 @@ from account_app.models import User
 
 class Category(Model):
     title = models.CharField(max_length=30, unique=True)
+    image = models.ImageField(upload_to="category_pics", null=True, blank=True)
     parent = models.ForeignKey("self", on_delete=models.CASCADE, related_name="subs", null=True, blank=True)
 
     def __str__(self):
         return self.title
+
+    def show_image(self):
+        if self.image:
+            return format_html(f"<img src='{self.image.url}' width='70px' height='70px'>")
+        else:
+            return format_html(f"<img src='sdfasdf' alt='No Image Available' >")
 
 
 class Color(Model):
@@ -28,6 +33,7 @@ class Color(Model):
 
 class Product(Model):
     title = models.CharField(max_length=30, unique=True)
+    english_title = models.CharField(max_length=30, null=True, blank=True)
     description = models.TextField()
     image = models.ImageField(upload_to="img/product-pics", null=True, blank=True)
     color = models.ManyToManyField(Color, related_name="colors")

@@ -16,6 +16,7 @@ def category_len(title):
     cat_len = Product.objects.filter(category__title=title).count()
     return cat_len
 
+
 @register.filter
 def blog_category_len(title):
     cat_len = Weblog.objects.filter(category__title=title).count()
@@ -44,3 +45,10 @@ def jdate(date):
     for x in shamsi_months:
         if month == x:
             return f"{day} , {shamsi_months[month]} , {year}"
+
+
+@register.filter
+def jdate_year(date):
+    new_date = JalaliDate.to_jalali(date)
+    year = new_date.year
+    return year

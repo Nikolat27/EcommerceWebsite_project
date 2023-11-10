@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load templatetags %}
 <!-- end mega menu -->
 
 <!-- start main slider -->
@@ -300,12 +300,12 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3">دسته بندی<span
                             class="main-color-one-color d-inline-block ms-1">محصولات</span></h5>
                 </div>
                 <div class="link">
-                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                    <a href="{% url "product_app:store" %}" class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
                     </a>
@@ -313,166 +313,29 @@
             </div>
             <div class="category-items">
                 <div class="row gy-3 justify-content-center">
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/mobile.png" alt="" class="img-fluid">
+                    {% for category in categories %}
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="category-item p-3 rounded-3 bg-white shadow-box">
+                                <a href="">
+                                    <div
+                                            class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
+                                        <div class="image">
+                                            {% if category.image %}
+                                                <img class="rounded" src="{{ category.image.url }}" alt="" class="img-fluid">
+                                            {% endif %}
+                                        </div>
+                                        <div class="text ms-3">
+                                            <p class="text-center font-14 text-overflow-1">{{ category.title }}</p>
+                                            <a href="{% url "product_app:store" %}?category={{ category.title }}"
+                                               class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
+                                                <i
+                                                        class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
+                                        </div>
                                     </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">تلفن همراه</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/varzeshi.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">کالای ورزشی</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/kalaye-degital.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">کالای دیجیتال</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/poshak.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">پوشاک</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/lavazem-tahrir.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">لوازم تحریر</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/milk.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">کالای سوپر مارکتی</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/children.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">اسباب بازی</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-
-                        <div class="category-item p-3 rounded-3 bg-white shadow-box">
-                            <a href="">
-                                <div
-                                        class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
-                                    <div class="image">
-                                        <img src="assets/image/abzar-khodro.png" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="text ms-3">
-                                        <p class="text-center font-14 text-overflow-1">لوازم خودرو</p>
-                                        <a href=""
-                                           class="btn text-muted-two btn-sm font-14 px-3 light-btn shadow-sm"><span>مشاهده</span>
-                                            <i
-                                                    class="bi bi-chevron-double-left font-16 main-color-one-color ms-2"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -487,12 +350,12 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3">اسلایدر<span class="main-color-one-color d-inline-block ms-1">شگفت
                             انگیز</span></h5>
                 </div>
                 <div class="link">
-                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                    <a href="{% url "product_app:store" %}" class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
                     </a>
@@ -504,7 +367,7 @@
                         <div class="amazing-pro-parent">
                             <div class="swiper amazing-slider-slider">
                                 <div class="swiper-wrapper">
-                                    {% for product in products %}
+                                    {% for product in slider_products %}
                                         <div class="swiper-slide">
                                             <div class="slider-item rounded-3 shadow-box bg-white">
                                                 <div class="row">
@@ -587,7 +450,7 @@
 
                             <div class="swiper amazing-slider-link" thumbsSlider="">
                                 <div class="swiper-wrapper">
-                                    {% for product in products %}
+                                    {% for product in slider_products %}
                                         <div class="swiper-slide">
                                             <div class="item">
                                                 <div class="row gy-2">
@@ -600,10 +463,10 @@
                                                     <div class="col-8">
                                                         <div class="title">
                                                             <h6 class="font-14 text-overflow-2">
-                                                                <a href="{% url "product_app:detail" product.slug %}">{{ product.title }}</a></h6>
+                                                                <a href="{% url "product_app:detail" product.slug %}">{{ product.title }}</a>
+                                                            </h6>
                                                             <p class="mb-0 text-muted font-12 mt-2 text-overflow-2">
-                                                                Apple
-                                                                MacBook MKGR3 M1 Pro 2021 14.2 inch laptop</p>
+                                                                {{ english_title }}</p>
                                                         </div>
                                                         <div class="price">
                                                             {% if product.discount %}
@@ -646,12 +509,12 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3"><span class="main-color-one-color d-inline-block ms-1">پرفروشترین
                             محصولات</span> فروشگاه</h5>
                 </div>
                 <div class="link">
-                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                    <a href="{% url "product_app:store" %}" class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
                     </a>
@@ -1421,7 +1284,7 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3"><span class="main-color-one-color d-inline-block ms-1">پرفروشترین
                             محصولات</span> فروشگاه</h5>
                 </div>
@@ -1825,12 +1688,12 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3">آخرین مطالب <span class="main-color-one-color d-inline-block">وبلاگ</span>
                     </h5>
                 </div>
                 <div class="link">
-                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                    <a href="{% url "weblog_app:blog_list" %}" class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
                     </a>
@@ -1842,190 +1705,31 @@
             <div class="container-fluid">
                 <div class="swiper" id="product-slider">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-1.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
+                        {% for blog in latest_blogs %}
+                            <div class="swiper-slide">
+                                <div class="blog-item">
+                                    <a href="{% url "weblog_app:detail_blog" blog.slug %}">
+                                        <div class="image">
+                                            <img src="{{ blog.main_image.url }}" alt="" class="img-fluid">
                                         </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-2.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
+                                        <div class="title">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="title-item">
+                                                    <i class="bi bi-tag me-1"></i>
+                                                    <span class="font-12">{{ blog.category.all.0 }}</span>
+                                                </div>
+                                                <div class="title-item">
+                                                    <i class="bi bi-alarm me-1"></i>
+                                                    <span class="font-12">{{ blog.created_at|jdate_year }}</span>
+                                                </div>
                                             </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
+                                            <h4 class="font-16 text-overflow-1 h4">{{ blog.main_title }}
+                                            </h4>
                                         </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-3.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-4.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-5.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-6.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-7.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog-item">
-                                <a href="">
-                                    <div class="image">
-                                        <img src="assets/image/blog-8.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <div class="title">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="title-item">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <span class="font-12">آموزشی</span>
-                                            </div>
-                                            <div class="title-item">
-                                                <i class="bi bi-alarm me-1"></i>
-                                                <span class="font-12">1 خرداد 1402</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="font-16 text-overflow-1 h4"> ارز دیجیتال چیست و چگونه استخراج میشود؟
-                                        </h4>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>

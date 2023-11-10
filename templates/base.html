@@ -478,7 +478,33 @@
         </div>
     </div>
 </div>
-
+<div class="bread-crumb pt-3">
+    <div class="container-fluid">
+        <div class="content-box">
+            <div class="container-fluid">
+                <nav aria-label="breadcrumb" class="my-lg-0 my-2">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"
+                            aria-current="page"><a href="{% url "home_app:main" %}"
+                                                   {% if request.resolver_match.url_name == "main" %}style="color:blue;"{% endif %}>خانه</a>
+                        </li>
+                        <li class="breadcrumb-item"
+                            aria-current="page">
+                            <a href="{% url "product_app:store" %}"
+                               {% if request.resolver_match.url_name == "store" %}style="color: blue;"{% endif %}
+                            >فروشگاه</a>
+                        </li>
+                        <li class="breadcrumb-item "
+                            aria-current="page">
+                            <a href="{% url "weblog_app:blog" %}"
+                               {% if request.resolver_match.url_name == "blog" %}style="color: blue;" {% endif %}
+                            >بلاگ ها</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 {% block content %}
 
 {% endblock %}
