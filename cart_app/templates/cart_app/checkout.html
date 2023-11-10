@@ -53,8 +53,7 @@
                 کوپن تخفیف دارید برای نوشتن کد اینجا کلیک
                 کنید
             </div>
-            <form action="{% url "cart_app:order_creation" %}" method="post" enctype="multipart/form-data"
-                  onsubmit="validateForm(event)">
+            <form action="{% url "cart_app:order_creation" %}" onsubmit="validateForm(event)" id="myForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class=" check-out-form">
                     <div class="row gy-3">
@@ -125,9 +124,11 @@
                                                         کنید!</a>
                                                 </div>
                                             {% else %}
-                                                <select required name="address" id="selectOptions" class="form-control"
+                                                <select required name="address" id="selectOptions"
+                                                        class="form-control"
                                                         aria-label="Default select example">
-                                                    <option>آدرس های موجود<span style="color: red;">*</span></option>
+                                                    <option value="address">آدرس های موجود<span
+                                                            style="color: red;">*</span></option>
                                                     {% for address in request.user.addresses.all %}
                                                         <option value="{{ address.address }}">{{ address.address }}</option>
                                                     {% endfor %}
@@ -334,14 +335,16 @@
         function validateForm(event) {
             event.preventDefault(); // متوقف کردن ارسال فرم
 
-            var selectValue = document.getElementById("selectOptions").value;
-            var errorElement = document.getElementById("error");
+            let selectValue = document.getElementById("selectOptions").value;
+            let errorElement = document.getElementById("error");
 
-            if (selectValue === "آدرس های موجود*") {
+            if (selectValue === "address") {
                 errorElement.innerHTML = "باید یکی از آدرس‌های دیگر را انتخاب کنید";
                 errorElement.style.display = "block";
             } else {
-                console.log("hell world!");
+                document.getElementById("myForm").submit = function () {
+                    return false;
+                };
             }
         }
     </script>

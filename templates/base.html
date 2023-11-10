@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قالب سانیار</title>
+
     <link rel="stylesheet" href="{% static "css/bootstrap.rtl.min.css" %}">
     <link rel="stylesheet" href="{% static "font/bootstrap-icon/bootstrap-icons.css" %}">
     <link rel="stylesheet" href="{% static "plugin/waves/waves.min.css" %}">
@@ -720,36 +721,40 @@
                 {% empty %}
                     <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a>
                 {% endfor %}
-                <div class="item">
-                    <div class="factor">
-                        <div class="title">
-                            <div class="d-flex align-items-center">
-                                <img src="{% static "image/shopping-bag.png" %}" class="img-fluid" alt="">
-                                <h6 class="font-16">سفارش شما</h6>
+                {% if cart.cart %}
+                    <div class="item">
+                        <div class="factor">
+                            <div class="title">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static "image/shopping-bag.png" %}" class="img-fluid" alt="">
+                                    <h6 class="font-16">سفارش شما</h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex mb-3 align-items-center justify-content-between">
-                            <p class="fw-bold mb-0">محصول</p>
-                            <p class="fw-bold mb-0">قیمت کل</p>
-                        </div>
-                        {% for item in cart %}
+                            <div class="d-flex mb-3 align-items-center justify-content-between">
+                                <p class="fw-bold mb-0">محصول</p>
+                                <p class="fw-bold mb-0">قیمت کل</p>
+                            </div>
+                            {% for item in cart %}
+                                <div
+                                        class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                                    <p class="mb-0">{{ item.product.title }}</p>{{ item.quantity }}x
+                                    <p class="mb-0">{{ item.price }} تومان</p>
+                                </div>
+                            {% endfor %}
                             <div
                                     class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
-                                <p class="mb-0">{{ item.product.title }}</p>
-                                <p class="mb-0">{{ item.price }} تومان</p>
+                                <p class="mb-0 fw-bold">جمع کل:</p>
+                                <p class="mb-0">{{ cart.total }} تومان</p>
                             </div>
-                        {% endfor %}
-                        <div
-                                class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
-                            <p class="mb-0 fw-bold">جمع کل:</p>
-                            <p class="mb-0">{{ cart.total }} تومان</p>
-                        </div>
-                        <div class="action mt-3 d-flex align-items-center justify-content-center">
-                            <a href="{% url "cart_app:cart_list" %}" class="btn border-0 main-color-two-bg rounded-3">سبد خرید</a>
-                            <a href="{% url "cart_app:checkout" %}" class="btn border-0 main-color-one-bg rounded-3 ms-2">تسویه حساب</a>
+                            <div class="action mt-3 d-flex align-items-center justify-content-center">
+                                <a href="{% url "cart_app:cart_list" %}"
+                                   class="btn border-0 main-color-two-bg rounded-3">سبد خرید</a>
+                                <a href="{% url "cart_app:checkout" %}"
+                                   class="btn border-0 main-color-one-bg rounded-3 ms-2">تسویه حساب</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -787,9 +792,10 @@
 <script src="{% static "plugin/go-to-top/script.js" %}"></script>
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
 <script src="{% static "js/LikeAjax.js" %}"></script>
+<script src="{% static "plugin/go-to-top/script.js" %}"></script>
+<script src="{% static "plugin/rasta-contact/script.js" %}"></script>
 
-<link rel="stylesheet" href="{% static "plugin/go-to-top/style.css" %}">
-<link rel="stylesheet" href="{% static "plugin/rasta-contact/style.css" %}">
+
 <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
 <link
         rel="stylesheet"

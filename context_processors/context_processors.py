@@ -1,12 +1,14 @@
 from product_app.models import Product, Category, Color
 from cart_app.cartfunction import Cart
 from cart_app.models import Order, OrderItem, Address
+from weblog_app.models import WeblogCategroy
 
 
 def context_processor(request):
     cart = Cart(request)  # Never give pass to the context_processor fucntion
     categories = Category.objects.all()
     colors = Color.objects.all()
+
     if request.user.is_authenticated:
         user_purchase = Order.objects.filter(user=request.user)
         user_purchase_products = OrderItem.objects.filter(order__user=request.user)

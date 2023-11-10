@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+{% load static %}
+{% load templatetags %}
+
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row gy-3">
+                <div class="col-lg-9">
+                    <div class="content-box">
+                        <div class="container-fluid">
+                            <div class="blog-detail">
+                                <div class="title-panel mb-2">
+                                    <h1 class="font-18">
+                                        {{ blog.main_title }}
+                                    </h1>
+                                </div>
+                                <div class="blog-post-title-items">
+                                    <div class="blog-post-title-item">
+                                        {% if blog.author.prof_pic %}
+                                            <img src="{{ blog.author.prof_pic.url }}" class="rounded-circle" alt="">
+                                        {% else %}
+                                            <img src="{% static "image/user.png" %}" class="rounded-circle" alt="">
+                                        {% endif %}
+                                        <p class="text-muted">{{ blog.author.username }}</p>
+                                    </div>
+                                    <div class="blog-post-title-item">
+                                        <i class="bi bi-stopwatch"></i>
+                                        <p class="text-muted">{{ blog.created_at|jdate }}
+                                        </p>
+                                    </div>
+                                    <div class="blog-post-title-item">
+                                        <i class="bi bi-chat-dots"></i>
+                                        <p>{{ blog.blog_video_comments.all|length }}</p>
+                                    </div>
+                                    <div class="blog-post-title-item">
+                                        <i class="bi bi-eye-fill"></i>
+                                        <p class="text-muted">{{ blog.study_time }} دقیقه مطالعه</p>
+                                    </div>
+                                </div>
+                                <div class="blog-post-content">
+                                    <div class="blog-post-content">
+                                        <h4 class="title gold mb-2">{{ blog.main_title }}</h4>
+                                        <p>{{ blog.description }}</p>
+                                        <p>&nbsp;</p>
+                                        <video height="500" width="500" class="aligncenter"
+                                        >
+                                            <source src="{{ blog.video.url }}" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="side-blog-detail position-sticky top-0">
+                        <div class="latest-posts">
+                            <div class="content-box">
+                                <div class="container-fluid">
+                                    <div class="title-panel mb-2">
+                                        <h6 class="title">
+                                            آخرین مطالب وبلاگ
+                                        </h6>
+                                    </div>
+                                    <nav class="navbar">
+                                        <ul class="navbar-nav">
+                                            {% for rb in rb %}
+                                                <li class="nav-item">
+                                                    <a href="{% url "weblog_app:blog_detail_video" blog.slug %}"
+                                                       class="nav-link">
+                                                        <div class="mini-blog-item">
+                                                            <div class="image">
+                                                                <img src="{{ rb.main_picture.url }}" class="img-fluid"
+                                                                     alt="">
+                                                            </div>
+                                                            <div class="d-flex align-items-start desc flex-wrap flex-column justify-content-between">
+                                                                <h5 class="title">{{ rb.main_title }}</h5>
+                                                                <div class="d-flex align-items-center">
+                                                                    <p class="text-muted mb-0">{{ rb.created_at|jdate }}</p>
+                                                                    <div class="text-end ms-2"><i
+                                                                            class="bi bi-arrow-left main-color-one-color"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sugget-pro-in-blog-post mt-3">
+                            <div class="content-box">
+                                <div class="container-fluid">
+                                    <div class="title-panel mb-2">
+                                        <h6 class="title">
+                                            داغ ترین مطلب امروز
+                                        </h6>
+                                    </div>
+                                    <div class="blog-news-item mt-4">
+                                        <a href="">
+                                            <img src="assets/image/blog-1.jpg" alt="" class="img-fluid">
+                                            <div class="desc">
+                                                <h3 class="title">انتخاب هارد اکسنترنال مناسب </h3>
+                                                <div class="date">
+                                                    <span class="text-date">9 مرداد 1402</span>
+                                                    <i class="bi bi-arrow-left"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end content -->
+
+    <div class="blog-comments">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-fluid">
+                    <div class="blog-comment">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="title-panel">
+                                    <h6 class="tab-title text-start">
+                                        <span>{{ blog.blog_video_comments.all|length }}</span>
+                                        <span>دیدگاه برای</span>
+                                        <span>بلاگ {{ blog.main_title }}
+                                        </span>
+                                    </h6>
+                                </div>
+                                {% for comment in blog.blog_video_comments.all %}
+                                    {% if comment.parent is None %}
+                                        <div class="comment-item">
+                                        <div class="comment-item-avatar d-sm-flex d-none">
+                                            <div class="comment-item-avatar-img ">
+                                                <a href="{% url "weblog_app:blog_detail_video" blog.slug %}"
+                                                   class="rounded-circle">
+                                                    <img src="{{ comment.author.prof_pic.url }}" class="rounded-circle"
+                                                         width="40" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-item-desc">
+                                        <div class="comment-item-avatar d-sm-none d-flex mb-2">
+                                            <div class="comment-item-avatar-img ">
+                                                <a href="{% url "weblog_app:blog_detail_video" blog.slug %}"
+                                                   class="rounded-circle">
+                                                    <img src="{{ comment.author.prof_pic.url }}" class="rounded-circle"
+                                                         width="40" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-item-title">
+                                            <div class="comment-date">
+                                                <p class="text-muted comment-date-auther">{{ comment.author.username }}</p>
+                                                <p class="text-muted comment-date-speractor">–</p>
+                                                <p class="text-muted comment-date-date">{{ comment.created_at|jdate }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="comment-item-content">
+                                        <p>{{ comment.body }}
+                                        </p>
+                                        <input type="hidden" name="parent_id" id="parent_id">
+                                        <button onclick="set_value({{ comment.id }})" type="submit"
+                                                class="btn main-color-one-bg px-4 btn-sm">پاسخ
+                                        </button>
+                                    {% endif %}
+                                {% for reply in comment.replies.all %}
+                                    <div class="comment-item">
+                                        <div class="comment-item-avatar d-sm-flex d-none">
+                                            <div class="comment-item-avatar-img ">
+                                                <a href="" class="rounded-circle">
+                                                    <img src="{{ reply.author.prof_pic.url }}"
+                                                         class="rounded-circle" width="40" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-item-desc com-response">
+                                            <div class="comment-item-avatar d-sm-none d-flex mb-2">
+                                                <div class="comment-item-avatar-img ">
+                                                    <a href="" class="rounded-circle">
+                                                        <img src="{{ reply.author.prof_pic.url }}"
+                                                             class="rounded-circle" width="40" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="comment-item-title">
+                                                <div class="comment-date">
+                                                    <p class="text-muted comment-date-auther">{{ reply.author.username }}</p>
+                                                    <p class="text-muted comment-date-speractor">–</p>
+                                                    <p class="text-muted comment-date-date">{{ reply.created_at|jdate }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="comment-item-content">
+                                                <p>{{ reply.body }}
+                                                </p>
+                                            </div>
+                                            <button onclick="set_value({{ reply.id }})" type="submit"
+                                                    class="btn main-color-one-bg px-4 btn-sm">پاسخ
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                {% endfor %}
+                                {% endfor %}
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid mt-3">
+        <div class="content-box">
+            <div class="container-fluid">
+                <div class="comment-form">
+                    <div class="title-panel mb-3">
+                        <h6 class="font-18">دیدگاه خود را بنویسید</h6>
+                    </div>
+                    <form action="{% url "weblog_app:blog_video_comment" blog.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group mb-2">
+                            <label for="commentbody" class="form-label my-3">دیدگاه شما <span
+                                    class="text-danger ms-1">*</span></label>
+                            <textarea name="body" id="commentbody" rows="7" class="form-control"
+                                      placeholder="دیدگاه شما" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inline w-100">
+                                        <label for="commentName" class="form-label my-3">نام شما
+                                            <span class="text-danger ms-1">*</span></label>
+                                        <input name="name" type="text" id="commentName" class="form-control"
+                                               placeholder="نام شما" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" name="" id="commentCheckBox" class="form-check-input"
+                                   required>
+                            <label for="commentCheckBox" class="form-check-label text-muted">
+                                ذخیره
+                                نام، ایمیل و وبسایت من در مرورگر برای زمانی که دوباره دیدگاهی
+                                می‌نویسم.
+                            </label>
+                        </div>
+                        <button type="submit"
+                                class="btn main-color-three-bg px-5  rounded-3 mt-3"
+                                style="padding:10px 100px !important">ثبت
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end blog-comment -->
+
+
+    <!-- start related post -->
+
+    <div class="blog-slider site-slider site-slider-sm py-20">
+
+        <div class="container-fluid">
+            <div
+                    class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
+                <div class="title d-flex align-items-center">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
+                    <h5 class="font-16 ms-3">مطالب مرتبط <span class="main-color-one-color d-inline-block">وبلاگ</span>
+                    </h5>
+                </div>
+                <div class="link">
+                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                        مشاهده همه
+                        <i class="bi bi-chevron-double-left main-color-one-color"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="parent">
+            <div class="container-fluid">
+                <div class="swiper" id="product-slider">
+                    <div class="swiper-wrapper">
+                        {% for rb in rb %}
+                            <div class="swiper-slide">
+                                <div class="blog-item">
+                                    <a href="{% url "weblog_app:detail_blog" rb.slug %}">
+                                        <div class="image">
+                                            <img src="{{ rb.main_image.url }}" alt="" class="img-fluid">
+                                        </div>
+                                        <div class="title">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="title-item">
+                                                    <i class="bi bi-tag me-1"></i>
+                                                    <span class="font-12"> {% for cat in rb.category.all %}{{ cat }}
+                                                    {% endfor %}</span>
+                                                </div>
+                                                <div class="title-item">
+                                                    <i class="bi bi-alarm me-1"></i>
+                                                    <span class="font-12">{{ rb.created_at.year }}</span>
+                                                </div>
+                                            </div>
+                                            <h4 class="font-16 text-overflow-1 h4">{{ rb.main_title }}
+                                            </h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function set_value(id) {           //You have to put the script function in the block !
+            document.getElementById("parent_id").value = id
+            console.log(id);
+        }
+    </script>
+{% endblock %}

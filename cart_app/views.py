@@ -110,12 +110,6 @@ def order_detail(request, pk):
     return render(request, "cart_app/order-user-panel.html", context={"order": order})
 
 
-def test1(request):
-    # x = JalaliDate(datetime.date(2023, 10, 30))
-    x = JalaliDate.to_jalali(2023, 5, 30)
-    return HttpResponse(x)
-
-
 def view_factor(request, pk):
     order = Order.objects.get(id=pk)
     order_items = OrderItem.objects.get(id=order.id)

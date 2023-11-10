@@ -12,7 +12,6 @@ urlpatterns = [
     path("checkout", views.checkout, name="checkout"),
     path("order_creation", views.order_creation, name="order_creation"),
     path("order_detail/<int:pk>", views.order_detail, name="order_detail"),
-    path("test", views.test1),
     path("factor_page/<int:pk>", views.view_factor, name="factor_page"),
     path("purchases", views.purchases, name="purchases"),
     path("address", views.address, name="address"),

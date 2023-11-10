@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+{% load templatetags %}
+
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-filter-boxes">
+                    <div class="container-fluid1">
+                        {% for blog in blogs %}
+                            <a href="{% url "weblog_app:detail_blog" blog.slug %}?id={{ blog.id }}">
+                                <div class="box">
+                                    {% if blog.main_image %}
+                                        <img src="{{ blog.main_image.url }}" class="img-box"/>
+                                    {% else %}
+                                        <img src="{% static "image/blog_pic.jpg" %}" class="img-box"/>
+                                    {% endif %}
+                                    <input type="hidden" name="post-id" value="{{ blog.id }}">
+                                    <h6>{{ blog.main_title }}</h6>
+                                    <p>{{ blog.total_views }} views</p>
+                                    <div class="container-admin">
+                                        {% if blog.author.prof_pic %}
+                                            <img class="rounded-circle" src="{{ blog.author.prof_pic.url }}"/>
+                                        {% else %}
+                                            <img src="{% static "image/user.png" %}"/>
+                                        {% endif %}
+                                        <p>{{ blog.author.full_name }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                    <div class="filter-conet">
+                        <div class="filter-items position-sticky top-0">
+                            <div class="container-fluid">
+                                <div class="filter-item">
+                                    <h5 class="filter-item-title">جستجو</h5>
+                                    <div class="filter-item-content">
+                                        <div class="search-form">
+                                            <form action="{% url "weblog_app:blog_search" %}">
+                                                <div class="search-filed">
+                                                    <input name="search_blog" type="text"
+                                                           placeholder="جستجوی محصولات ..."
+                                                           class="form-control search-input">
+                                                    <button type="submit"
+                                                            class="btn search-btn main-color-one-bg rounded-pill"><i
+                                                            class="bi bi-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form action="{% url "weblog_app:blog_filter" %}" method="GET">
+                                    <div class="filter-item">
+                                        <h5 class="filter-item-title">دسته بندی ها</h5>
+                                        <div class="filter-item-content">
+
+                                            {% for category in categories %}
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+                                                    <div class="form-check">
+                                                        <label for="{{ category.id }}"
+                                                               class="form-check-label">{{ category.title }}<i
+                                                                class="bi bi-phone me-1"></i></label>
+                                                        <input type="checkbox" value="{{ category.title }}"
+                                                               name="category"
+                                                               id="{{ category.id }}"
+                                                               class="form-check-input">
+                                                    </div>
+                                                    <div>
+                                                        <span class="fw-bold font-14">({{ category.title|blog_category_len }})</span>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    <div class="filter-item text-center">
+                                        <button type="submit" class="btn-outline-site">اعمال فیلتر</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% if blogs.has_other_pages %}
+                <div class="col-12">
+                <div class="my-paginate my-4">
+                <nav aria-label="Page navigation example">
+                <ul class="pagination flex-wrap justify-content-center">
+                {% if blogs.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link rounded-3"
+                           href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                   {{ blogs.previous_page_number }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                   {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">قبلی</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link rounded-3" href="#">قبلی</a>
+                    </li>
+                {% endif %}
+                {% for x in blogs.paginator.page_range %}
+                    {% if blogs.number == x %}
+                        <li class="page-item active"><a class="page-link rounded-3"
+                                                        href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                                                {{ x }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                                                {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">{{ x }}</a>
+                        </li>
+                    {% elif x > blogs.number|add:'-4' and x < blogs.number|add:'4' %}
+                        <li class="page-item"><a class="page-link rounded-3"
+                                                 href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                                         {{ x }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                                         {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">{{ x }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if blogs.has_next %}
+                    {% if blogs.number < blogs.paginator.num_pages|add:'-2' %}
+                        <li class="page-item active"><a class="page-link rounded-3"
+                                                        href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                                                {{ blogs.next_page_number }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                                                {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">بعدی</a>
+                        </li>
+                    {% elif blogs.number < blogs.paginator.num_pages|add:'-3' %}
+                        <li class="page-item active"><a class="page-link rounded-3"
+                                                        href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                                                {{ blogs.next_page_number }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                                                {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">بعدی</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item active"><a class="page-link rounded-3"
+                                                        href="{% url "weblog_app:blog_list" %}?page=
+
+
+
+
+
+
+
+                                                                {{ blogs.next_page_number }}{% if request.GET.search_blog %}?search_blog={{ request.GET.search_blog }}{% endif %}
+
+
+
+
+
+
+
+
+                                                                {% if request.GET.category %}{% for cat in request.GET|get_list:"category" %}&category={{ cat }}{% endfor %}{% endif %}">بعدی</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link rounded-3" href="#">بعدی</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+
+            </ul>
+            </nav>
+            </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+{% endblock %}
