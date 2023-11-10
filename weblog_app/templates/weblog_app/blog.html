@@ -10,7 +10,7 @@
                         <div class="container-fluid">
                             <div class="side-right-blog">
                                 <div class="search-form">
-                                    <form action="">
+                                    <form action="{% url "weblog_app:blog_list" %}" method="GET">
                                         <div class="search-filed">
                                             <input type="text" placeholder="جستجوی مقالات ..."
                                                    class="form-control search-input">
@@ -124,7 +124,7 @@
                             {% for blog in popular_blogs %}
                                 <div class="swiper-slide">
                                     <div class="blog-item">
-                                        <a href="">
+                                        <a href="{% url "weblog_app:detail_blog" blog.slug %}">
                                             <div class="image">
                                                 <img src="{{ blog.main_image.url }}" alt="" class="img-fluid">
                                             </div>
@@ -169,7 +169,7 @@
                     </h5>
                 </div>
                 <div class="link">
-                    <a href="{% url "weblog_app:blog_list" %}?sort=video"
+                    <a href="{% url "weblog_app:blog_list" %}?sort=videos"
                        class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
@@ -189,11 +189,19 @@
                                         <ul class="navbar-nav">
                                             {% for blog in new_videos|slice:3 %}
                                                 <li class="nav-item">
-                                                    <a href="{% url "weblog_app:blog_detail_video" blog.slug %}" class="nav-link">
+                                                    <a href="{% url "weblog_app:blog_detail_video" blog.slug %}"
+                                                       class="nav-link">
                                                         <div class="video-blog-item">
                                                             <div class="image">
-                                                                <img src="{{ blog.main_image.url }}" class="img-fluid"
-                                                                     alt="">
+                                                                {% if blog.main_picture %}
+                                                                    <img src="{{ blog.main_picture.url }}"
+                                                                         class="img-fluid"
+                                                                         alt="">
+                                                                {% else %}
+                                                                    <img src="{% static "image/user.png" %}"
+                                                                         class="img-fluid"
+                                                                         alt="">
+                                                                {% endif %}
                                                             </div>
                                                             <div class="d-flex align-items-start desc flex-wrap flex-column justify-content-between">
                                                                 <h5 class="title">{{ blog.main_title }}</h5>
@@ -220,18 +228,18 @@
                         <div class="row gy-3">
                             {% for blog in new_videos %}
                                 <div class="col-md-3">
-                                <div class="tv-blog-item">
-                                    <a href="{% url "weblog_app:blog_detail_video" blog.slug %}">
-                                        <img src="{{ blog.main_image.url }}" alt="" class="img-fluid">
-                                        <div class="desc">
-                                            <h3 class="title">{{ blog.main_title }}</h3>
-                                            <div class="date">
-                                                <span class="text-date">{{ blog.created_at|jdate }}</span>
+                                    <div class="tv-blog-item">
+                                        <a href="{% url "weblog_app:blog_detail_video" blog.slug %}">
+                                            <img src="{{ blog.main_picture.url }}" alt="" class="img-fluid">
+                                            <div class="desc">
+                                                <h3 class="title">{{ blog.main_title }}</h3>
+                                                <div class="date">
+                                                    <span class="text-date">{{ blog.created_at|jdate }}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
                             {% endfor %}
                         </div>
                     </div>
