@@ -103,7 +103,7 @@
                 <div
                         class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                     <div class="title d-flex align-items-center">
-                        <img src="assets/image/square.png" alt="" class="img-fluid">
+                        <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                         <h5 class="font-16 ms-3">پربازدید ترین مطالب <span class="main-color-one-color d-inline-block">وبلاگ</span>
                         </h5>
                     </div>
@@ -132,7 +132,7 @@
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="title-item">
                                                         <i class="bi bi-tag me-1"></i>
-                                                        <span class="font-12">{{ blog.category.all }}</span>
+                                                        <span class="font-12">{{ blog.category.all.0 }} {{ blog.category.all.1 }}</span>
                                                     </div>
                                                     <div class="title-item">
                                                         <i class="bi bi-alarm me-1"></i>
