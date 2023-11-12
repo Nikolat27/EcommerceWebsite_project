@@ -1,32 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
-<!-- start breadcroumb -->
+
 {% block content %}
-    <div class="bread-crumb pt-3">
-        <div class="container-fluid">
-            <div class="content-box">
-                <div class="container-fluid">
-                    <nav aria-label="breadcrumb" class="my-lg-0 my-2">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">خانه</a></li>
-                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">فروشگاه</a></li>
-                            <li class="breadcrumb-item"><a href="#" class="font-14 text-muted">گوشی هوشمند</a></li>
-                            <li class="breadcrumb-item active main-color-one-color font-14" aria-current="page">گوشی
-                                شیائومی
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- end breadcroumb -->
-
-
-    <!-- start product meta -->
-
     <div class="product-meta py-20">
         <div class="container-fluid">
             <div class="content-box">
@@ -40,11 +16,21 @@
                                          data-bs-placement="right" title="اشتراک گذاری">
                                         <i class="bi bi-share"></i>
                                     </div>
-                                    <div class="icon-product-box-item" data-bs-toggle="tooltip"
-                                         data-bs-placement="right"
-                                         data-bs-title="افزودن به علاقه مندی">
-                                        <i class="bi bi-heart" onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
-                                    </div>
+                                    {% if is_liked is True %}
+                                        <div class="icon-product-box-item" data-bs-toggle="tooltip"
+                                             data-bs-placement="right"
+                                             data-bs-title="افزودن به علاقه مندی">
+                                            <i class="bi bi-heart-fill"
+                                               onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="icon-product-box-item" data-bs-toggle="tooltip"
+                                             data-bs-placement="right"
+                                             data-bs-title="افزودن به علاقه مندی">
+                                            <i class="bi bi-heart"
+                                               onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
+                                        </div>
+                                    {% endif %}
                                     <div class="icon-product-box-item" data-bs-toggle="tooltip"
                                          data-bs-placement="right"
                                          data-bs-title="مقایسه محصول">
@@ -153,7 +139,9 @@
                                     <div class="col-lg-4">
                                         <div class="product-meta-rating">
                                             <div class="d-flex align-items-center justify-content-lg-end">
-                                                <div class="count-comment text-muted">{{ product.comments.all|length }} دیدگاه</div>
+                                                <div class="count-comment text-muted">{{ product.comments.all|length }}
+                                                    دیدگاه
+                                                </div>
                                                 <div class="count-rating">
                                                     <span>({{ product.len_averagereview }}) {{ product.averagereview|floatformat:1 }}</span>
                                                     <i class="bi bi-star-fill"></i>
@@ -515,8 +503,8 @@
                                                                     <video id="aboutVideo" class="img-fluid vd-style"
                                                                            loop
                                                                            preload="none"
-                                                                           poster="assets/image/product/laptop-1.jpg">
-                                                                        <source src="assets/video/video.mp4"
+                                                                           poster="{{ product.image.url }}">
+                                                                        <source src="{% static "video/video.mp4" %}"
                                                                                 type="video/mp4">
                                                                     </video>
                                                                     <div class="play-btn pointer active">
@@ -1708,15 +1696,14 @@
                                     <div class="row align-items-center gy-2">
                                         <div class="col-4">
                                             <div class="image">
-                                                <img src="assets/image/product/laptop-1.jpg" alt="" class="img-fluid">
+                                                <img src="{{ product.image.url }}" alt="" class="img-fluid">
                                             </div>
                                         </div>
                                         <div class="col-8">
-                                            <a href="">
+                                            <a href="{% url "product_app:detail" product.slug %}">
                                                 <div class="title">
-                                                    <h6 class="font-14">ساعت هوشمند سامسونگ مدل Galaxy Watch3 SM-R840
-                                                        45mm
-                                                        بند چرمی
+                                                    <h6 class="font-14">{{ product.title }}
+                                                        {{ product.english_title }}
                                                     </h6>
                                                 </div>
                                             </a>
@@ -1724,46 +1711,31 @@
                                     </div>
                                 </div>
                                 <div class="product-meta-color-items">
-                                    <input type="radio" class="btn-check" name="options" id="option11"
-                                           autocomplete="off">
-                                    <label class="btn " for="option11">
-                                        <span style="background-color: #c00;"></span>
-                                        قرمز
-                                    </label>
-
-                                    <input type="radio" class="btn-check" name="options" id="option21"
-                                           autocomplete="off">
-                                    <label class="btn " for="option21">
-                                        <span style="background-color: #111;"></span>
-                                        مشکی
-                                    </label>
-
-                                    <input type="radio" class="btn-check" name="options" id="option31"
-                                           autocomplete="off"
-                                           disabled>
-                                    <label class="btn " for="option31">
-                                        <span style="background-color: #00cc5f;"></span>
-                                        سبز
-                                    </label>
-
-                                    <input type="radio" class="btn-check" name="options" id="option41"
-                                           autocomplete="off">
-                                    <label class="btn " for="option41">
-                                        <span style="background-color: #1b69f0;"></span>
-                                        آبی
-                                    </label>
+                                    {% for color in product.color.all %}
+                                        <input type="radio" class="btn-check" name="color" value="{{ color }}"
+                                               id="{{ color.id }}"
+                                               autocomplete="off"
+                                               checked>
+                                        <label class="btn " for="{{ color.id }}">
+                                            <span style="background-color: {{ color.title }};"></span>
+                                            {{ color.title }}
+                                        </label>
+                                    {% endfor %}
                                 </div>
                                 <div class="product-float-brand my-3">
                                     <a href="" class="d-inline">
-                                        <img src="assets/image/brand1-1.png" alt="" class="img-fluid">
+                                        <img src="{{ product.image.url }}" alt="" class="img-fluid">
                                         <p class="mb-0 mr-2 d-inline">شیائومی</p>
                                     </a>
                                 </div>
                                 <div class="product-meta-rating">
                                     <div class="d-flex align-items-center">
-                                        <div class="count-comment text-muted">16 دیدگاه</div>
+                                        <div class="count-comment text-muted">{{ product.comments.all|length }}
+                                            دیدگاه
+                                        </div>
                                         <div class="count-rating">
-                                            <span>(17) 4.5</span>
+                                            <span>({{ product.len_averagereview }})
+                                                {{ product.averagereview|floatformat:1 }}</span>
                                             <i class="bi bi-star-fill"></i>
                                         </div>
                                     </div>
@@ -1775,12 +1747,21 @@
                                 </div>
                                 <div class="product-float-price product-meta-action p-0 bg-transparent shadow-none">
                                     <div class="row gy-3">
-                                        <div class="col-6 w-100-in-400">
-                                            <p class="mb-0 old-price font-16 text-start">1,500,000 تومان</p>
-                                        </div>
-                                        <div class="col-6 w-100-in-400">
-                                            <h6 class="font-16 new-price main-color-one-color">1,200,000 تومان</h6>
-                                        </div>
+                                        {% if product.discount %}
+                                            <div class="col-lg-3 col-6 w-100-in-400">
+                                                <p class="mb-0 old-price font-16 text-lg-end text-center">{{ product.price }}
+                                                    تومان</p>
+                                            </div>
+                                            <div class="col-lg-3 col-6 w-100-in-400">
+                                                <h6 class="font-16 new-price main-color-one-color">{{ product.discount_price }}
+                                                    تومان</h6>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-lg-3 col-6 w-100-in-400">
+                                                <h6 class="font-16 new-price main-color-one-color">{{ product.price }}
+                                                    تومان</h6>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="product-float-action product-meta-action p-0 bg-transparent shadow-none">
@@ -1792,8 +1773,9 @@
                                         </div>
                                         <div class="col-12 w-100-in-400">
                                             <div class="d-flex justify-content-center">
-                                                <a href="" class="btn border-0 main-color-three-bg w-100"><i
-                                                        class="bi bi-basket text-white font-20 me-1"></i>خرید کالا</a>
+                                                <button href="" class="btn border-0 main-color-three-bg w-100"><i
+                                                        class="bi bi-basket text-white font-20 me-1"></i>خرید کالا
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -1815,12 +1797,12 @@
             <div
                     class="header-content mb-4 bg-white shadow-box rounded-3 p-3 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="title d-flex align-items-center">
-                    <img src="assets/image/square.png" alt="" class="img-fluid">
+                    <img src="{% static "image/square.png" %}" alt="" class="img-fluid">
                     <h5 class="font-16 ms-3"><span class="main-color-one-color d-inline-block ms-1">
                             محصولات</span> مشابه</h5>
                 </div>
                 <div class="link">
-                    <a href="" class="border-animate fromCenter pb-1 fw-bold">
+                    <a href="{% url "product_app:store" %}" class="border-animate fromCenter pb-1 fw-bold">
                         مشاهده همه
                         <i class="bi bi-chevron-double-left main-color-one-color"></i>
                     </a>
@@ -1848,7 +1830,8 @@
                                         <div class="product-header-btn">
                                             <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="مقایسه"><i class="bi bi-shuffle"></i></a>
-                                            <a onclick="like('{{ product.slug }}', {{ product.id }})" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            <a onclick="like('{{ product.slug }}', {{ product.id }})" class=""
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="افزودن به علاقه مندی ها"><i class="bi bi-heart"></i></a>
                                             <a href="" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-title="مشاهده سریع"><i class="bi bi-eye"></i></a>
@@ -1863,8 +1846,7 @@
                                     <div class="product-title">
                                         <div class="title">
                                             <p class="text-overflow-1">{{ product.title }}</p>
-                                            <span class="text-muted text-overflow-1">Mibro Lite XPAW004
-                                            Smartwatch</span>
+                                            <span class="text-muted text-overflow-1">{{ product.english_title }}</span>
                                         </div>
                                         <div class="rating">
                                             <div class="number"><span class="text-muted font-12">(15+) 4.8</span></div>

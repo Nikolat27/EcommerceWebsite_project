@@ -52,3 +52,13 @@ def jdate_year(date):
     new_date = JalaliDate.to_jalali(date)
     year = new_date.year
     return year
+
+
+@register.filter
+def is_liked(pk, request):
+    product = Product.objects.get(id=pk)
+    if request.user.is_authenticated and request.user.likes.filter(product__slug=product.slug,
+                                                                   user=request.user).exists():
+        return True
+    else:
+        return False

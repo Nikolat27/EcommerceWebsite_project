@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import format_html
 from account_app.models import User
+from weblog_app.models import IpModel
 
 
 # Create your models here.
@@ -44,6 +45,7 @@ class Product(Model):
                                         help_text="if u dont want to discount a price,"
                                                   " dont touch this field Tnx :)")
     available = models.BooleanField()
+    likee = models.ManyToManyField(IpModel, related_name="like_products", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -95,6 +97,9 @@ class Product(Model):
             return format_html(f"<img src='{self.image.url}' width='70px' height='70px'>")
         else:
             return format_html(f"<img src='sdfasdf' alt='No Image Available' >")
+
+    def total_like(self):
+        return self.likee.count()
 
 
 class Comment(Model):

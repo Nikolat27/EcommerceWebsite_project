@@ -1,11 +1,11 @@
-from django.core import paginator
+from django.urls import reverse
 from django.core.paginator import Paginator
-from django.db.models import Count
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.views.generic import DetailView
-
+from django.contrib.auth.decorators import login_required
+from weblog_app.models import IpModel
+from weblog_app.views import get_ip
 from .models import Product, Color, Comment, Category, Like
 
 
@@ -14,10 +14,16 @@ from .models import Product, Color, Comment, Category, Like
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
+    if request.user.is_authenticated and request.user.likes.filter(product__slug=product.slug,
+                                                                   user=request.user).exists():
+        is_liked = True
+    else:
+        is_liked = False
     # related_products = Product.objects.filter(category__title=product.category.first().title)[:8]
     related_products = Product.objects.filter(category__in=product.category.all()).distinct()
     return render(request, "product_app/product_detail.html",
-                  context={"product": product, "related_products": related_products})
+                  context={"product": product, "related_products": related_products, "is_liked": is_liked})
+
 
 
 def add_comment(request, pk):
@@ -86,7 +92,7 @@ def store(request):  # This function is for filter the products in store page
     if colors:
         products = Product.objects.filter(color__title__in=colors)
     y = Category.objects.filter(parent=None)  # non subcategories Categories
-    paginator = Paginator(products, 1)
+    paginator = Paginator(products, 4)
     object_list = paginator.get_page(page_number)
     return render(request, "product_app/store.html", context={"products": object_list, "xq": x, "y": y})
 
@@ -153,20 +159,7 @@ def user_comments(request):
         return redirect("home_app:main")
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = "product_app/product_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated and self.request.user.likes.filter(product__slug=self.object.slug,
-                                                                                 user=self.request.user).exists():
-            context["is_liked"] = True
-        else:
-            context["is_liked"] = False
-        return context
-
-
+@login_required
 def like(request, slug, pk):
     try:
         like = Like.objects.get(product__slug=slug, user=request.user)
@@ -190,3 +183,16 @@ def un_like(request, slug):
 def wishlist(request):
     wishlist = Product.objects.filter(likes__user=request.user)
     return render(request, "product_app/wishlist.html", context={"wishlist": wishlist, "wishlist_len": len(wishlist)})
+
+
+def post_like(request, pk):
+    post = Product.objects.get(id=pk)
+    post_id = post.slug
+    ip = get_ip(request)
+    if not IpModel.objects.filter(ip=ip):
+        IpModel.objects.create(ip=ip)
+    if post.likee.filter(id=IpModel.objects.get(ip=ip).id).exists():
+        post.likee.remove(IpModel.objects.get(ip=ip))
+    else:
+        post.likee.add(IpModel.objects.get(ip=ip))
+    return HttpResponseRedirect(reverse("product_app:store"))

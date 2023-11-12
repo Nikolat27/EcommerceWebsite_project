@@ -1,14 +1,11 @@
 import random
-import uuid
-
+from product_app.models import Product
+from .models import Order, OrderItem, Address
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from persiantools.jdatetime import JalaliDate
-import datetime
 from .cartfunction import Cart
-from product_app.models import Product
-from .models import Order, OrderItem, Address
 
 
 # Create your views here.
@@ -27,7 +24,27 @@ def cart_add(request, pk):
         color = request.POST.get("color")
         if not color:
             color = product.color.first().title
-        quantity = request.POST.get("count")
+        quantity = request.POST.get("count", 1)
+        cart = Cart(request)
+        print(color)
+        print(quantity)
+        cart.add(product=product, color=color, quantity=quantity)
+        data = render_to_string("AjaxTemplates/add-to-cart-product-detail.html", {"cart": cart})
+
+        return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
+
+
+@login_required
+def cart_add_store(request, pk):
+    if request.user.is_authenticated is False:
+        return redirect("accounts_app:login_page")
+
+    if request.method == "GET":
+        product = get_object_or_404(Product, id=pk)
+        color = request.GET.get("color")
+        if not color:
+            color = product.color.first().title
+        quantity = request.GET.get("count", 1)
         cart = Cart(request)
         print(color)
         print(quantity)

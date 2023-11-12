@@ -1,5 +1,5 @@
 function like(slug, id) {
-    let element = document.getElementById("like")
+    let element = document.getElementById(slug)
     let count = document.getElementById("count")
     // let like_count = document.getElementById("liked-products")
 

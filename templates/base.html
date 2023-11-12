@@ -456,11 +456,16 @@
                             <li class="nav-item"><a href="" class="nav-link border-animate fromCenter"> <i
                                     class="bi bi-tag"></i>
                                 تخفیف ها و پیشنهاد ها</a></li>
-                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">سوالی
+                            <li class="nav-item"><a href="{% url "home_app:contant_us" %}"
+                                                    class="nav-link border-animate fromCenter">سوالی
                                 دارید</a>
                             </li>
-                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">در سانیار
-                                بفروشید</a></li>
+                            <li class="nav-item"><a href="{% url "home_app:about_us" %}"
+                                                    class="nav-link border-animate fromCenter">درباره ما
+                            </a>
+                            </li>
+                            {#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">در سانیار#}
+                            {#                                بفروشید</a></li>#}
                         </ul>
                     </div>
                 </div>
@@ -732,11 +737,7 @@
                                 {#                                          id="{{ item.id }}">#}
                                 <div class="action d-flex justify-content-between align-items-center">
                                     <div class="remove bg-light  rounded-3">
-                                        {#                                            <button style="border: none;" class="delete-product"#}
-                                        {#                                                    data-product="{{ item.id }}">#}
-                                        {#                                                <i></i>#}
-                                        {#                                            </button>#}
-                                        <a class="delete-product" data-product="{{ item.id }}">
+                                        <a class="delete-product-a" data-product-id="{{ item.id }}">
                                             <i class="bi bi-x font-25"></i>
                                         </a>
                                     </div>
@@ -804,6 +805,7 @@
 </div>
 
 <script src="{% static "js/jquery.min.js" %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
 <script src="{% static "plugin/waves/waves.min.js" %}"></script>
 <script src="{% static "plugin/swiper/swiper-bundle.min.js" %}"></script>
@@ -814,6 +816,7 @@
 <script src="{% static "js/AddToCartAjax.js" %}"></script>
 <script src="{% static "js/DeleteProductCartAjax.js" %}"></script>
 <script src="{% static "js/CategorySortAjax.js" %}"></script>
+<script src="{% static "js/AddToCartStorePage.js" %}"></script>
 <!-- ===== start new update -->
 <script src="{% static "plugin/go-to-top/script.js" %}"></script>
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
