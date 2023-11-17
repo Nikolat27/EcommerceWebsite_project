@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قالب سانیار</title>
-
     <link rel="stylesheet" href="{% static "css/bootstrap.rtl.min.css" %}">
     <link rel="stylesheet" href="{% static "font/bootstrap-icon/bootstrap-icons.css" %}">
     <link rel="stylesheet" href="{% static "plugin/waves/waves.min.css" %}">
@@ -15,7 +14,23 @@
     <link rel="stylesheet" href="{% static "plugin/timer/timer.css" %}">
     <link rel="stylesheet" href="{% static "plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/go-to-top/style.css" %}">
+    <link rel="stylesheet" href="{% static "plugin/rasta-contact/style.css" %}">
     <link rel="stylesheet" href="{% static "css/responsive.css" %}">
+
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet">
+
+    <!-- Fantasy -->
+    <link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet">
+
+    <!-- Forest -->
+    <link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+
+    <!-- Sea -->
+    <link rel="stylesheet" href="{% static "css/SeaVideoJsTheme.css" %}">
+
+
 </head>
 
 <body>
@@ -41,14 +56,15 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                                <a href="" class="text-center d-block mb-3">
+                                <a href="{% url "home_app:main" %}" class="text-center d-block mb-3">
                                     <img src="{% static "image/logo.png" %}" alt="" class="img-fluid" width="200">
                                 </a>
                                 <div class="header-bottom-form mb-4 w-100">
                                     <div class="search-form">
-                                        <form action="">
+                                        <form action="{% url "product_app:store" %}">    <!--Mobile search field -->
                                             <div class="search-filed">
-                                                <input type="text" placeholder="جستجوی محصولات ...">
+                                                <input name="q" type="text" class="form-control search-input"
+                                                       placeholder="جستجوی محصولات ...">
                                                 <button type="submit"
                                                         class="btn search-btn main-color-one-bg rounded-pill"><i
                                                         class="bi bi-search"></i></button>
@@ -57,166 +73,42 @@
                                     </div>
                                 </div>
                                 <ul class="rm-item-menu navbar-nav">
-                                    <li class="nav-item bg-ul-f7"><a href="index.html" class="nav-link">صفحه
+                                    <li class="nav-item bg-ul-f7"><a href="{% url "home_app:main" %}" class="nav-link">صفحه
                                         اصلی</a>
                                     </li>
-                                    <li class="nav-item bg-ul-f7">
-                                        <a href="" class="nav-link">گوشی موبایل</a>
-                                        <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                        <ul class="navbar-nav h-0">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">برند</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">سامسونگ</a>
+                                    {% for category in categories %}
+                                        {% if category.parent is None %}
+                                            <li class="nav-item bg-ul-f7">
+                                            <a href="{% url "product_app:store" %}?category={{ category.title }}"
+                                               class="nav-link">{{ category.title }}</a>
+                                            <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
+                                            <ul class="navbar-nav h-0">
+                                                {% for sub in category.subs.all %}
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                           href="{% url "product_app:store" %}?category={{ sub.title }}">
+                                                            {{ sub.title }}</a>
+                                                        <span class="showSubMenu"><i
+                                                                class="bi bi-chevron-left"></i></span>
+                                                        <ul class="navbar-nav h-0 bg-ul-f7">
+                                                            {% for sub in sub.subs.all %}
+                                                                <li class="nav-item"><a
+                                                                        href="{% url "product_app:store" %}?category={{ sub.title }}"
+                                                                        class="nav-link">{{ sub.title }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
                                                     </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">هوآوی</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">شیائومی</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">الجی</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">سونی</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">بر اساس رده بندی</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">لمسی</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">دکمه ای</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">نظامی</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
                                     </li>
-                                    <li class="nav-item bg-ul-f7">
-                                        <a href="" class="nav-link">تبلت</a>
-                                        <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                        <ul class="navbar-nav h-0">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">کشور</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">ژاپن</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">کره جنوبی</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">آمریکایی</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">بر اساس رده بندی</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">لمسی</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">دانش آموزی</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">مخصوص بازی</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item bg-ul-f7">
-                                        <a href="" class="nav-link">لپتاپ</a>
-                                        <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                        <ul class="navbar-nav h-0">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">برند</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">ایسر</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">مایکروسافت</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">ایسوس</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">اپل</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">سونی</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="">بر اساس قیمت</a>
-                                                <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                                <ul class="navbar-nav h-0 bg-ul-f7">
-                                                    <li class="nav-item"><a href="" class="nav-link">ارزان</a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link">اقتصادی</a>
-                                                    </li>
-                                                    <li class="nav-item"><a href="" class="nav-link">گران</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item bg-ul-f7">
-                                        <a href="" class="nav-link">صفحات</a>
-                                        <span class="showSubMenu"><i class="bi bi-chevron-left"></i></span>
-                                        <ul class="navbar-nav h-0">
-                                            <li><a href="index.html">صفحه اصلی</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="product.html">صفحه
-                                                محصول</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="category.html">صفحه دسته
-                                                بندی</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="cart.html">صفحه سبد
-                                                خرید</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="search.html">صفحه
-                                                جستجو</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                                    href="category-product-row.html">دسته بندی محصولات
-                                                خطی</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="404.html">صفحه 404</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="login.html">صفحه ورود</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="register.html">صفحه ثبت
-                                                نام</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="forget.html">صفحه فراموشی
-                                                رمز
-                                                عبور</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="blog.html">صفحه وبلاگ</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="blog-detail.html">صفحه
-                                                جزییات
-                                                وبلاگ</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="compare.html">صفحه مقایسه
-                                                محصول</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="checkout.html">پرداخت
-                                                مرحله
-                                                ای</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="payment-ok.html">پرداخت
-                                                موفق</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="payment-nok.html">پرداخت
-                                                ناموفق</a></li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                                    href="product-not-found.html">محصول
-                                                ناموجود</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="empty-cart.html">سبد خرید
-                                                خالی</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="dashboard.html"> داشبورد
-                                                کاربری</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="order.html">سفارشات</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="favorite.html">محصولات
-                                                مورد
-                                                علاقه</a></li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                                    href="notification.html">اطلاعیه</a></li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                                    href="{% url "product_app:user_comments" %}">نظرات</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                                    href="{% url "cart_app:address" %}">آدرس ها</a>
-                                            </li>
-                                            <li class="nav-item"><a class="nav-link" href="last-seen.html">آخرین
-                                                بازدید
-                                                ها</a></li>
-                                        </ul>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <a href="index.html">
+                    <a href="{% url "home_app:main" %}">
                         <div class="logo">
                             <img src="{% static "image/logo.png" %}" alt="" class="img-fluid">
                         </div>
@@ -232,15 +124,21 @@
                        data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                        aria-controls="offcanvasCart">
                         <i class="bi bi-basket font-30"></i>
-                        <span class="header-cart-counter main-color-one-bg d-inline-block rounded-pill">
-                                5
+                        <span class="header-cart-counter main-color-one-bg d-inline-block rounded-pill"
+                              id="totalcartitems2">
+                                {{ cart.len }}
                             </span>
                     </a>
                     <div class="dropdown ms-3">
-                        <a href="#register" data-bs-toggle="dropdown" aria-expanded="false" role="button"
+                        <a href="{% url "home_app:main" %}" data-bs-toggle="dropdown" aria-expanded="false"
+                           role="button"
                            class="btn btn-white header-register border-0 rounded-pill">
                             <figure class="avatar">
-                                <img src="{% static "image/user.png" %}" alt="amirRezae">
+                                {% if request.user.prof_pic %}
+                                    <img src="{{ request.user.prof_pic.url }}" alt="amirRezae">
+                                {% else %}
+                                    <img src="{% static "image/user.png" %}" alt="amirRezae">
+                                {% endif %}
                             </figure>
                         </a>
                         <ul class="dropdown-menu">
@@ -258,13 +156,15 @@
                             <li><a href="{% url "product_app:user_comments" %}" class="dropdown-item"><i
                                     class="bi bi-chat-dots me-2"></i>نظرات
                                 من</a></li>
-                            <li><a href="" class="dropdown-item"><i class="bi bi-question-circle me-2"></i>درخواست
+                            <li><a href="{% url "home_app:contant_us" %}" class="dropdown-item"><i
+                                    class="bi bi-question-circle me-2"></i>درخواست
                                 پشتیبانی</a></li>
-                            <li><a href="" class="dropdown-item"><i class="bi bi-heart me-2"></i>محصولات مورد
+                            <li><a href="{% url "product_app:wishlist" %}" class="dropdown-item"><i
+                                    class="bi bi-heart me-2"></i>محصولات مورد
                                 علاقه</a></li>
                             <li><a href="" class="dropdown-item"><i class="bi bi-gift me-2"></i>کد های تخفیف
                                 من</a></li>
-                            <li><a href="" class="dropdown-item mct-hover"><i
+                            <li><a href="{% url "accounts_app:logout_page" %}" class="dropdown-item mct-hover"><i
                                     class="bi bi-arrow-right-square me-2"></i>خروج از حساب کاربری</a></li>
                         </ul>
                     </div>
@@ -395,64 +295,6 @@
                                     {% endfor %}
                                 </ul>
                             </li>
-                            {#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">مگا لیست منو#}
-                            {#                                <i class="bi bi-tablet"></i></a>#}
-                            {#                                <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"#}
-                            {#                                    style="background: #fff url('assets/image/mega-img-1.jpg') no-repeat;background-size: 400px !important;">#}
-                            {#                                    <li><a href="" class="title">بـرند</a></li>#}
-                            {#                                    <li><a href="">سامـسونگ</a></li>#}
-                            {#                                    <li><a href="">اپـل</a></li>#}
-                            {#                                    <li><a href="">شیـائومی</a></li>#}
-                            {#                                    <li><a href="">ال جی</a></li>#}
-                            {#                                    <li><a href="">وان پـلاس</a></li>#}
-                            {#                                    <li><a href="">جی ال ایـکس</a></li>#}
-                            {#                                    <li><a href="">هـو آوی</a></li>#}
-                            {#                                    <li><a href="">بلک بـری</a></li>#}
-                            {#                                    <li><a href="">توشـیبا</a></li>#}
-                            {#                                    <li><a href="">دایـناکورد</a></li>#}
-                            {#                                    <li><a href="" class="title">براساس رده بندی </a>#}
-                            {#                                    </li>#}
-                            {#                                    <li><a href="">دکـمه ای</a></li>#}
-                            {#                                    <li><a href="">لـمسـی</a></li>#}
-                            {#                                    <li><a href="">نـظـامی</a></li>#}
-                            {#                                    <li><a href="">ضـد آب</a></li>#}
-                            {#                                    <li><a href="">مسـافرتی</a></li>#}
-                            {#                                    <li><a href="">خـارنی</a></li>#}
-                            {#                                    <li><a href="" class="title">براساس کشور </a></li>#}
-                            {#                                    <li><a href="">ایران</a></li>#}
-                            {#                                    <li><a href="">ژاپن</a></li>#}
-                            {#                                    <li><a href="">فرانسه</a></li>#}
-                            {#                                    <li><a href="">کره جنوبی</a></li>#}
-                            {#                                    <li><a href="">آمریکا</a></li>#}
-                            {#                                    <li><a href="">سوئد</a></li>#}
-                            {#                                    <li><a href="">تایوان</a></li>#}
-                            {#                                    <li><a href="" class="title">براساس رنگ</a></li>#}
-                            {#                                    <li><a href="">قرمز</a></li>#}
-                            {#                                    <li><a href="">قهوه ای</a></li>#}
-                            {#                                    <li><a href="">سبز</a></li>#}
-                            {#                                    <li><a href="">بنفش</a></li>#}
-                            {#                                    <li><a href="">نارنجی</a></li>#}
-                            {#                                    <li><a href="">نیلی</a></li>#}
-                            {#                                </ul>#}
-                            {#                            </li>#}
-                            {#                            <li class="nav-item"><a href="" class="nav-link border-animate fromCenter">منو ساده<i#}
-                            {#                                    class="bi bi-menu-app"></i></a>#}
-                            {#                                <ul class="level-one">#}
-                            {#                                    <li><a href="">منو شماره 1</a></li>#}
-                            {#                                    <li><a href="">منو شماره 2</a></li>#}
-                            {#                                    <li class="position-relative"><a href="">منو شماره 3 <i#}
-                            {#                                            class="bi bi-chevron-left"></i></a>#}
-                            {#                                        <ul class="level-two">#}
-                            {#                                            <li><a href="">زیر منو شماره 1</a></li>#}
-                            {#                                            <li><a href="">2 زیر منو شماره </a></li>#}
-                            {#                                            <li><a href="">3 زیر منو شماره </a></li>#}
-                            {#                                        </ul>#}
-                            {#                                    </li>#}
-                            {#                                    <li><a href="">منو شماره 4</a></li>#}
-                            {#                                    <li><a href="">منو شماره 5</a></li>#}
-                            {#                                    <li><a href="">منو شماره 6</a></li>#}
-                            {#                                </ul>#}
-                            {#                            </li>#}
                             <li class="nav-item"><a href="" class="nav-link border-animate fromCenter"> <i
                                     class="bi bi-tag"></i>
                                 تخفیف ها و پیشنهاد ها</a></li>
@@ -472,10 +314,10 @@
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center justify-content-end">
                         <a href=""
-                           class="main-color-three-bg btn border-0 d-flex align-items-center rounded-pill">02133223322<i
+                           class="main-color-three-bg btn border-0 d-flex align-items-center rounded-pill">09170910714<i
                                 class="bi bi-whatsapp text-white ms-2"></i></a>
                         <a href=""
-                           class="main-color-two-bg btn border-0 d-flex align-items-center ms-3 rounded-pill">02133223322<i
+                           class="main-color-two-bg btn border-0 d-flex align-items-center ms-3 rounded-pill">09171022057<i
                                 class="bi bi-telephone-fill ms-2 text-white"></i></a>
                     </div>
                 </div>
@@ -510,11 +352,12 @@
         </div>
     </div>
 </div>
+
+<!-- start content -->
+
 {% block content %}
 
 {% endblock %}
-
-<!-- start footer -->
 
 <footer class="footer">
     <div class="container-fluid">
@@ -733,11 +576,9 @@
                                     <p class="text-end mb-2 price-off fw-bold">{{ item.total_price }} تومان</p>
                                     <p class="text">{{ item.quantity }}x</p>
                                 </div>
-                                {#                                    <form action="{% url "cart_app:delete_product" item.unique_id %}"#}
-                                {#                                          id="{{ item.id }}">#}
                                 <div class="action d-flex justify-content-between align-items-center">
                                     <div class="remove bg-light  rounded-3">
-                                        <a class="delete-product-a" data-product-id="{{ item.id }}">
+                                        <a class="delete-product-a" data-product-id="{{ item.unique_id }}">
                                             <i class="bi bi-x font-25"></i>
                                         </a>
                                     </div>
@@ -804,8 +645,141 @@
     </div>
 </div>
 
-<script src="{% static "js/jquery.min.js" %}"></script>
+<!-- end footer -->
+
+<!-- mobile menu -->
+
+<div class="mobile-footer d-lg-none d-flex">
+    <div class="parent">
+        <div class="item" onclick="topFunction()">
+            <i class="bi bi-chevron-up font-20"></i>
+        </div>
+        <div class="item">
+            <a href="index.html">
+                <i class="bi bi-house font-20"></i>
+            </a>
+        </div>
+        <div class="item item-float">
+            <a href="#offcanvasCart" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
+               aria-controls="offcanvasCart">
+                <i class="bi bi-bag font-20"></i>
+            </a>
+        </div>
+        <div class="item">
+            <a href="index.html">
+                <i class="bi bi-archive"></i>
+            </a>
+        </div>
+        <div class="item">
+            <a href="index.html">
+                <i class="bi bi-person"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- end mobile menu -->
+
+
+<!-- cart canvas -->
+
+<div class="offcanvas cart-canvas offcanvas-end" tabindex="-1" id="offcanvasCart"
+     aria-labelledby="offcanvasCartLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasCartLabel">سبد خرید</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="cart-canvases">
+            <div class="item">
+                <div class="row gy-2">
+                    <div class="col-4">
+                        <div class="image">
+                            <img src="assets/image/product/laptop-1.jpg" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <a href="">
+                            <div class="title">
+                                <h6 class="font-14">هدست مخصوص بازی پاب جی</h6>
+                                <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
+                            </div>
+                            <div class="price">
+                                <p class="text-end mb-2 price-off fw-bold">1,750,000 تومان</p>
+                                <p class="text-end price-discount">2,750,000 تومان</p>
+                            </div>
+                            <div class="action d-flex justify-content-between align-items-center">
+                                <div class="remove bg-light  rounded-3">
+                                    <a href="">
+                                        <i class="bi bi-x font-25"></i>
+                                    </a>
+                                </div>
+                                <div class="counter">
+                                    <input type="text" name="count" class="counter" value="1">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="factor">
+                    <div class="title">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/image/shopping-bag.png" class="img-fluid" alt="">
+                            <h6 class="font-16">سفارش شما</h6>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center justify-content-between">
+                        <p class="fw-bold mb-0">محصول</p>
+                        <p class="fw-bold mb-0">قیمت کل</p>
+                    </div>
+                    <div
+                            class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                        <p class="mb-0">هدست مخصوص بازی پابجی</p>
+                        <p class="mb-0">1,750,000 تومان</p>
+                    </div>
+                    <div
+                            class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                        <p class="mb-0">هدست مخصوص بازی پابجی</p>
+                        <p class="mb-0">1,750,000 تومان</p>
+                    </div>
+                    <div
+                            class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
+                        <p class="mb-0 fw-bold">جمع کل:</p>
+                        <p class="mb-0">4,000,000 تومان</p>
+                    </div>
+                    <div class="action mt-3 d-flex align-items-center justify-content-center">
+                        <a href="#" class="btn border-0 main-color-two-bg rounded-3">سبد خرید</a>
+                        <a href="#" class="btn border-0 main-color-one-bg rounded-3 ms-2">تسویه حساب</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end cart canvas -->
+
+<div class="float-btn">
+    <div class="container-fluid">
+        <!-- go top top -->
+        <div class="progress-wrap d-lg-block d-none">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+            </svg>
+        </div>
+        <!-- end go top top -->
+
+        <!-- contact us floating -->
+        <div id="btncollapzion" class=" btn_collapzion"></div>
+        <div class="" id="contactOverlay"></div>
+        <!-- end contact us floating -->
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static "js/jquery.min.js" %}"></script>
 <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
 <script src="{% static "plugin/waves/waves.min.js" %}"></script>
 <script src="{% static "plugin/swiper/swiper-bundle.min.js" %}"></script>
@@ -813,59 +787,20 @@
 <script src="{% static "plugin/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js" %}"></script>
 <script src="{% static "js/app.js" %}"></script>
 <script src="{% static "js/jquery-app.js" %}"></script>
+<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+<!-- ===== start new update -->
+<script src="{% static "plugin/go-to-top/script.js" %}"></script>
+<script src="{% static "plugin/rasta-contact/script.js" %}"></script>
+
+<!-- Ajax files -->
+<script src="{% static "js/LikeAjax.js" %}"></script>
 <script src="{% static "js/AddToCartAjax.js" %}"></script>
 <script src="{% static "js/DeleteProductCartAjax.js" %}"></script>
 <script src="{% static "js/CategorySortAjax.js" %}"></script>
 <script src="{% static "js/AddToCartStorePage.js" %}"></script>
-<!-- ===== start new update -->
-<script src="{% static "plugin/go-to-top/script.js" %}"></script>
-<script src="{% static "plugin/rasta-contact/script.js" %}"></script>
-<script src="{% static "js/LikeAjax.js" %}"></script>
-<script src="{% static "plugin/go-to-top/script.js" %}"></script>
-<script src="{% static "plugin/rasta-contact/script.js" %}"></script>
+<script src="{% static "js/DeleteCartBase.js" %}"></script>
 
 
-<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
-<link
-        rel="stylesheet"
-        href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
-/>
-<style>
-    #autocomplete {
-        max-width: 400px;
-        margin: 0 auto;
-    }
-</style>
-<script>
-    new Autocomplete('#autocomplete', {
-        search: input => {
-            const url = `/products/search_products?q=${input}`
-            return new Promise(resolve => {
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        resolve(data.payload)
-                    })
-            })
-        },
-        renderResult: (result, propes) => {
-            console.log(propes)
-            let group = ''
-            if (result.index % 3 == 0) {
-                group = `<li class="group">Group</li>`
-
-            }
-            return `
-            ${group}
-            <li ${propes}>
-                <div class="wiki-title">
-                    ${result.title}
-                </div>
-            </li>
-            `
-        }
-    })
-</script>
 <script>
     //// config floating contact
     $('#btncollapzion').Collapzion({

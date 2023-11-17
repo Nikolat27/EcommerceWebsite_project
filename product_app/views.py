@@ -25,7 +25,7 @@ def product_detail(request, slug):
                   context={"product": product, "related_products": related_products, "is_liked": is_liked})
 
 
-
+@login_required
 def add_comment(request, pk):
     if request.method == "POST":
         name = request.POST.get("f_name")
@@ -50,6 +50,7 @@ def add_comment(request, pk):
                 related_products})
 
 
+@login_required
 def del_comments(request, pk):
     del_comment = Comment.objects.get(author=request.user, id=pk)
     del_comment.delete()
@@ -151,6 +152,7 @@ def store_ajax2(request, pk, page):  # This function is used for pagination beca
     return render(request, "product_app/store2.html", {"products": object_list, "pk": pk})
 
 
+@login_required
 def user_comments(request):
     if request.user.is_authenticated:
         comments = Comment.objects.filter(author=request.user)
@@ -173,6 +175,7 @@ def like(request, slug, pk):
         return JsonResponse({"response": "liked", "likedproducts": len(liked_products)})
 
 
+@login_required
 def un_like(request, slug):
     like = Like.objects.get(product__slug=slug, user=request.user)
     like.delete()
@@ -180,19 +183,21 @@ def un_like(request, slug):
     return redirect("product_app:wishlist")
 
 
+@login_required
 def wishlist(request):
     wishlist = Product.objects.filter(likes__user=request.user)
     return render(request, "product_app/wishlist.html", context={"wishlist": wishlist, "wishlist_len": len(wishlist)})
 
 
-def post_like(request, pk):
+def post_like(request, slug, pk):
     post = Product.objects.get(id=pk)
-    post_id = post.slug
+    print("Anonymous user liked")
     ip = get_ip(request)
-    if not IpModel.objects.filter(ip=ip):
+    if not IpModel.objects.filter(ip=ip):  # Add ip to the database
         IpModel.objects.create(ip=ip)
     if post.likee.filter(id=IpModel.objects.get(ip=ip).id).exists():
         post.likee.remove(IpModel.objects.get(ip=ip))
+        return JsonResponse({"response": "unliked"})
     else:
         post.likee.add(IpModel.objects.get(ip=ip))
-    return HttpResponseRedirect(reverse("product_app:store"))
+        return JsonResponse({"response": "liked"})

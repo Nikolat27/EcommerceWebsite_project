@@ -4,9 +4,13 @@ from . import models
 
 # Register your models here.
 
+class DetailAdmin(admin.TabularInline):
+    model = models.ProductDetail
+
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    inlines = (DetailAdmin,)
     list_display = ['title', 'price', "show_image"]
 
 

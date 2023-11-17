@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -24,6 +25,7 @@ def about_us(request):
     return render(request, "home_app/about-us.html", context={"about_us": content})
 
 
+@login_required
 def contact_us(request):
     if request.method == "POST":
         name = request.POST.get("name")

@@ -15,5 +15,5 @@ urlpatterns = [
     path("like/<str:slug>/<int:pk>", views.like, name="like"),
     path("wishlist", views.wishlist, name="wishlist"),
     path("un_like/<str:slug>", views.un_like, name="unlike"),
-    path("post_like/<int:pk>", views.post_like, name="post_like"),
+    path("post_like/<str:slug>/<int:pk>", views.post_like, name="post_like"),
 ]

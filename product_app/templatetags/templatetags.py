@@ -62,3 +62,8 @@ def is_liked(pk, request):
         return True
     else:
         return False
+
+
+@register.filter
+def slider_product(date):
+    return f"{date.year}-{date.month}-{date.day}"

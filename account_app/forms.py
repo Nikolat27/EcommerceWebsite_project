@@ -8,31 +8,23 @@ def start_with_0(value):
         raise forms.ValidationError("phone should start with 0")
 
 
-class LoginForm(forms.Form):
-    phone = forms.CharField(widget=forms.TextInput(attrs={"class": 'form-control py-4'}), validators=[start_with_0])
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": 'form-control py-4'}))
+def eleven_numbers(value):
+    if len(value) != 11:
+        raise forms.ValidationError("شماره تماس باید 11 رقم باشد!")
 
-    def clean_phone(self):
-        phone = self.cleaned_data.get("phone")
-        if len(phone) != 11:
-            raise ValidationError("Your phone number is short", code="invalid_phone",
-                                  params={'value': f'{phone}'})
-        return phone
+
+class LoginForm(forms.Form):
+    phone = forms.CharField(widget=forms.TextInput(attrs={"class": 'form-control py-4'}), validators=[start_with_0,
+                                                                                                      eleven_numbers])
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": 'form-control py-4'}))
 
 
 class OtpLoginForm(forms.Form):
     phone = forms.CharField(widget=forms.TextInput(attrs={"placeholder": '09xxxxxxxxx', 'class': 'form-control py-4'}),
-                            validators=[start_with_0])
-
-    def clean_phone(self):
-        phone = self.cleaned_data.get("phone")
-        if len(phone) > 11:
-            #           We can use this code except of validators.MaxLenghtValidator
-            raise ValidationError("entered phone number is not valid!", code="invalid_phone",
-                                  params={'value': f'{phone}'})
-        return phone
+                            validators=[start_with_0, eleven_numbers])
 
 
 class CheckOtpForm(forms.Form):
-    code = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control text-center py-4", 'placeholder': 'کد را وارد کنید'}),
-                           validators=[validators.MaxLengthValidator(4)])
+    code = forms.CharField(
+        widget=forms.TextInput(attrs={'class': "form-control text-center py-4", 'placeholder': 'کد را وارد کنید'}),
+        validators=[validators.MaxLengthValidator(4)])

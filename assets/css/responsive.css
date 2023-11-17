@@ -1,16 +1,17 @@
-@media only screen and (max-width:1200px) {}
+@media only screen and (max-width: 1200px) {
+}
 
-@media only screen and (max-width:992px) {
-	
-	header {
+@media only screen and (max-width: 992px) {
+
+    header {
         position: sticky;
         top: 0;
         z-index: 1044;
         padding: 15px 0;
         box-shadow: var(--shadow-md);
-    }	
+    }
 
-    .slider{
+    .slider {
         height: auto;
     }
 
@@ -27,7 +28,7 @@
         overflow-y: hidden;
     }
 
-    .amazing-slider-slider .slider-item{
+    .amazing-slider-slider .slider-item {
         padding-bottom: 60px;
     }
 
@@ -39,14 +40,14 @@
         right: 47.5% !important;
     }
 
-    .amazing .slider-item img{
+    .amazing .slider-item img {
         max-height: 300px;
         display: block;
         margin-right: auto;
         margin-left: auto;
     }
 
-    .logo img{
+    .logo img {
         max-height: 70px;
     }
 
@@ -64,12 +65,12 @@
         bottom: 60px !important;
     }
 
-    .btn-filter-float{
+    .btn-filter-float {
         bottom: 95px !important;
     }
 
-    .btn-comment{
-        width:100%;
+    .btn-comment {
+        width: 100%;
     }
 
     .main-table tr td {
@@ -78,12 +79,12 @@
 
 }
 
-@media only screen and (max-width:768px) {
+@media only screen and (max-width: 768px) {
     .site-slider .swiper-button-prev {
         right: 45.5% !important;
     }
 
-    .category-sort .form-checks .form-check{
+    .category-sort .form-checks .form-check {
         margin-bottom: 15px;
     }
 
@@ -93,7 +94,7 @@
 
 }
 
-@media only screen and (max-width:576px) {
+@media only screen and (max-width: 576px) {
     .site-slider .swiper-button-prev {
         right: 42.5% !important;
     }
@@ -102,11 +103,11 @@
         margin-bottom: 10px;
     }
 
-    
+
 }
 
-@media only screen and (max-width:400px) {
-    .amazing-slider-slider .slider-item .link{
+@media only screen and (max-width: 400px) {
+    .amazing-slider-slider .slider-item .link {
         margin-top: 10px;
     }
 
@@ -127,15 +128,15 @@
         padding: 10px 15px 10px;
     }
 
-    .w-100-in-400{
+    .w-100-in-400 {
         width: 100% !important;
     }
 
-    .w-100-in-400 .counter .input-group{
+    .w-100-in-400 .counter .input-group {
         justify-content: center;
     }
 
-    .w-100-in-400 .font-16.new-price.main-color-one-color{
+    .w-100-in-400 .font-16.new-price.main-color-one-color {
         text-align: center;
     }
 
@@ -148,18 +149,18 @@
         margin-left: 10px;
     }
 
-    .st-dv-1{
+    .st-dv-1 {
         margin: auto;
         margin-bottom: 10px;
     }
 
-    .factor-logo{
+    .factor-logo {
         width: 150px;
     }
 }
 
-@media only screen and (max-width:360px) {
-    
+@media only screen and (max-width: 360px) {
+
 }
 
 @media only screen and (min-width: 1470px) {
@@ -172,7 +173,8 @@
     .container-xl {
         max-width: 1470px;
     }
-    .mega-container{
+
+    .mega-container {
         max-width: 1470px;
     }
 }

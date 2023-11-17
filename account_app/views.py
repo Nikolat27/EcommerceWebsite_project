@@ -1,6 +1,8 @@
 import random
 from datetime import datetime, timedelta
 from uuid import uuid4
+
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -28,20 +30,27 @@ def login_page(request):
     if request.user.is_authenticated:
         return redirect("home_app:main")
 
-    form = forms.LoginForm(request.POST)
-    next_page = request.GET.get("next")
-    if form.is_valid():
-        cd = form.cleaned_data
-        phone = cd['phone']
-        password = cd['password']
+    if request.method == "POST":
+        form = forms.LoginForm(request.POST)
+        next_page = request.GET.get("next")
+        if form.is_valid():
+            cd = form.cleaned_data
+            phone = cd['phone']
+            password = cd['password']
 
-        user = authenticate(username=phone, password=password)
-        if user is not None:
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            messages.info(request, f"You are now logged in as {phone}.")
-        if next_page:
-            return redirect(next_page)
-        return redirect("home_app:main")
+            user = authenticate(username=phone, password=password)
+            if user is not None:
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                messages.info(request, f"You are now logged in as {phone}.")
+            else:
+                form = forms.LoginForm(request.POST)
+                error = 'شماره تلفن یا رمز عبور شما اشتباه است!'
+                return render(request, "account_app/login.html", context={"form": form, "error": error})
+            if next_page:
+                return redirect(next_page)
+            return redirect("home_app:main")
+    else:
+        form = forms.LoginForm()
     return render(request, "account_app/login.html", context={"form": form})
 
 
@@ -79,6 +88,7 @@ def edit_page(request):
     return render(request, "account_app/edit_profile.html")
 
 
+@login_required
 def change_password_page(request):
     if request.method == "POST":
         randcode = randint(1000, 9999)
@@ -90,6 +100,7 @@ def change_password_page(request):
     return render(request, "account_app/passwordchange.html")
 
 
+@login_required
 def confirm_code(request):
     code = forms.CheckOtpForm(request.POST)
     if request.method == "POST":
@@ -113,10 +124,12 @@ def confirm_code(request):
     return render(request, "account_app/confirmcode.html", context={"code": code})
 
 
+@login_required
 def after_confirm(request):
     return render(request, "account_app/AfterConfirm.html")
 
 
+@login_required
 def change_password(request):
     if request.user.is_authenticated:
         return redirect("home_app:main")
@@ -134,12 +147,16 @@ def change_password(request):
         return HttpResponse("Your password has been sent to your email and changed!")
 
 
+@login_required
 def logout_page(request):
     logout(request)
     return redirect("home_app:main")
 
 
 def register_page(request):
+    if request.user.is_authenticated:
+        return redirect("home_app:main")
+
     if request.method == "GET":
         form = forms.OtpLoginForm()
         return render(request, "account_app/register.html", {"form": form})
@@ -179,6 +196,7 @@ def register_page(request):
         return render(request, "account_app/register.html", context={"form": form})
 
 
+@login_required
 def otpcheck(request):
     if request.method == "GET":
         form = forms.CheckOtpForm()
@@ -210,6 +228,7 @@ def otpcheck(request):
         return render(request, "account_app/checkotp.html", {"form": form})
 
 
+@login_required
 def profile_page(request):
     latest_pruchases = OrderItem.objects.filter(order__user=request.user).order_by("-order__created_at")[:3]
     return render(request, "account_app/user-panel.html", context={"latest_purchases": latest_pruchases})

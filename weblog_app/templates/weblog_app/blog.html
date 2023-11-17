@@ -230,7 +230,13 @@
                                 <div class="col-md-3">
                                     <div class="tv-blog-item">
                                         <a href="{% url "weblog_app:blog_detail_video" blog.slug %}">
-                                            <img src="{{ blog.main_picture.url }}" alt="" class="img-fluid">
+                                            {% if blog.thumbnail %}
+                                                <img src="{{ blog.thumbnail.url }}" alt="{{ blog.main_title }}"
+                                                     class="img-fluid">
+                                            {% else %}
+                                                <img src="{% static "image/user.png" %}" alt="{{ blog.main_title }}"
+                                                     class="img-fluid">
+                                            {% endif %}
                                             <div class="desc">
                                                 <h3 class="title">{{ blog.main_title }}</h3>
                                                 <div class="date">

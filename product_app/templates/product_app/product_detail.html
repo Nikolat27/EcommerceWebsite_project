@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load templatetags %}
 
 {% block content %}
     <div class="product-meta py-20">
@@ -16,21 +16,14 @@
                                          data-bs-placement="right" title="اشتراک گذاری">
                                         <i class="bi bi-share"></i>
                                     </div>
-                                    {% if is_liked is True %}
-                                        <div class="icon-product-box-item" data-bs-toggle="tooltip"
-                                             data-bs-placement="right"
-                                             data-bs-title="افزودن به علاقه مندی">
-                                            <i class="bi bi-heart-fill"
-                                               onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
-                                        </div>
-                                    {% else %}
-                                        <div class="icon-product-box-item" data-bs-toggle="tooltip"
-                                             data-bs-placement="right"
-                                             data-bs-title="افزودن به علاقه مندی">
-                                            <i class="bi bi-heart"
-                                               onclick="like('{{ product.slug }}', {{ product.id }})" id="like"></i>
-                                        </div>
-                                    {% endif %}
+                                    <div class="icon-product-box-item" data-bs-toggle="tooltip"
+                                         data-bs-placement="right"
+                                         data-bs-title="افزودن به علاقه مندی">
+                                        <i class="{% if product.id|is_liked:request is True %}bi bi-heart-fill
+                                        {% else %}bi bi-heart{% endif %}"
+                                           onclick="like('{{ product.slug }}', {{ product.id }})"
+                                           id="{{ product.slug }}"></i>
+                                    </div>
                                     <div class="icon-product-box-item" data-bs-toggle="tooltip"
                                          data-bs-placement="right"
                                          data-bs-title="مقایسه محصول">
@@ -110,9 +103,7 @@
                                         <h5 class="font-16">
                                             {{ product.title }}
                                         </h5>
-                                        <p class="mb-0 mt-2 text-muted">Samsung smart watch model Galaxy Watch3 SM-R840
-                                            45mm
-                                            leather strap</p>
+                                        <p class="mb-0 mt-2 text-muted">{{ product.english_title }}</p>
                                     </div>
                                     <div class="col-lg-4">
                                         <a href="" class="text-lg-end d-block">
@@ -200,13 +191,6 @@
                                                     تومان</h6>
                                             </div>
                                         {% endif %}
-                                        {#                                    <div class="col-12 w-100-in-400">#}
-                                        {#                                        <div class="counter">#}
-                                        {#                                            <input type="text" name="count" id="count" class="counter" value="1">#}
-                                        {#                                        </div>#}
-                                        {#                                    </div>#}
-
-
                                         <div class="col-lg-3 col-6 w-100-in-400">
                                             <div class="d-flex justify-content-center">
                                                 <button type="submit" class="btn w-100 border-0 main-color-three-bg"><i
@@ -993,58 +977,25 @@
                                                         <section>
                                                             <ul class="param_list list-inline">
                                                                 <div class="container-fluid">
-                                                                    <div class="row ps-md-2">
-                                                                        <li
-                                                                                class="list-inline-item col-md-3 pe-md-1 pe-md-3 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom1">
-                                                                                    قابلیت پخش موسیقی
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                        <li class="list-inline-item col-md-8 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom2">
-                                                                                    دارد
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                    </div>
-                                                                    <div class="row ps-md-2">
-                                                                        <li
-                                                                                class="list-inline-item col-md-3 pe-md-1 pe-md-3 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom1">
-                                                                                    قابلیت کنترل صدا و موزیک
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                        <li class="list-inline-item col-md-8 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom2">
-                                                                                    ندارد
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                    </div>
-                                                                    <div class="row ps-md-2">
-                                                                        <li
-                                                                                class="list-inline-item col-md-3 pe-md-1 pe-md-3 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom1">
-                                                                                    راهنمایی صوتی
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                        <li class="list-inline-item col-md-8 p-0 m-0">
-                                                                            <div class="box_params_list">
-                                                                                <p class="block border_right_custom2">
-                                                                                    ندارد
-                                                                                </p>
-                                                                            </div>
-                                                                        </li>
-                                                                    </div>
-
+                                                                    {% for x in product.product_details.all %}
+                                                                        <div class="row ps-md-2">
+                                                                            <li
+                                                                                    class="list-inline-item col-md-3 pe-md-1 pe-md-3 p-0 m-0">
+                                                                                <div class="box_params_list">
+                                                                                    <p class="block border_right_custom1">
+                                                                                        {{ x.question }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="list-inline-item col-md-8 p-0 m-0">
+                                                                                <div class="box_params_list">
+                                                                                    <p class="block border_right_custom2">
+                                                                                        {{ x.answer }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </li>
+                                                                        </div>
+                                                                    {% endfor %}
                                                                 </div>
                                                             </ul>
                                                         </section>
@@ -1886,6 +1837,77 @@
             document.getElementById("parent_id").value = id
             window.location.href = "#floatingTextarea2"
         }
+    </script>
+    <script type="text/javascript">
+        //// config floating contact
+        $('#btncollapzion').Collapzion({
+            _child_attribute: [{
+                'label': 'پشتیبانی تلفنی',
+                'url': 'tel:0930555555555',
+                'icon': 'bi bi-telephone'
+            },
+                {
+                    'label': 'پشتیبانی تلگرام',
+                    'url': 'https://tlgrm.me',
+                    'icon': 'bi bi-telegram'
+                },
+                {
+                    'label': 'پشتیبانی واتس آپ',
+                    'url': 'https://wa.me/444444444',
+                    'icon': 'bi-whatsapp'
+                },
+
+            ],
+        });
+    </script>
+    <!-- ===== end new update -->
+
+    <!-- ======== tagify -->
+    <script src="{% static "plugin/tagify/jQuery.tagify.min.js" %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ///input tag
+            $('.commentTags').tagify();
+        });
+    </script>
+
+
+    <!-- chart -->
+    <script src="{% static "plugin/chartjs/chart.js" %}"></script>
+
+    <script type="text/javascript">
+        const ctx = document.getElementById('myChart');
+        Chart.defaults.font.family = "main-font";
+        Chart.defaults.font.size = 14;
+
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['23 مهر 1401', '11 آبان 1401', '4 آذر 1401', '11 دی 1401', '5 بهمن 1401',
+                    '19 اسفند 1401'
+                ],
+                datasets: [{
+                    label: 'iphone 12 promax 256',
+                    data: [1500000, 1700000, 1900000, 1400000, 1600000, 3200000],
+                    borderWidth: 4,
+                    borderColor: '#1c39bb',
+                    pointBackgroundColor: '#eee',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    tension: 0.1,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: false,
+                        text: (ctx) => 'نمودار فروش محصول: ' + 'ایفون 12 pro max',
+                    },
+                }
+            }
+        });
     </script>
 {% endblock %}
 

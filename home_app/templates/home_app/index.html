@@ -11,126 +11,57 @@
                 <div class="col-lg-3 order-lg-1 order-2">
                     <div class="swiper" id="suggetMoment">
                         <div class="swiper-wrapper position-relative">
-                            <div class="swiper-slide">
-                                <div class="product-box">
-                                    <div class="product-timer">
-                                        <div class="timer-label">
-                                            <span>40% تخفیف</span>
+                            {% for product in slider_products %}
+                                <div class="swiper-slide">
+                                    <div class="product-box">
+                                        <div class="product-timer">
+                                            {% if product.discount %}
+                                                <div class="timer-label">
+                                                    <span>{{ product.discount }}% تخفیف</span>
+                                                </div>
+                                            {% endif %}
+                                            <div class="timer">
+                                                <div class='countdown'
+                                                     data-date="{{ product.expire_date|slider_product }}">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="timer">
-                                            <div class='countdown' data-date="2025-01-01" data-time="18:30">
+                                        {% if product.image %}
+                                            <div class="product-image">
+                                                <img src="{{ product.image.url }}" loading="lazy" alt=""
+                                                     class="img-fluid">
+                                            </div>
+                                        {% endif %}
+                                        <div class="product-title">
+                                            <div class="title">
+                                                <p class="text-overflow-1">{{ product.title }}</p>
+                                                <span class="text-muted text-overflow-1">{{ product.english_title }}</span>
+                                            </div>
+                                            {% if product.averagereview %}
+                                                <div class="rating">
+                                                    <div class="number"><span class="text-muted font-12">
+                                                    ({{ product.len_averagereview }}+) {{ product.averagereview|floatformat:1 }}</span>
+                                                    </div>
+                                                    <div class="icon"><i class="bi bi-star-fill"></i></div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-action">
+                                            <div class="price">
+                                                <p class="new-price">{{ product.discount_price }} تومان</p>
+                                                <p class="old-price">{{ product.price }} تومان</p>
+                                            </div>
+                                            <div class="link">
+                                                <button data-product-id="{{ product.id }}"
+                                                        class="btn border-0 rounded-3 main-color-one-bg add-to-cart">
+                                                    <i class="bi bi-basket text-white"></i>
+                                                    <span class="text-white">خرید محصول</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="product-image">
-                                        <img src="{% static "image/product/wach1.jpg" %}" loading="lazy" alt=""
-                                             class="img-fluid">
-                                    </div>
-                                    <div class="product-title">
-                                        <div class="title">
-                                            <p class="text-overflow-1">ساعت هوشمند شیائومی</p>
-                                            <span class="text-muted text-overflow-1">Mibro Lite XPAW004
-                                                Smartwatch</span>
-                                        </div>
-                                        <div class="rating">
-                                            <div class="number"><span class="text-muted font-12">(15+) 4.8</span></div>
-                                            <div class="icon"><i class="bi bi-star-fill"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="product-action">
-                                        <div class="price">
-                                            <p class="new-price">3,175,000 تومان</p>
-                                            <p class="old-price">6,500,000 تومان</p>
-                                        </div>
-                                        <div class="link">
-                                            <a href="" class="btn border-0 rounded-3 main-color-one-bg">
-                                                <i class="bi bi-basket text-white"></i>
-                                                <span class="text-white">خرید محصول</span>
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-box">
-                                    <div class="product-timer">
-                                        <div class="timer-label">
-                                            <span>40% تخفیف</span>
-                                        </div>
-                                        <div class="timer">
-                                            <div class='countdown' data-date="2025-01-01" data-time="18:30">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <img src="{% static "image/product/wach2.jpg" %}" loading="lazy" alt=""
-                                             class="img-fluid">
-                                    </div>
-                                    <div class="product-title">
-                                        <div class="title">
-                                            <p class="text-overflow-1">ساعت هوشمند شیائومی</p>
-                                            <span class="text-muted text-overflow-1">Mibro Lite XPAW004
-                                                Smartwatch</span>
-                                        </div>
-                                        <div class="rating">
-                                            <div class="number"><span class="text-muted font-12">(15+) 4.8</span></div>
-                                            <div class="icon"><i class="bi bi-star-fill"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="product-action">
-                                        <div class="price">
-                                            <p class="new-price">3,175,000 تومان</p>
-                                            <p class="old-price">6,500,000 تومان</p>
-                                        </div>
-                                        <div class="link">
-                                            <a href="" class="btn border-0 rounded-3 main-color-one-bg">
-                                                <i class="bi bi-basket text-white"></i>
-                                                <span class="text-white">خرید محصول</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-box">
-                                    <div class="product-timer">
-                                        <div class="timer-label">
-                                            <span>40% تخفیف</span>
-                                        </div>
-                                        <div class="timer">
-                                            <div class='countdown' data-date="2025-01-01" data-time="18:30">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <img src="{% static "image/product/wach3.jpg" %}" loading="lazy" alt=""
-                                             class="img-fluid">
-                                    </div>
-                                    <div class="product-title">
-                                        <div class="title">
-                                            <p class="text-overflow-1">ساعت هوشمند شیائومی</p>
-                                            <span class="text-muted text-overflow-1">Mibro Lite XPAW004
-                                                Smartwatch</span>
-                                        </div>
-                                        <div class="rating">
-                                            <div class="number"><span class="text-muted font-12">(15+) 4.8</span></div>
-                                            <div class="icon"><i class="bi bi-star-fill"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="product-action">
-                                        <div class="price">
-                                            <p class="new-price">3,175,000 تومان</p>
-                                            <p class="old-price">6,500,000 تومان</p>
-                                        </div>
-                                        <div class="link">
-                                            <a href="" class="btn border-0 rounded-3 main-color-one-bg">
-                                                <i class="bi bi-basket text-white"></i>
-                                                <span class="text-white">خرید محصول</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                         <div class="swiper-progress-bar">
                             <span class="slide_progress-bar"></span>
@@ -321,7 +252,8 @@
                                             class="d-flex align-items-center justify-content-md-flex-start justify-content-between">
                                         <div class="image">
                                             {% if category.image %}
-                                                <img class="rounded" src="{{ category.image.url }}" alt="" class="img-fluid">
+                                                <img class="rounded" src="{{ category.image.url }}" alt=""
+                                                     class="img-fluid">
                                             {% endif %}
                                         </div>
                                         <div class="text ms-3">
@@ -378,11 +310,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <div class="timer">
-                                                            <div class='countdown' data-date="2025-01-01"
-                                                                 data-time="18:30">
+                                                        {% if product.discount %}
+                                                            <div class="timer">
+                                                                <div class='countdown'
+                                                                     data-date="{{ product.expire_date|slider_product }}">
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        {% endif %}
                                                         <div class="desc mt-3">
                                                             <div class="title">
                                                                 <div class="d-flex align-items-center flex-wrap">
@@ -399,40 +333,35 @@
                                                         </div>
                                                         <div class="meta">
                                                             <ul class="navbar-nav flex-lg-row justify-content-between">
-                                                                <li class="nav-item"><span
-                                                                        class="nav-link text-overflow-1 font-14 fw-bold">
-                                                                    صفحه نمایش 27 اینج </span></li>
-                                                                <li class="nav-item"><span
-                                                                        class="nav-link text-overflow-1 font-14 fw-bold">حافظه
-                                                                    داخلی یک ترابایت</span></li>
-                                                                <li class="nav-item"><span
-                                                                        class="nav-link text-overflow-1 font-14 fw-bold">مخصوص
-                                                                    بازی</span></li>
-                                                                <li class="nav-item"><span
-                                                                        class="nav-link text-overflow-1 font-14 fw-bold">پردازنده
-                                                                    گرافیکی nvidia</span></li>
+                                                                {% for x in product.product_details.all %}
+                                                                    {% if x.property %}
+                                                                        <li class="nav-item"><span
+                                                                                class="nav-link text-overflow-1 font-14 fw-bold">
+                                                                    {{ x.property }}</span></li>
+                                                                    {% endif %}
+                                                                {% endfor %}
                                                             </ul>
                                                         </div>
                                                         <div
                                                                 class="foot mt-3 d-flex justify-content-between align-items-center flex-wrap">
-                                                            {% if product.discount %}
-                                                                <div class="price d-flex align-items-center">
+                                                            <div class="price d-flex align-items-center">
+                                                                {% if product.discount %}
                                                                     <h6 class="font-25 main-color-one-color">{{ product.discount_price }}</h6>
                                                                     <h6 class="font-12 ms-1">هزار تومان</h6>
                                                                     <h6 class="font-13 old-price ms-2">{{ product.price }}</h6>
-                                                                </div>
-                                                            {% else %}
-                                                                <div class="price d-flex align-items-center">
+                                                                {% else %}
                                                                     <h6 class="font-25 main-color-one-color">{{ product.price }}</h6>
                                                                     <h6 class="font-12 ms-1">هزار تومان</h6>
-                                                                </div>
-                                                            {% endif %}
+                                                                {% endif %}
+                                                            </div>
                                                             <div class="link">
-                                                                <a href=""
-                                                                   class="btn border-0 rounded-3 main-color-one-bg">
+                                                                <button data-product-id="{{ product.id }}"
+                                                                        type="submit"
+                                                                        class="btn border-0 rounded-3 main-color-one-bg
+                                                                        add-to-cart">
                                                                     <i class="bi bi-basket text-white"></i>
                                                                     <span class="text-white">خرید محصول</span>
-                                                                </a>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -447,8 +376,7 @@
                     </div>
                     <div class="col-lg-4 d-lg-block d-none">
                         <div class="parent">
-
-                            <div class="swiper amazing-slider-link" thumbsSlider="">
+                            <div class="swiper amazing-slider-link">
                                 <div class="swiper-wrapper">
                                     {% for product in slider_products %}
                                         <div class="swiper-slide">

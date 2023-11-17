@@ -4388,3 +4388,38 @@ img {
     display: flex;
     flex-direction: row-reverse;
 }
+
+@media screen and (max-width: 700px) {
+    .container-filter-boxes {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .filter-conet {
+        width: 98%;
+    }
+
+    .filter-item:nth-child(even) {
+        overflow: hidden;
+        display: none;
+
+    }
+
+    .container-fluid1 {
+        display: grid;
+        gap: 20px 11px;
+        grid-template-columns: repeat(1, 1fr);
+        width: 100%;
+        justify-items: center;
+        background: #275fe0;
+        padding: 9px;
+    }
+
+    .box {
+        height: fit-content;
+    }
+
+    .page-item:nth-child(4n) {
+        display: none;
+    }
+}

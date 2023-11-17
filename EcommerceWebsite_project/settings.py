@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     "hitcount",
-    "taggit"
+    "taggit",
+    "django_social_share"
 ]
 
 

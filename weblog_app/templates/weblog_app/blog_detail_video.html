@@ -43,9 +43,24 @@
                                         <h4 class="title gold mb-2">{{ blog.main_title }}</h4>
                                         <p>{{ blog.description }}</p>
                                         <p>&nbsp;</p>
-                                        <video height="500" width="500" class="aligncenter"
+                                        <video
+                                                id="myVideo"
+                                                class="video-js vjs-theme-sea"
+                                                controls
+                                                preload="auto"
+                                                width="550"
+                                                height="300"
+                                                {% if blog.thumbnail %}
+                                                poster="{{ blog.thumbnail.url }}"
+                                                {% else %}
+                                                poster="{% static 'image/user.png' %}"
+                                                {% endif %}
+                                                data-setup="{'controls': true,
+                                                             'autoplay': false,
+                                                             'preload': 'auto'}"
                                         >
-                                            <source src="{{ blog.video.url }}" type="video/mp4">
+                                            <source src="{{ blog.video.url }}"
+                                                    type="video/mp4"/>
                                         </video>
                                     </div>
                                 </div>

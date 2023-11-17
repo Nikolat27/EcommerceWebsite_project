@@ -17,6 +17,7 @@ $("#add-to-cart-form-1").submit(function (e) {
                 setTimeout(() => button.html(" خرید کالا"), 1500);
                 $("#cart-details").html(response.data)
                 $("#totalcartitems").text(response.totalcartitems)
+                $("#totalcartitems2").text(response.totalcartitems)
             }
         }
     })

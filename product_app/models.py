@@ -48,8 +48,7 @@ class Product(Model):
     likee = models.ManyToManyField(IpModel, related_name="like_products", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    # after_discount = models.IntegerField(null=True, blank=True, help_text="Dont touch this field pls")
+    expire_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -100,6 +99,16 @@ class Product(Model):
 
     def total_like(self):
         return self.likee.count()
+
+
+class ProductDetail(Model):
+    product = models.ForeignKey(Product, related_name="product_details", on_delete=models.CASCADE)
+    question = models.CharField(max_length=50, null=True, blank=True)
+    answer = models.CharField(max_length=50, null=True, blank=True)
+    property = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.question} - {self.answer}"
 
 
 class Comment(Model):

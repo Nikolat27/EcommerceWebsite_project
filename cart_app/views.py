@@ -1,4 +1,8 @@
 import random
+from datetime import datetime
+
+from persiantools.jdatetime import JalaliDate
+
 from product_app.models import Product
 from .models import Order, OrderItem, Address
 from django.contrib.auth.decorators import login_required
@@ -10,11 +14,13 @@ from .cartfunction import Cart
 
 # Create your views here.
 
+@login_required
 def cart_list(request):
     cart_list = Cart(request)
     return render(request, "cart_app/cart_list.html", context={"cart_list": cart_list})
 
 
+@login_required
 def cart_add(request, pk):
     if request.user.is_authenticated is False:
         return redirect("accounts_app:login_page")
@@ -54,6 +60,7 @@ def cart_add_store(request, pk):
         return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
 
 
+@login_required
 def cart_update(request, pk):
     if request.user.is_authenticated is False:
         return redirect("accounts_app:login_page")
@@ -73,16 +80,29 @@ def cart_update(request, pk):
         return redirect("cart_app:cart_list")
 
 
-def delete_product(request, pk):
+@login_required
+def delete_product(request, pk):  # pk == unique_id
     if request.user.is_authenticated is False:
         return redirect("home_app:main")
-
+    # POST method
     cart = Cart(request)
     cart.delete(id=pk)
     data = render_to_string("AjaxTemplates/delete-cart-Ajax.html", {"cart": cart})
     return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
 
 
+@login_required
+def delete_product_base(request, pk):  # pk == unique_id
+    if request.user.is_authenticated is False:
+        return redirect("home_app:main")
+    # GET method
+    cart = Cart(request)
+    cart.delete(id=pk)
+    data = render_to_string("AjaxTemplates/delete-cart-Ajax.html", {"cart": cart})
+    return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
+
+
+@login_required
 def delete_cart_list(request, pk):
     if request.user.is_authenticated is False:
         return redirect("home_app:main")
@@ -92,11 +112,13 @@ def delete_cart_list(request, pk):
     return redirect("cart_app:cart_list")
 
 
+@login_required
 def checkout(request):
     cart_list = Cart(request)
     return render(request, "cart_app/checkout.html", context={"cart_list": cart_list})
 
 
+@login_required
 def order_creation(request):
     if request.method == "POST":
         cart = Cart(request)
@@ -122,21 +144,25 @@ def order_creation(request):
             return redirect("cart_app:order_detail", order.id)
 
 
+@login_required
 def order_detail(request, pk):
     order = Order.objects.get(id=pk)
     return render(request, "cart_app/order-user-panel.html", context={"order": order})
 
 
+@login_required
 def view_factor(request, pk):
     order = Order.objects.get(id=pk)
     order_items = OrderItem.objects.get(id=order.id)
     return render(request, "cart_app/factor.html", context={"order": order, "product": order_items})
 
 
+@login_required
 def purchases(request):
     return render(request, "cart_app/purchases.html")
 
 
+@login_required
 def address(request):
     addresses = Address.objects.filter(user=request.user)
     if request.method == "POST":
@@ -157,6 +183,7 @@ def address(request):
     return render(request, "cart_app/address.html", context={"addresses": addresses})
 
 
+@login_required
 def edit_address(request, pk):
     address = Address.objects.get(id=pk, user=request.user)
     if request.method == "POST":
@@ -214,3 +241,27 @@ def edit_address(request, pk):
         else:
             return redirect("home_app:main")
     return render(request, "cart_app/edit_address.html", context={"address": address})
+
+
+def test1(request):
+    today = datetime.today()
+    product = Product.objects.get(id=1)
+    j_date = JalaliDate.to_jalali(product.created_at.date())
+
+    # Convert the JalaliDate to a string
+    jalali_date_string = j_date.strftime('%Y-%m-%d')
+
+    # Convert the string back to a datetime object
+    jalali_date_object = datetime.strptime(jalali_date_string, '%Y-%m-%d')
+
+    # Get the day of the week (Monday is 0 and Sunday is 6)
+    day_of_week = jalali_date_object.weekday()
+
+    # Create a list of weekdays as per your requirement
+    weekdays = ['4 shanbe', '2 shanbe', '3 shanbe', '4 shanbe', '5 shanbe', 'jomeh', '3 shanbe']
+
+    # Get the actual day of the week from the list
+    actual_day = weekdays[day_of_week]
+
+    # Print the result
+    return HttpResponse(actual_day)

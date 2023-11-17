@@ -17,6 +17,7 @@ $(document).ready(function () {
                 if (response.bool === true) {
                     $("#cart-details").html(response.data)
                     $("#totalcartitems").text(response.totalcartitems)
+                    $("#totalcartitems2").text(response.totalcartitems)
                 }
             },
             error: function (xhr, status, error) {
