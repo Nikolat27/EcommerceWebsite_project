@@ -54,6 +54,7 @@ def login_page(request):
     return render(request, "account_app/login.html", context={"form": form})
 
 
+@login_required
 def edit_page(request):
     if request.user.is_authenticated is None:
         return redirect("accounts_app:register_page")
@@ -100,7 +101,6 @@ def change_password_page(request):
     return render(request, "account_app/passwordchange.html")
 
 
-@login_required
 def confirm_code(request):
     code = forms.CheckOtpForm(request.POST)
     if request.method == "POST":
@@ -124,7 +124,6 @@ def confirm_code(request):
     return render(request, "account_app/confirmcode.html", context={"code": code})
 
 
-@login_required
 def after_confirm(request):
     return render(request, "account_app/AfterConfirm.html")
 
@@ -196,7 +195,6 @@ def register_page(request):
         return render(request, "account_app/register.html", context={"form": form})
 
 
-@login_required
 def otpcheck(request):
     if request.method == "GET":
         form = forms.CheckOtpForm()
@@ -209,7 +207,7 @@ def otpcheck(request):
         if form.is_valid():
             cd = form.cleaned_data
             if OTP.objects.filter(code=cd['code'], token=token).exists():
-                otp = OTP.objects.get(token=token)
+                otp = OTP.objects.get(token=token)  # For getting the password from otp model!
                 user = User.objects.create(phone=otp.phone, email=otp.email)
 
                 password = otp.password

@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 app_name = "product_app"
 urlpatterns = [
     path("detail/<str:slug>", views.product_detail, name="detail"),
@@ -16,4 +15,7 @@ urlpatterns = [
     path("wishlist", views.wishlist, name="wishlist"),
     path("un_like/<str:slug>", views.un_like, name="unlike"),
     path("post_like/<str:slug>/<int:pk>", views.post_like, name="post_like"),
+    path("test1", views.home, name="test123"),
+    path('load-more/', views.load_more, name='load_more'),
+    path('test3/', views.test2),
 ]

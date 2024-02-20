@@ -137,3 +137,10 @@ class Like(Model):
 
     def __str__(self):
         return f"{self.user.phone} - {self.product.title}"
+
+
+class NameSpace(Model):
+    title = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.title

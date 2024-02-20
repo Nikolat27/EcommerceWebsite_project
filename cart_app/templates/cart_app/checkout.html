@@ -120,8 +120,7 @@
                                             </div>
                                             {% if not request.user.addresses.all %}
                                                 <div class="form-group">
-                                                    <a href="{% url "cart_app:address" %}
-                                                    ?next={% url "cart_app:checkout" %}">شما آدرسی ندارید لطفا یکی اضافه
+                                                    <a href="{% url "cart_app:address" %}?next={% url "cart_app:checkout" %}">شما آدرسی ندارید لطفا یکی اضافه
                                                         کنید!</a>
                                                 </div>
                                             {% else %}

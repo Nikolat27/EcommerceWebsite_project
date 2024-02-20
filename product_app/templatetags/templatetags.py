@@ -54,11 +54,20 @@ def jdate_year(date):
     return year
 
 
+def get_ip(request):
+    address = request.META.get('HTTP_X_FORWARDED_FOR')
+    if address:
+        ip = address.split(",")[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 @register.filter
 def is_liked(pk, request):
     product = Product.objects.get(id=pk)
-    if request.user.is_authenticated and request.user.likes.filter(product__slug=product.slug,
-                                                                   user=request.user).exists():
+    user_ip = get_ip(request)
+    if product.likee.filter(ip=user_ip).exists():
         return True
     else:
         return False

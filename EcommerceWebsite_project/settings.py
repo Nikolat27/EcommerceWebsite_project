@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-cura9ya^!%&7v6mv&)4gk2zg74^2oj4h=&epvo0l8)kidk$5(k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "django_social_share"
 ]
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'EcommerceWebsite_project.urls'
+CSRF_TRUSTED_ORIGINS = ('https://fd22-5-213-116-166.ngrok-free.app',)
 
 TEMPLATES = [
     {

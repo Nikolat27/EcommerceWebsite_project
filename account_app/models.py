@@ -80,7 +80,11 @@ class OTP(models.Model):
     email = models.EmailField(unique=True, blank=True, null=True)
     code = models.SmallIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    expiration_code = models.DateTimeField(null=True, blank=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        expired_otp_code = OTP.objects.filter(created_at__lt=timezone.now() - timezone.timedelta(seconds=20))
+        expired_otp_code.delete()
 
     def __str__(self):
         return self.phone

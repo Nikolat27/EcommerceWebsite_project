@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Infinite scrolling</title>
+</head>
+<body>
+
+<div id="item-list">
+    {% for item in items %}
+        <div align="center" style="font-weight: bold; font-size: xx-large">{{ item.title }}</div>
+        <br><br><br>
+        <hr>
+    {% endfor %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let page = 1;  // Initial page number
+        let loading = false;  // To prevent multiple requests at once
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10 && !loading) {
+                loading = true;
+                page++;
+                $.get('/products/load-more/', {page: page}, function (data) {
+                    $('#item-list').append(data);
+                    loading = false;
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

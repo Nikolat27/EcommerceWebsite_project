@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from weblog_app.models import IpModel
 from weblog_app.views import get_ip
-from .models import Product, Color, Comment, Category, Like
+from .models import Product, Color, Comment, Category, Like, NameSpace
 
 
 # Create your views here.
@@ -190,14 +190,31 @@ def wishlist(request):
 
 
 def post_like(request, slug, pk):
-    post = Product.objects.get(id=pk)
+    product = Product.objects.get(id=pk)
     print("Anonymous user liked")
     ip = get_ip(request)
     if not IpModel.objects.filter(ip=ip):  # Add ip to the database
         IpModel.objects.create(ip=ip)
-    if post.likee.filter(id=IpModel.objects.get(ip=ip).id).exists():
-        post.likee.remove(IpModel.objects.get(ip=ip))
+    if product.likee.filter(id=IpModel.objects.get(ip=ip).id).exists():
+        product.likee.remove(IpModel.objects.get(ip=ip))
         return JsonResponse({"response": "unliked"})
     else:
-        post.likee.add(IpModel.objects.get(ip=ip))
+        product.likee.add(IpModel.objects.get(ip=ip))
         return JsonResponse({"response": "liked"})
+
+
+def home(request):
+    items = NameSpace.objects.all()[:10]
+    return render(request, 'product_app/test1.html', {'items': items})
+
+
+def test2(request):
+    for x in range(100):
+        name = "Hello World!"
+        NameSpace.objects.create(title=name)
+
+
+def load_more(request):
+    page = request.GET.get('page')
+    items = NameSpace.objects.all()[page * 10:(page * 10) + 10]  # Fetch the next 10 items
+    return JsonResponse({'data': render_to_string('product_app/item_list.html', {'items': items})})
