@@ -80,7 +80,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'EcommerceWebsite_project.wsgi.application'
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+# SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
+# SESSION_SERIALIZER = "authentik.root.sessions.pickle.PickleSerializer"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -131,6 +132,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 STATIC_ROOT = "static_root/"
+
+
+
+
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

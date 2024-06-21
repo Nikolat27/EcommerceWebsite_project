@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $(".delete-product").on("click", function () {
-        let product_id = $(this).attr("data-product")
+        let product_id = $(this).attr("data-product-id")
         console.log(product_id);
         $.ajax({
 

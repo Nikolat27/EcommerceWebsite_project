@@ -12,7 +12,7 @@ def get_list(dictionary, key):
 
 
 @register.filter
-def category_len(title):
+def category_len(title):    
     cat_len = Product.objects.filter(category__title=title).count()
     return cat_len
 
