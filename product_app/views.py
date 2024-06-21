@@ -1,3 +1,4 @@
+from django.db.models import Max, Min
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
@@ -71,84 +72,42 @@ def search(request):
     return JsonResponse({'statues': True, 'payload': payload})
 
 
-def store(request):  # This function is for filter the products in store page
-    products = Product.objects.all()
+def store(request):
     categories = request.GET.getlist("category")
-    page_number = request.GET.get("page")
+    page = request.GET.get("page")
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
     colors = request.GET.getlist("color")
     q = request.GET.get("q")
-    x = Product.objects.all().count()
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
 
+    products_count = Product.objects.all().count()
+
+    products = Product.objects.all().order_by("-created_at").distinct()
     if q:
-        products = Product.objects.filter(title__icontains=q)
+        products = products.filter(title__icontains=q)
 
     if categories:
-        products = Product.objects.filter(category__title__in=categories)
+        products = products.filter(category__title__in=categories)
 
     if min_price and max_price:
-        products = Product.objects.filter(price__lte=max_price, price__gte=min_price)
+        products = products.filter(price__range=(min_price, max_price))
 
     if colors:
-        products = Product.objects.filter(color__title__in=colors)
-    y = Category.objects.filter(parent=None)  # non subcategories Categories
-    paginator = Paginator(products, 4)
-    object_list = paginator.get_page(page_number)
-    return render(request, "product_app/store.html", context={"products": object_list, "xq": x, "y": y})
+        products = products.filter(color__title__in=colors)
 
-
-def store_order_ajax(request, pk, page):  # This function is for order the products in store page with ajax
-
-    products = Product.objects.all()
-    if pk == "default":
-        products = Product.objects.all()
-    elif pk == "popular":
-        products = Product.objects.filter(comments__rating__gt=4.5).distinct()
-    elif pk == "newest":
-        products = Product.objects.all().order_by("-created_at").distinct()
-    elif pk == "cheap":
-        products = Product.objects.all().order_by("-price").distinct()
-    elif pk == "expensive":
-        products = Product.objects.all().order_by("price").distinct()
-    else:
-        print("no pk!")
-
-    if not page:
-        page = 1
-
+    nonsub_categories = Category.objects.filter(parent=None)  # non subcategories Categories
+    max_price = Product.objects.all().aggregate(Max('price'))['price__max']
+    min_price = Product.objects.all().aggregate(Min('price'))['price__min']
     paginator = Paginator(products, 1)
-    object_list = paginator.get_page(page)
-    data = render_to_string("AjaxTemplates/order_store_ajax.html", {"products": object_list, "pk": pk})
-    if not data:
-        print("no data")
+    products = paginator.get_page(page)
 
-    return JsonResponse({"bool": True, "data": data})
-
-
-def store_ajax2(request, pk, page):
-    print("hello world")
-    products = Product.objects.all()
-    if pk == "default":
-        products = Product.objects.all()
-    elif pk == "popular":
-        products = Product.objects.filter(comments__rating__gt=4.5).distinct()
-    elif pk == "newest":
-        products = Product.objects.all().order_by("-created_at").distinct()
-    elif pk == "cheap":
-        products = Product.objects.all().order_by("price").distinct()
-    elif pk == "expensive":
-        products = Product.objects.all().order_by("-price").distinct()
-    else:
-        print("no pk!")
-
-    if not page:
-        page = 1
-
-    paginator = Paginator(products, 1)
-    object_list = paginator.get_page(page)
-
-    return render(request, "product_app/store2.html", {"products": object_list, "pk": pk})
+    return render(request, "product_app/store.html", context={"products": products, "products_count": products_count,
+                                                              "nonsub_categories": nonsub_categories,
+                                                              "query_params": query_params.urlencode(),
+                                                              "max_price": max_price, "min_price": min_price})
 
 
 @login_required

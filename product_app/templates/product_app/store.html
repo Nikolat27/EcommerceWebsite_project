@@ -221,7 +221,7 @@
                                 <div class="filter-item">
                                     <h5 class="filter-item-title">دسته بندی ها</h5>
                                     <div class="filter-item-content">
-                                        {% for category in y %}
+                                        {% for category in nonsub_categories %}
                                             <div
                                                     class="d-flex align-items-center justify-content-between flex-wrap mb-3">
                                                 <div class="form-check">
@@ -246,14 +246,14 @@
                                     <div class="filter-item-content">
                                         <div class="row">
                                             <div class="col-6">
-                                                <input type="number" name="min_price" id="" min="1500"
+                                                <input type="number" name="min_price" min="{{ min_price }}"
                                                        class="form-control input-range-filter"
-                                                       placeholder="از 1500">
+                                                       placeholder="از {{ min_price }}">
                                             </div>
                                             <div class="col-6">
-                                                <input type="number" name="max_price" id="" min="1500" max="10000000"
+                                                <input type="number" name="max_price" max="{{ max_price }}"
                                                        class="form-control input-range-filter"
-                                                       placeholder="از 3000">
+                                                       placeholder="از {{ max_price }}">
                                             </div>
                                         </div>
                                     </div>
@@ -406,18 +406,7 @@
                                                     <li class="page-item">
                                                         <a class="page-link rounded-3"
                                                            href="?page=
-
-
-
-
-                                                                   {{ products.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
-
-
-
-
-                                                                   {% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
-                                                        {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
-{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">قبلی</a>
+                                                                   {{ products.previous_page_number }}{% if query_params %}{{ query_params }}{% endif %}">قبلی</a>
                                                     </li>
                                                 {% else %}
                                                     <li class="page-item disabled">
@@ -429,26 +418,12 @@
                                                     {% if products.number == x %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
                                                                                         href="?page=
-
-
-
-                                                                                                {{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
-                                                        {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">{{ x }}</a>
+                                                                                                {{ x }}{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% elif x > products.number|add:'-4' and x < products.number|add:'4' %}
                                                         <li class="page-item"><a class="page-link rounded-3"
                                                                                  href="?page=
-
-
-
-                                                                                         {{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
-{% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
-                                                        {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
-
-
-
-
-                                                                                         {% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">{{ x }}</a>
+                                                                                         {{ x }}{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% endif %}
                                                 {% endfor %}
@@ -456,20 +431,12 @@
                                                     {% if products.number < products.paginator.num_pages|add:'-2' %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
                                                                                         href="?page=
-
-
-
-                                                                                                {{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
-{% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
-{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
-{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">بعدی</a>
+                                                                                                {{ products.next_page_number }}{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% else %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
                                                                                         href="?page=
-{{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
-{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
-{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">بعدی</a>
+                                                                                                {{ products.next_page_number }}{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% endif %}
                                                 {% else %}
