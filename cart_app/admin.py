@@ -4,6 +4,16 @@ from cart_app import models
 
 
 # Register your models here.
+
+class CartItemTabularInLine(admin.TabularInline):
+    model = models.CartItem
+
+
+@admin.register(models.Cart)
+class CartAdmin(admin.ModelAdmin):
+    inlines = [CartItemTabularInLine]
+
+
 class OrderItemAdmin(admin.TabularInline):
     model = models.OrderItem
 

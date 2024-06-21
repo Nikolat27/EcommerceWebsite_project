@@ -4,112 +4,83 @@ from datetime import datetime
 from persiantools.jdatetime import JalaliDate
 
 from product_app.models import Product
-from .models import Order, OrderItem, Address
+from .models import Order, OrderItem, Address, Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from .cartfunction import Cart
 
 
 # Create your views here.
 
 @login_required
-def cart_list(request):
-    cart_list = Cart(request)
-    return render(request, "cart_app/cart_list.html", context={"cart_list": cart_list})
+def ajax_template_generator(request):
+    cart = Cart.objects.get(request.user)
+    data = render_to_string("AjaxTemplates/cart_template_ajax.html", context={"cart": cart})
+    return data
+
+
+@login_required
+def cart_page(request):
+    cart = Cart.objects.get(user=request.user)
+    return render(request, "cart_app/cart_list.html", context={"cart_list": cart})
 
 
 @login_required
 def cart_add(request, pk):
-    if request.user.is_authenticated is False:
-        return redirect("accounts_app:login_page")
-
     if request.method == "POST":
+        cart, created = Cart.objects.get_or_create(user=request.user)
         product = get_object_or_404(Product, id=pk)
         color = request.POST.get("color")
-        if not color:
-            color = product.color.first().title
-        quantity = request.POST.get("count", 1)
-        cart = Cart(request)
-        print(color)
-        print(quantity)
-        cart.add(product=product, color=color, quantity=quantity)
-        data = render_to_string("AjaxTemplates/add-to-cart-product-detail.html", {"cart": cart})
+        quantity = request.POST.get("quantity", 1)
 
-        return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
+        if color:
+            item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color)
+        else:
+            color = product.color.first().title
+            item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color)
+
+        if item:
+            item.price = product.discount_price()
+            item.quantity += quantity
+            item.save()
+
+        data = ajax_template_generator(request=request)
+        return JsonResponse({"data": data, "bool": True})
 
 
 @login_required
 def cart_add_store(request, pk):
-    if request.user.is_authenticated is False:
-        return redirect("accounts_app:login_page")
-
-    if request.method == "GET":
-        product = get_object_or_404(Product, id=pk)
-        color = request.GET.get("color")
-        if not color:
-            color = product.color.first().title
-        quantity = request.GET.get("count", 1)
-        cart = Cart(request)
-        print(color)
-        print(quantity)
-        cart.add(product=product, color=color, quantity=quantity)
-        data = render_to_string("AjaxTemplates/add-to-cart-product-detail.html", {"cart": cart})
-
-        return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
+    cart, created = Cart.objects.create(user=request.user)
+    product = get_object_or_404(Product, id=pk)
+    color = product.color.first().title
+    if cart:
+        item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color)
+        if item:
+            item.price = product.discount_price()
+            item.quantity += 1
+            item.save()
+            data = ajax_template_generator(request=request)
+            return JsonResponse({"data": data, "bool": True})
 
 
 @login_required
 def cart_update(request, pk):
-    if request.user.is_authenticated is False:
-        return redirect("accounts_app:login_page")
-
     if request.method == "POST":
-        product = get_object_or_404(Product, id=pk)
-        color = request.POST.get("color")
-        if not color:
-            color = product.color.first().title
-        new_quantity = request.POST.get("count")
-        cart = Cart(request)
-        if new_quantity:
-            cart.update(product=product, color=color, new_quantity=new_quantity)
-        else:
-            print("there is not new_quantity")
-
-        return redirect("cart_app:cart_list")
+        cart_item = get_object_or_404(CartItem, id=pk)
+        quantity = request.POST.get("quantity")
+        cart_item.quantity = quantity
+        cart_item.save()
+        data = ajax_template_generator(request=request)
+        return JsonResponse({"data": data, "bool": True})
 
 
 @login_required
-def delete_product(request, pk):  # pk == unique_id
-    if request.user.is_authenticated is False:
-        return redirect("home_app:main")
-    # POST method
-    cart = Cart(request)
-    cart.delete(id=pk)
-    data = render_to_string("AjaxTemplates/delete-cart-Ajax.html", {"cart": cart})
-    return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
-
-
-@login_required
-def delete_product_base(request, pk):  # pk == unique_id
-    if request.user.is_authenticated is False:
-        return redirect("home_app:main")
-    # GET method
-    cart = Cart(request)
-    cart.delete(id=pk)
-    data = render_to_string("AjaxTemplates/delete-cart-Ajax.html", {"cart": cart})
-    return JsonResponse({"bool": True, "data": data, "totalcartitems": int(cart.len())})
-
-
-@login_required
-def delete_cart_list(request, pk):
-    if request.user.is_authenticated is False:
-        return redirect("home_app:main")
-
-    cart_list = Cart(request)
-    cart_list.delete(id=pk)
-    return redirect("cart_app:cart_list")
+def remove_from_cart(request, pk):
+    cart_item = get_object_or_404(CartItem, id=pk)
+    cart_item.delete()
+    data = ajax_template_generator(request=request)
+    return JsonResponse({"data": data, "bool": True})
 
 
 @login_required

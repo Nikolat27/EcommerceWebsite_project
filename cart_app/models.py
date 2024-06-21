@@ -7,7 +7,7 @@ from product_app.models import Product
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="user_cart")
 
     def __str__(self):
         if self.user:
