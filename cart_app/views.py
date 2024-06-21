@@ -41,7 +41,7 @@ def cart_add(request, pk):
             item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color)
 
         if item:
-            item.price = product.discount_price()
+            item.price = product.discounted_price()
             item.quantity += quantity
             item.save()
 
@@ -57,7 +57,7 @@ def cart_add_store(request, pk):
     if cart:
         item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color)
         if item:
-            item.price = product.discount_price()
+            item.price = product.discounted_price()
             item.quantity += 1
             item.save()
             data = ajax_template_generator(request=request)

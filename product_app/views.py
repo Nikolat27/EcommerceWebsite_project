@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from weblog_app.models import IpModel
 from weblog_app.views import get_ip
-from .models import Product, Color, Comment, Category, Like, NameSpace
+from .models import Product, Color, Review, Category, Like, NameSpace
 
 
 # Create your views here.
@@ -38,21 +38,21 @@ def add_comment(request, pk):
         parent_id = request.POST.get("parent_id")
         related_products = Product.objects.filter(category__in=product.category.all()).distinct()
         if parent_id:
-            comment = Comment.objects.create(name=name, body=body, product=product, pros=pros,
-                                             cons=cons, author=author, rating=rating, parent_id=parent_id)
+            comment = Review.objects.create(name=name, body=body, product=product, pros=pros,
+                                            cons=cons, author=author, rating=rating, parent_id=parent_id)
             return render(request, "product_app/product_detail.html", context={"product": product, "related_product":
                 related_products})
         else:
             parent_id = None
-            comment = Comment.objects.create(name=name, body=body, product=product, pros=pros,
-                                             cons=cons, author=author, rating=rating)
+            comment = Review.objects.create(name=name, body=body, product=product, pros=pros,
+                                            cons=cons, author=author, rating=rating)
             return render(request, "product_app/product_detail.html", context={"product": product, "related_product":
                 related_products})
 
 
 @login_required
 def del_comments(request, pk):
-    del_comment = Comment.objects.get(author=request.user, id=pk)
+    del_comment = Review.objects.get(author=request.user, id=pk)
     del_comment.delete()
     del_comment.save()
 
@@ -126,8 +126,7 @@ def store_order_ajax(request, pk, page):  # This function is for order the produ
     return JsonResponse({"bool": True, "data": data})
 
 
-def store_ajax2(request, pk, page):  # This function is used for pagination because i couldnt do the
-    # pagination with ajax and jsonresponse
+def store_ajax2(request, pk, page):
     print("hello world")
     products = Product.objects.all()
     if pk == "default":
@@ -154,11 +153,8 @@ def store_ajax2(request, pk, page):  # This function is used for pagination beca
 
 @login_required
 def user_comments(request):
-    if request.user.is_authenticated:
-        comments = Comment.objects.filter(author=request.user)
-        return render(request, "product_app/user_comments.html", context={"comments": comments})
-    else:
-        return redirect("home_app:main")
+    comments = Review.objects.filter(author=request.user)
+    return render(request, "product_app/user_comments.html", context={"comments": comments})
 
 
 @login_required

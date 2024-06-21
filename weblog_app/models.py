@@ -34,7 +34,7 @@ class Weblog(models.Model):
     tags = TaggableManager()
     views = models.IntegerField(default=0)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
-    ip = models.ManyToManyField(IpModel, related_name="post_views", blank=True, null=True)
+    ip = models.ManyToManyField(IpModel, related_name="post_views")
 
     def __str__(self):
         return self.main_title

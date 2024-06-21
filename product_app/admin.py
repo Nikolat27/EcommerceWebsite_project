@@ -21,6 +21,6 @@ class Category(admin.ModelAdmin):
 
 
 admin.site.register(models.Color)
-admin.site.register(models.Comment)
+admin.site.register(models.Review)
 admin.site.register(models.Like)
 admin.site.register(models.NameSpace)

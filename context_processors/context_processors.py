@@ -1,5 +1,5 @@
 from product_app.models import Product, Category, Color
-from cart_app.models import Order, OrderItem, Address
+from cart_app.models import Order, OrderItem, Address, Cart
 
 
 def context_processor(request):
@@ -7,7 +7,7 @@ def context_processor(request):
     colors = Color.objects.all()
 
     if request.user.is_authenticated:
-        cart = Cart.objects.get(user=request.user)
+        cart = Cart.objects.filter(user=request.user).first()
         user_purchase = Order.objects.filter(user=request.user)
         user_purchase_products = OrderItem.objects.filter(order__user=request.user)
         address = Address.objects.filter(user=request.user)

@@ -33,22 +33,20 @@ class Color(Model):
 
 
 class Product(Model):
-    title = models.CharField(max_length=30, unique=True)
-    english_title = models.CharField(max_length=30, null=True, blank=True)
+    title = models.CharField(max_length=65, unique=True)
+    english_title = models.CharField(max_length=65, null=True, blank=True)
     description = models.TextField()
-    image = models.ImageField(upload_to="img/product-pics", null=True, blank=True)
+    image = models.ImageField(upload_to="img/product-pics")
     color = models.ManyToManyField(Color, related_name="colors")
-    price = models.IntegerField()
+    price = models.FloatField()
     category = models.ManyToManyField(Category, related_name="categories")
     quantity = models.SmallIntegerField()
-    discount = models.SmallIntegerField(null=True, blank=True, default=0,
-                                        help_text="if u dont want to discount a price,"
-                                                  " dont touch this field Tnx :)")
+    discount_percentage = models.SmallIntegerField(default=0,
+                                                   help_text="if u dont want to discount a price,"
+                                                             " dont touch this field Tnx :)")
     available = models.BooleanField()
-    likee = models.ManyToManyField(IpModel, related_name="like_products", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    expire_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -57,33 +55,29 @@ class Product(Model):
             self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         self.slug = slugify(self.title, allow_unicode=True)
-        # self.after_discount = self.discount_price()
         super(Product, self).save()
 
-    def averagereview(self):
-        review = Comment.objects.filter(product=self).aggregate(reviews=Avg('rating'))
+    def average_review(self):
+        review = Review.objects.filter(product=self).aggregate(reviews=Avg('rating'))
         avg = 0
         if review["reviews"] is not None:
             avg = float(review["reviews"])
         return avg
 
-    def len_averagereview(self):
-        review_len = Comment.objects.filter(product=self)
+    def len_average_review(self):
+        review_len = Review.objects.filter(product=self)
         x = len(review_len)
         return x
 
-    def discount_price(self):  # This function is use for price after applying the discount
-        if self.discount != 0:
-            discount_price = self.price * self.discount // 100
-            total_price = self.price - discount_price
+    def discounted_price(self):  # This function is being used for price after applying the discount
+        if self.discount_percentage and self.discount_percentage > 0:
+            discounted_price = (self.discount_percentage / 100) * self.price
+            price = self.price - discounted_price
+            return price
 
-            return total_price
-        else:
-            return self.price
-
-    def just_discount_price(self):  ##This one is the price divided into the discount value
-        if self.discount != 0:
-            discount_price = self.price * self.discount // 100
+    def just_discount_price(self):  # This one is the price divided into the discount value
+        if self.discount_percentage and self.discount_percentage > 0:
+            discount_price = (self.discount_percentage / 100) * self.price
             return discount_price
         else:
             return 0
@@ -95,10 +89,7 @@ class Product(Model):
         if self.image:
             return format_html(f"<img src='{self.image.url}' width='70px' height='70px'>")
         else:
-            return format_html(f"<img src='sdfasdf' alt='No Image Available' >")
-
-    def total_like(self):
-        return self.likee.count()
+            return format_html(f"<img src='' alt='No Image Available' >")
 
 
 class ProductDetail(Model):
@@ -111,10 +102,9 @@ class ProductDetail(Model):
         return f"{self.question} - {self.answer}"
 
 
-class Comment(Model):
+class Review(Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="comments")
-    name = models.CharField(max_length=30)
     body = models.TextField()
     parent = models.ForeignKey("self", on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
     pros = models.CharField(max_length=100, null=True, blank=True)
@@ -125,9 +115,6 @@ class Comment(Model):
 
     def __str__(self):
         return f"{self.product} - {self.author}"
-
-    def lenght(self):
-        pass
 
 
 class Like(Model):
