@@ -29,9 +29,9 @@
         </div>
     </div>
 {% empty %}
-    <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a> System
+    <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a>
 {% endfor %}
-{% if cart %}
+{% if cart.cart_items.all %}
     <div class="item">
         <div class="factor">
             <div class="title">

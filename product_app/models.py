@@ -44,6 +44,7 @@ class Product(Model):
     discount_percentage = models.SmallIntegerField(default=0,
                                                    help_text="if u dont want to discount a price,"
                                                              " dont touch this field Tnx :)")
+    is_discounted = models.BooleanField(default=False)
     available = models.BooleanField()
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,13 +70,15 @@ class Product(Model):
         x = len(review_len)
         return x
 
-    def discounted_price(self):  # This function is being used for price after applying the discount
+    def discounted_price(self):
         if self.discount_percentage and self.discount_percentage > 0:
             discounted_price = (self.discount_percentage / 100) * self.price
             price = self.price - discounted_price
             return price
+        else:
+            return self.price
 
-    def just_discount_price(self):  # This one is the price divided into the discount value
+    def just_discount_price(self):
         if self.discount_percentage and self.discount_percentage > 0:
             discount_price = (self.discount_percentage / 100) * self.price
             return discount_price

@@ -12,32 +12,38 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-1.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-1.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-2.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-2.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-3.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-3.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-4.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-4.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-5.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-5.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item text-center">
-                                    <a href=""><img src="{% static "image/brand1-6.png" %}" alt="" class="img-fluid"></a>
+                                    <a href=""><img src="{% static "image/brand1-6.png" %}" alt=""
+                                                    class="img-fluid"></a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -340,17 +346,11 @@
                                                 </div>
                                             {% endif %}
                                             <div class="product-header-btn">
-                                                <a href="" class="" data-bs-toggle="tooltip"
-                                                   data-bs-placement="top"
-                                                   data-bs-title="مقایسه"><i class="bi bi-shuffle"></i></a>
                                                 <a onclick="like('{{ product.slug }}', {{ product.id }})"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    data-bs-title="افزودن به علاقه مندی ها"><i
                                                         class="{% if product.id|is_liked:request is True %}bi bi-heart-fill{% else %}bi bi-heart{% endif %}"
                                                         id="{{ product.slug }}"></i></a>
-                                                <a href="" class="" data-bs-toggle="tooltip"
-                                                   data-bs-placement="top"
-                                                   data-bs-title="مشاهده سریع"><i class="bi bi-eye"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-image">
@@ -377,17 +377,16 @@
                                         </div>
                                         <div class="product-action">
                                             <div class="price">
-                                                {% if product.discount %}
-                                                    <p class="new-price">{{ product.discount_price }} تومان</p>
+                                                {% if product.is_discounted %}
+                                                    <p class="new-price">{{ product.discounted_price }} تومان</p>
                                                     <p class="old-price">{{ product.price }} تومان</p>
                                                 {% else %}
                                                     <p class="new-price">{{ product.price }} تومان</p>
                                                 {% endif %}
                                             </div>
                                             <div class="link">
-                                                <button data-product-id="{{ product.id }}"
-                                                        type="submit"
-                                                        class="btn border-0 rounded-3 main-color-one-bg add-to-cart">
+                                                <button onclick="add_to_cart_store({{ product.id }})"
+                                                        class="btn border-0 rounded-3 main-color-one-bg">
                                                     <i class="bi bi-basket text-white"></i>
                                                     <span class="text-white">خرید محصول</span>
                                                 </button>
@@ -407,7 +406,15 @@
                                                     <li class="page-item">
                                                         <a class="page-link rounded-3"
                                                            href="?page=
+
+
+
+
                                                                    {{ products.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
+
+
+
+
                                                                    {% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
                                                         {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
 {% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">قبلی</a>
@@ -421,29 +428,45 @@
                                                 {% for x in products.paginator.page_range %}
                                                     {% if products.number == x %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page={{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
+                                                                                        href="?page=
+
+
+
+                                                                                                {{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
                                                         {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% elif x > products.number|add:'-4' and x < products.number|add:'4' %}
                                                         <li class="page-item"><a class="page-link rounded-3"
-                                                                                 href="?page={{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
+                                                                                 href="?page=
+
+
+
+                                                                                         {{ x }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
 {% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
                                                         {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
-{% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">{{ x }}</a>
+
+
+
+
+                                                                                         {% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if products.has_next %}
                                                     {% if products.number < products.paginator.num_pages|add:'-2' %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page={{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
+                                                                                        href="?page=
+
+
+
+                                                                                                {{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
 {% if request.GET.category %}{% for cat in request.GET|get_list:'category' %}&category={{ cat }}{% endfor %}{% endif %}
 {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
 {% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% else %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                href="?page=
+                                                                                        href="?page=
 {{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
 {% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
 {% if request.GET.color %}{% for clr in request.GET|get_list:'color' %}&color={{ clr }}{% endfor %}{% endif %}">بعدی</a>

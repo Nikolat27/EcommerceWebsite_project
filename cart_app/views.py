@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 
 @login_required
 def ajax_template_generator(request):
-    cart = Cart.objects.get(request.user)
+    cart = Cart.objects.get(user=request.user)
     data = render_to_string("AjaxTemplates/cart_template_ajax.html", context={"cart": cart})
     return data
 
@@ -51,7 +51,7 @@ def cart_add(request, pk):
 
 @login_required
 def cart_add_store(request, pk):
-    cart, created = Cart.objects.create(user=request.user)
+    cart, created = Cart.objects.get_or_create(user=request.user)
     product = get_object_or_404(Product, id=pk)
     color = product.color.first().title
     if cart:
@@ -72,7 +72,7 @@ def cart_update(request, pk):
         cart_item.quantity = quantity
         cart_item.save()
         data = ajax_template_generator(request=request)
-        return JsonResponse({"data": data, "bool": True})
+        return JsonResponse({"data": data, "bool": True, "len": cart_item.cart.total_quantity()})
 
 
 @login_required

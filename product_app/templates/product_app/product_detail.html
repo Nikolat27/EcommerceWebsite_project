@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                             <form action="{% url "cart_app:add" product.id %}" method="POST"
-                                  id="add-to-cart-form-1">
+                                  id="add-to-cart">
                                 {% csrf_token %}
                                 <div class="product-meta-color">
                                     <h5 class="font-16">
@@ -195,7 +195,7 @@
                                             <div class="d-flex justify-content-center">
                                                 <button type="submit" class="btn w-100 border-0 main-color-three-bg"><i
                                                         class="bi bi-basket text-white font-20 me-1"
-                                                        id="add-to-cart-btn-1"> خرید کالا</i>
+                                                        id="add-to-cart-button"> خرید کالا</i>
                                                 </button>
                                             </div>
                                         </div>

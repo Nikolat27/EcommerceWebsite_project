@@ -11,7 +11,7 @@ class Cart(models.Model):
 
     def __str__(self):
         if self.user:
-            return self.user.username
+            return self.user.phone
 
     # how many products are in the basket
     def len(self):
@@ -35,15 +35,14 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cart_items")
     color = models.CharField(max_length=75)
     quantity = models.PositiveSmallIntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-    def __str__(self):
-        return (f"{self.cart.user.username} - {self.product.title} - {self.color} - {self.quantity}"
-                f" with price of {self.price}")
+    price = models.FloatField(null=True, blank=True)
 
     def total_price(self):
-        price = self.quantity * self.price
-        return price
+        if self.quantity and self.price:
+            price = self.quantity * self.price
+            return price
+        else:
+            return 0
 
 
 class Address(models.Model):

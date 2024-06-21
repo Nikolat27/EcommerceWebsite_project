@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قالب سانیار</title>
+    <title>Saniyar Template</title>
     <link rel="stylesheet" href="{% static "css/bootstrap.rtl.min.css" %}">
     <link rel="stylesheet" href="{% static "font/bootstrap-icon/bootstrap-icons.css" %}">
     <link rel="stylesheet" href="{% static "plugin/waves/waves.min.css" %}">
@@ -125,9 +125,10 @@
                        aria-controls="offcanvasCart">
                         <i class="bi bi-basket font-30"></i>
                         <span class="header-cart-counter main-color-one-bg d-inline-block rounded-pill"
-                              id="totalcartitems2">
+                              id="len1">
                                 {{ cart.len }}
-                            </span>
+                        </span>
+                        <!--This is for mobile -->
                     </a>
                     <div class="dropdown ms-3">
                         <a href="{% url "home_app:main" %}" data-bs-toggle="dropdown" aria-expanded="false"
@@ -243,9 +244,9 @@
                            data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                            aria-controls="offcanvasCart">
                             <i class="bi bi-shop font-20 text-muted me-1"></i>
-                            <span id="totalcartitems"
+                            <span id="len2"
                                   class="header-cart-counter main-color-one-bg d-inline-block rounded-pill">
-                                        {{ cart.len }}
+                                        {{ cart.total_quantity }}
                                 </span>
                         </a>
                     </div>
@@ -556,73 +557,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="cart-canvases" id="cart-details">
-                {% for item in cart %}
-                    <div class="item">
-                        <div class="row gy-2">
-                            <div class="col-4">
-                                <div class="image">
-                                    <img src="{{ item.product.image.url }}" alt="" class="img-fluid">
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="title">
-                                    <h6 class="font-14"><a
-                                            href="{% url "product_app:detail" item.product.slug %}">{{ item.product.title }}</a>
-                                    </h6>
-                                    <p class="mb-0 text-muted font-12 mt-2">مدل Quantom 300</p>
-                                </div>
-                                <div class="price">
-                                    <p class="text-end mb-2 price-off fw-bold">{{ item.total_price }} تومان</p>
-                                    <p class="text">{{ item.quantity }}x</p>
-                                </div>
-                                <div class="action d-flex justify-content-between align-items-center">
-                                    <div class="remove bg-light  rounded-3">
-                                        <a class="delete-product-a" data-product-id="{{ item.unique_id }}">
-                                            <i class="bi bi-x font-25"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <a href="{% url "product_app:store" %}">سبد خرید شما خالی است !</a>
-                {% endfor %}
-                {% if cart.cart %}
-                    <div class="item">
-                        <div class="factor">
-                            <div class="title">
-                                <div class="d-flex align-items-center">
-                                    <img src="{% static "image/shopping-bag.png" %}" class="img-fluid" alt="">
-                                    <h6 class="font-16">سفارش شما</h6>
-                                </div>
-                            </div>
-                            <div class="d-flex mb-3 align-items-center justify-content-between">
-                                <p class="fw-bold mb-0">محصول</p>
-                                <p class="fw-bold mb-0">قیمت کل</p>
-                            </div>
-                            {% for item in cart %}
-                                <div
-                                        class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
-                                    <p class="mb-0">{{ item.product.title }}</p>{{ item.quantity }}x
-                                    <p class="mb-0">{{ item.price }} تومان</p>
-                                </div>
-                            {% endfor %}
-                            <div
-                                    class="factor-item p-2 rounded-3 shadow-sm bg-light d-flex align-items-center justify-content-between">
-                                <p class="mb-0 fw-bold">جمع کل:</p>
-                                <p class="mb-0">{{ cart.total }} تومان</p>
-                            </div>
-                            <div class="action mt-3 d-flex align-items-center justify-content-center">
-                                <a href="{% url "cart_app:cart_list" %}"
-                                   class="btn border-0 main-color-two-bg rounded-3">سبد خرید</a>
-                                <a href="{% url "cart_app:checkout" %}"
-                                   class="btn border-0 main-color-one-bg rounded-3 ms-2">تسویه حساب</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
+            <div class="cart-canvases" class="base_page_cart">
+                {% include 'includes/cart_template.html' %}
             </div>
         </div>
     </div>
@@ -793,12 +729,12 @@
 <script src="{% static "plugin/rasta-contact/script.js" %}"></script>
 
 <!-- Ajax files -->
-<script src="{% static "js/LikeAjax.js" %}"></script>
-<script src="{% static "js/AddToCartAjax.js" %}"></script>
-<script src="{% static "js/DeleteProductCartAjax.js" %}"></script>
-<script src="{% static "js/CategorySortAjax.js" %}"></script>
-<script src="{% static "js/AddToCartStorePage.js" %}"></script>
-<script src="{% static "js/DeleteCartBase.js" %}"></script>
+<script src="{% static "js/ajax/LikeAjax.js" %}"></script>
+<script src="{% static "js/ajax/AddToCartAjax.js" %}"></script>
+<script src="{% static "js/ajax/DeleteProductCartAjax.js" %}"></script>
+<script src="{% static "js/ajax/CategorySortAjax.js" %}"></script>
+<script src="{% static "js/ajax/AddToCartStore.js" %}"></script>
+<script src="{% static "js/ajax/remove_from_cart.js" %}"></script>
 
 
 <script>
