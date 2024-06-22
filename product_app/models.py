@@ -46,6 +46,7 @@ class Product(Model):
                                                              " dont touch this field Tnx :)")
     is_discounted = models.BooleanField(default=False)
     available = models.BooleanField()
+    sold = models.PositiveBigIntegerField(default=0, editable=False)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

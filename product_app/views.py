@@ -1,4 +1,4 @@
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Avg
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
@@ -79,9 +79,21 @@ def store(request):
     max_price = request.GET.get("max_price")
     colors = request.GET.getlist("color")
     q = request.GET.get("q")
+    sort = request.GET.get("sort", "default")
+
     query_params = request.GET.copy()
+    print(query_params.urlencode())
     if 'page' in query_params:
         del query_params['page']
+
+    if 'sort' in query_params:
+        del query_params['sort']
+
+    if "min_price" in query_params:
+        del query_params['min_price']
+
+    if "max_price" in query_params:
+        del query_params['max_price']
 
     products_count = Product.objects.all().count()
 
@@ -98,9 +110,20 @@ def store(request):
     if colors:
         products = products.filter(color__title__in=colors)
 
+    if sort == "popular":
+        products = products.annotate(avg_rating=Avg('comments__rating')).order_by('-avg_rating')
+    elif sort == "most_sold":
+        products = products.order_by("sold")
+    elif sort == "new":
+        products = products.order_by("-created_at")
+    elif sort == "cheapest":
+        products = products.order_by("price")
+    elif sort == "most_expensive":
+        products = products.order_by("-price")
+
     nonsub_categories = Category.objects.filter(parent=None)  # non subcategories Categories
-    max_price = Product.objects.all().aggregate(Max('price'))['price__max']
-    min_price = Product.objects.all().aggregate(Min('price'))['price__min']
+    max_price = products.aggregate(Max('price'))['price__max']
+    min_price = products.aggregate(Min('price'))['price__min']
     paginator = Paginator(products, 1)
     products = paginator.get_page(page)
 

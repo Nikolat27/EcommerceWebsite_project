@@ -128,7 +128,7 @@
                                     <div class="filter-item">
                                         <h5 class="filter-item-title">دسته بندی ها</h5>
                                         <div class="filter-item-content">
-                                            {% for category in y %}
+                                            {% for category in nonsub_categories %}
                                                 <div
                                                         class="d-flex align-items-center justify-content-between flex-wrap mb-3">
                                                     <div class="form-check">
@@ -155,15 +155,15 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <input type="number" name="min_price" id="" min="1500"
+                                                    <input type="number" name="min_price" min="{{ min_price }}"
                                                            class="form-control input-range-filter"
-                                                           placeholder="از 1500">
+                                                           placeholder="از {{ min_price }}">
                                                 </div>
                                                 <div class="col-6">
-                                                    <input type="number" name="max_price" id="" min="1500"
-                                                           max="10000000"
+                                                    <input type="number" name="max_price" id="" min="{{ min_price }}"
+                                                           max="{{ max_price }}"
                                                            class="form-control input-range-filter"
-                                                           placeholder="از 3000">
+                                                           placeholder="از {{ max_price }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -291,40 +291,38 @@
                                         <p class="mb-0 text-muted font-16">براساس</p>
                                     </div>
                                     <div class="form-checks ms-md-5 ms-0 mt-md-0 mt-3">
-                                        <div class="form-check form-check-inline active">
+                                        <div class="form-check form-check-inline {% if 'default' in request.GET.sort %}active{% endif %}">
                                             <input class="form-check-input order-sort" type="radio"
-                                                   id="inlineRadio1" name="inlineRadioOptions" data-product="default">
+                                                   id="inlineRadio1" name="inlineRadioOptions">
                                             <label class="form-check-label" for="inlineRadio1">پیشفرض</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check form-check-inline {% if 'popular' in request.GET.sort %}active{% endif %}">
                                             <input class="form-check-input order-sort" name="inlineRadioOptions"
-                                                   data-product="popular" type="radio"
+                                                   type="radio"
                                                    id="inlineRadio2">
                                             <label class="form-check-label" for="inlineRadio2">محبوب ترین</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input order-sort" data-product="most_sold"
+                                        <div class="form-check form-check-inline {% if 'most_sold' in request.GET.sort %}active{% endif %}">
+                                            <input class="form-check-input order-sort"
                                                    type="radio"
                                                    name="inlineRadioOptions"
                                                    id="inlineRadio3" value="option3">
                                             <label class="form-check-label" for="inlineRadio3">پرفروش ترین</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check form-check-inline {% if 'new' in request.GET.sort %}active{% endif %}">
                                             <input class="form-check-input order-sort" type="radio"
-                                                   data-product="newest"
                                                    name="inlineRadioOptions"
                                                    id="inlineRadio4" value="option4">
                                             <label class="form-check-label" for="inlineRadio4">جدید ترین</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input order-sort" type="radio" data-product="cheap"
+                                        <div class="form-check form-check-inline {% if 'cheapest' in request.GET.sort %}active{% endif %}">
+                                            <input class="form-check-input order-sort" type="radio"
                                                    name="inlineRadioOptions"
                                                    id="inlineRadio5" value="option5">
                                             <label class="form-check-label" for="inlineRadio5">ارزان ترین</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check form-check-inline {% if 'most_expensive' in request.GET.sort %}active{% endif %}">
                                             <input class="form-check-input order-sort" type="radio"
-                                                   data-product="expensive"
                                                    name="inlineRadioOptions"
                                                    id="inlineRadio6" value="option6">
                                             <label class="form-check-label" for="inlineRadio6">گران ترین</label>
@@ -405,8 +403,7 @@
                                                 {% if products.has_previous %}
                                                     <li class="page-item">
                                                         <a class="page-link rounded-3"
-                                                           href="?page=
-                                                                   {{ products.previous_page_number }}{% if query_params %}{{ query_params }}{% endif %}">قبلی</a>
+                                                           href="?page={{ products.previous_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">قبلی</a>
                                                     </li>
                                                 {% else %}
                                                     <li class="page-item disabled">
@@ -417,26 +414,22 @@
                                                 {% for x in products.paginator.page_range %}
                                                     {% if products.number == x %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page=
-                                                                                                {{ x }}{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
+                                                                                        href="?page={{ x }}&{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% elif x > products.number|add:'-4' and x < products.number|add:'4' %}
                                                         <li class="page-item"><a class="page-link rounded-3"
-                                                                                 href="?page=
-                                                                                         {{ x }}{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
+                                                                                 href="?page={{ x }}&{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if products.has_next %}
                                                     {% if products.number < products.paginator.num_pages|add:'-2' %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page=
-                                                                                                {{ products.next_page_number }}{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
+                                                                                        href="?page={{ products.next_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% else %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page=
-                                                                                                {{ products.next_page_number }}{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
+                                                                                        href="?page={{ products.next_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% endif %}
                                                 {% else %}
@@ -456,4 +449,30 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        document.getElementById('inlineRadio1').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=default';
+        });
+
+        document.getElementById('inlineRadio2').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=popular';
+        });
+
+        document.getElementById('inlineRadio3').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=most_sold';
+        });
+
+        document.getElementById('inlineRadio4').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=new';
+        });
+
+        document.getElementById('inlineRadio5').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=cheapest';
+        });
+
+        document.getElementById('inlineRadio6').addEventListener('click', function () {
+            window.location.href = '/products/store?{% if query_params %}{{ query_params }}{% endif %}&sort=most_expensive';
+        });
+    </script>
+
 {% endblock %}
