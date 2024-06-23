@@ -177,8 +177,8 @@
             <div class="col-lg-6 order-lg-2 d-lg-block d-none">
                 {#                laptop#}
                 <div class="search-form">
-                    <form action="{% url "product_app:search" %}" method="GET">
-                        <div class="search-filed" id="autocomplete">
+                    <form action="{% url "product_app:store" %}" method="GET">
+                        <div class="search-filed">
                             <input type="text" name="q" placeholder="جستجوی محصولات ..."
                                    class="form-control search-input">
                             <ul class="autocomplete-result-list" style="position: relative"></ul>
@@ -732,7 +732,6 @@
 <script src="{% static "js/ajax/LikeAjax.js" %}"></script>
 <script src="{% static "js/ajax/AddToCartAjax.js" %}"></script>
 <script src="{% static "js/ajax/DeleteProductCartAjax.js" %}"></script>
-<script src="{% static "js/ajax/CategorySortAjax.js" %}"></script>
 <script src="{% static "js/ajax/AddToCartStore.js" %}"></script>
 <script src="{% static "js/ajax/remove_from_cart.js" %}"></script>
 

@@ -12,7 +12,8 @@ from product_app.models import Product, Category
 
 def home_app(request):
     products = Product.objects.all()
-    slider_products = None
+    slider_products = SliderProducts.objects.all()
+    print(slider_products)
     latest_blogs = Weblog.objects.all()[:8]
     categories = Category.objects.filter(parent=None)[:8]
     return render(request, "home_app/index.html", context={"products": products, "slider_products": slider_products,

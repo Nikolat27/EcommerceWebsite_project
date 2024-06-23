@@ -18,8 +18,12 @@ class Banner(models.Model):
 
 
 class SliderProducts(models.Model):
-    product = models.ManyToManyField(Product, related_name="slider_products")
+    product = models.ForeignKey(Product, related_name="slider_products", on_delete=models.CASCADE,
+                                null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.title
 
 
 class AboutUs(models.Model):

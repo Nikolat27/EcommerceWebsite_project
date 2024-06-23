@@ -34,7 +34,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cart_items")
     color = models.CharField(max_length=75)
-    quantity = models.PositiveSmallIntegerField(default=1)
+    quantity = models.PositiveSmallIntegerField(default=0)
     price = models.FloatField(null=True, blank=True)
 
     def total_price(self):

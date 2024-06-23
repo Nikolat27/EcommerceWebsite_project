@@ -112,7 +112,7 @@
                                     <h5 class="filter-item-title">جستجو</h5>
                                     <div class="filter-item-content">
                                         <div class="search-form">
-                                            <form action="{% url "product_app:search" %}">
+                                            <form action="{% url "product_app:store" %}">
                                                 <div class="search-filed">
                                                     <input type="text" name="q" placeholder="جستجوی محصولات ..."
                                                            class="form-control search-input">
@@ -205,7 +205,7 @@
                                 <h5 class="filter-item-title">جستجو</h5>
                                 <div class="filter-item-content">
                                     <div class="search-form">
-                                        <form action="{% url "product_app:search" %}">
+                                        <form action="{% url "product_app:store" %}">
                                             <div class="search-filed">
                                                 <input type="text" name="q" placeholder="جستجوی محصولات ..."
                                                        class="form-control search-input">
@@ -344,7 +344,7 @@
                                                 </div>
                                             {% endif %}
                                             <div class="product-header-btn">
-                                                <a onclick="like('{{ product.slug }}', {{ product.id }})"
+                                                <a onclick="like('{{ product.slug }}', '{{ product.id }}')"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    data-bs-title="افزودن به علاقه مندی ها"><i
                                                         class="{% if product.id|is_liked:request is True %}bi bi-heart-fill{% else %}bi bi-heart{% endif %}"
@@ -403,7 +403,8 @@
                                                 {% if products.has_previous %}
                                                     <li class="page-item">
                                                         <a class="page-link rounded-3"
-                                                           href="?page={{ products.previous_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">قبلی</a>
+                                                           href="?page={{ products.previous_page_number }}&
+                                                                   {% if query_params %}{{ query_params }}{% endif %}">قبلی</a>
                                                     </li>
                                                 {% else %}
                                                     <li class="page-item disabled">
@@ -414,22 +415,26 @@
                                                 {% for x in products.paginator.page_range %}
                                                     {% if products.number == x %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page={{ x }}&{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
+                                                                                        href="?page={{ x }}&
+                                                                                                {% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% elif x > products.number|add:'-4' and x < products.number|add:'4' %}
                                                         <li class="page-item"><a class="page-link rounded-3"
-                                                                                 href="?page={{ x }}&{% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
+                                                                                 href="?page={{ x }}&
+                                                                                         {% if query_params %}{{ query_params }}{% endif %}">{{ x }}</a>
                                                         </li>
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if products.has_next %}
                                                     {% if products.number < products.paginator.num_pages|add:'-2' %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page={{ products.next_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
+                                                                                        href="?page={{ products.next_page_number }}&
+                                                                                                {% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% else %}
                                                         <li class="page-item active"><a class="page-link rounded-3"
-                                                                                        href="?page={{ products.next_page_number }}&{% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
+                                                                                        href="?page={{ products.next_page_number }}&
+                                                                                                {% if query_params %}{{ query_params }}{% endif %}">بعدی</a>
                                                         </li>
                                                     {% endif %}
                                                 {% else %}

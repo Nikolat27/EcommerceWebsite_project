@@ -60,18 +60,6 @@ def del_comments(request, pk):
     return redirect("product_app:user_comments")
 
 
-def search(request):
-    q = request.GET.get("q")
-    products = Product.objects.filter(title__istartswith=q)
-    payload = []
-
-    for product in products:
-        payload.append({
-            'title': product.title
-        })
-    return JsonResponse({'statues': True, 'payload': payload})
-
-
 def store(request):
     categories = request.GET.getlist("category")
     page = request.GET.get("page")
@@ -82,7 +70,6 @@ def store(request):
     sort = request.GET.get("sort", "default")
 
     query_params = request.GET.copy()
-    print(query_params.urlencode())
     if 'page' in query_params:
         del query_params['page']
 
@@ -145,7 +132,6 @@ def like(request, slug, pk):
         like = Like.objects.get(product__slug=slug, user=request.user)
         like.delete()
         liked_products = Product.objects.filter(likes__user=request.user)
-
         return JsonResponse({"response": "unliked", "likedproducts": len(liked_products)})
     except:
         Like.objects.create(product_id=pk, user_id=request.user.id)
@@ -157,7 +143,6 @@ def like(request, slug, pk):
 def un_like(request, slug):
     like = Like.objects.get(product__slug=slug, user=request.user)
     like.delete()
-
     return redirect("product_app:wishlist")
 
 
@@ -167,32 +152,6 @@ def wishlist(request):
     return render(request, "product_app/wishlist.html", context={"wishlist": wishlist, "wishlist_len": len(wishlist)})
 
 
-def post_like(request, slug, pk):
-    product = Product.objects.get(id=pk)
-    print("Anonymous user liked")
-    ip = get_ip(request)
-    if not IpModel.objects.filter(ip=ip):  # Add ip to the database
-        IpModel.objects.create(ip=ip)
-    if product.likee.filter(id=IpModel.objects.get(ip=ip).id).exists():
-        product.likee.remove(IpModel.objects.get(ip=ip))
-        return JsonResponse({"response": "unliked"})
-    else:
-        product.likee.add(IpModel.objects.get(ip=ip))
-        return JsonResponse({"response": "liked"})
-
-
 def home(request):
     items = NameSpace.objects.all()[:10]
     return render(request, 'product_app/test1.html', {'items': items})
-
-
-def test2(request):
-    for x in range(100):
-        name = "Hello World!"
-        NameSpace.objects.create(title=name)
-
-
-def load_more(request):
-    page = request.GET.get('page')
-    items = NameSpace.objects.all()[page * 10:(page * 10) + 10]  # Fetch the next 10 items
-    return JsonResponse({'data': render_to_string('product_app/item_list.html', {'items': items})})

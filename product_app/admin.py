@@ -11,6 +11,7 @@ class DetailAdmin(admin.TabularInline):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = (DetailAdmin,)
+    search_fields = ("title",)
     list_display = ['title', 'price', "show_image"]
 
 
